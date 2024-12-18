@@ -44,13 +44,19 @@
     font-weight: 400;
     font-style: normal;
 }
+#logout_btn{
+    user-select:none;
+    cursor:pointer;
+}
 .barsa_container{
     margin:0px;
     padding:0px;
     max-width:100vw;
     overflow:hidden;
 }
-
+.card_header{
+    background-image: linear-gradient(135deg, #EC9F05 10%, #FF4E00 100%);
+}
 /* Navigation Bar Design */
 .barsa_nav_desc{
     display:flex;
@@ -156,6 +162,55 @@
 }
 .tab_description .tab_sub_title{
     font-size:20px;
+}
+
+
+
+/* This is for search_bar */
+.search > div {
+  display: inline-block;
+  position: relative;
+  border:2px solid black;
+  border-radius:100px;
+  box-shadow:var(--shadow5);
+}
+
+.search > div:after {
+  content: "";
+  background: black;
+  width: 4px;
+  height: 18px;
+  position: absolute;
+  bottom: -13px;
+  right: -3px;
+  transform: rotate(135deg);
+}
+
+.search > div > input {
+  font-size: 16px;
+  background: transparent;
+  width: 25px;
+  height: 25px;
+  padding: 10px;
+  border: solid 3px white;
+  outline: none;
+  border-radius: 35px;
+  transition: width 0.5s;
+}
+
+.search > div > input::placeholder {
+  color: #efefef;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+.search > div > input:focus::placeholder {
+  opacity: 1;
+}
+
+.search > div > input:focus,
+.search > div > input:not(:placeholder-shown) {
+  width: 250px;
 }
 
 

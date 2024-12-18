@@ -2,61 +2,323 @@
 <html lang="en">
 
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BARSA Attend</title>
-  <link href="../styles/login.css" rel="stylesheet" />
+  <title>BARSA Attend | Applications</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="../styles/style.css" rel="stylesheet" />
+  <link href="../styles/attandance.css" rel="stylesheet" />
 </head>
 
 <body>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col" class="table-secondary">#</th>
-        <th scope="col"class="table-danger">NAME</th>
-        <th scope="col"class="table-success">GENDER</th>
-        <th scope="col"class="table-success">CLASS</th>
-        <th scope="col"class="table-danger">PARENT</th>
-        <th scope="col"class="table-success">ADDRESS</th>
-        <th scope="col" class="table-danger"">DATE OF BIRTH</th>
-        <th scope="col"class="table-success">CONTACT</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>101022</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>101022</td>
-      </tr>
-      <tr>
-        <th scope="row" >3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>101022</td>
-      </tr>
- 
-    </tbody>
-  </table>
+  <!-- This is sidebar offcanvas -->
+  <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+    aria-labelledby="offcanvasWithBothOptionsLabel">
+    <div class="offcanvas-header">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body sidebar">
+      <div class="barsa_nav_desc">
+        <img src="../images/logo.png" class="barsa_nav_logo" />
+        <p class="barsa_nav_title"><span class="">BARSA</span> Attend</p>
+      </div>
+      <div class="barsa_nav">
+        <ul class="list-group gap-3">
+          <a href="../index.html" class="list-group-item nav_item shadow2">
+            <img src="../icons/dashboard.svg" />
+            Dashboard
+          </a>
+          <a href="students.html" class="list-group-item nav_item shadow2">
+            <img src="../icons/students.svg" />
+            Students
+          </a>
+          <a href="routines.html" class="list-group-item nav_item shadow2">
+            <img src="../icons/books.svg" />
+            Routines
+          </a>
+          <a href="application.html" class="list-group-item nav_item shadow2">
+            <img src="../icons/file.svg" />
+            Applications
+          </a>
+          <a href="attandance.html" class="list-group-item nav_item shadow2">
+            <img src="../icons/attendance.svg" />
+            Attendance
+          </a>
+          <a href="settings.html" class="list-group-item nav_item shadow2">
+            <img src="../icons/settings.svg" />
+            Settings
+          </a>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="barsa_container">
+    <!-- This is top navigation Bar  -->
+    <div class="top_nav hstack gap-3">
+      <div class="px-2">
+        <button class="button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions"
+          aria-controls="offcanvasWithBothOptions">
+          <img src="../icons/menu.svg" />
+        </button>
+      </div>
+      <div class="ms-auto">
+        <div class="top_nav_controls">
+          <div class="notify gap-4 px-4">
+            <div class="control">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#ff8800" class="mx-2 bi bi-envelope"
+                viewBox="0 0 16 16">
+                <path
+                  d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+              </svg>
+            </div>
+            <div class="control dropdown-start" id="notification_btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#ff8800"
+                class="mx-2 bi bi-bell dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                viewBox="0 0 16 16">
+                <path
+                  d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6" />
+              </svg>
+              <ul class="dropdown-menu my-3 border-warning shadow1">
+                <ol class="list-group gap-2" id="notification_container">
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Suresh Shakya</div>
+                      Application for leave
+                    </div>
+                    <span class="badge text-secondary rounded-pill">2 days ago</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Suresh Shakya</div>
+                      Application for leave
+                    </div>
+                    <span class="badge text-secondary rounded-pill">3 weeks ago</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Suresh Shakya</div>
+                      Application for leave
+                    </div>
+                    <span class="badge text-secondary rounded-pill">2 Months ago</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Suresh Shakya</div>
+                      Application for leave
+                    </div>
+                    <span class="badge text-secondary rounded-pill">2 years ago</span>
+                  </li>
+                </ol>
+              </ul>
+            </div>
+            <div class="dropdown-start control">
+              <img src="../images/logo.png" class="notify_user_logo dropdown-toggle" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false" />
+              <ul class="dropdown-menu my-3 border-warning shadow1">
+                <ul class="list-group">
+                  <li class="list-group-item" id="logout_btn">Log Out</li>
+                  <a href="./settings.html" class="list-group-item">Profile</a>
+                </ul>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- This is home dashboard -->
+    <div class="dashboard container">
+      <div class="tab_description">
+        <h4 class="tab_main_title">Attendance</h4>
+        <p class="tab_sub_title ">Home</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 g-4 d-flex justify-content-center align-items-center">
+          <iframe src="https://www.hamropatro.com/widgets/calender-medium.php" frameborder="0" scrolling="no"
+            marginwidth="0" marginheight="0" class="shadow5"
+            style="border:none; overflow:hidden; width:295px; height:385px;" allowtransparency="true"></iframe>
+        </div>
+        <div class="col-md-8 g-4">
+          <!-- This is attendance cards  -->
+          <div class="card text-center shadow4">
+            <div class="card-header">
+              <ul class="nav nav-tabs attandance_tab card-header-tabs">
+                <li class="nav-item">
+                  <a class="nav-link attandance_mode" aria-current="true" id="individual_mode">Individual Mode</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link attandance_mode active" id="multiple_mode">Multiple Mode</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link attandance_mode" id="automatic_mode">Automatic Mode</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body">
+
+
+              <div class="individual_attandance d-none" id="individual_container">
+                <img src="/Images/user_logo.jpg" alt="Oval Image" class="oval-image">
+
+                <div class="container p-2 attandance_status d-flex justify-content-center align-items-center">
+                  <form>
+                    <h3 class="text-center"><b>Reeva M Khadka</b></h3>
+                    <div class="hstack">
+                      <div class="p-2">
+                        <div class="form-check">
+                          <input class="form-check-input border-primary" type="radio" name="flexRadioDefault"
+                            id="flexRadioDefault1">
+                          <label class="form-check-label" for="flexRadioDefault1">
+                            PRESENT
+                          </label>
+                        </div>
+                      </div>
+                      <div class="p-2">
+                        <div class="form-check">
+                          <input class="form-check-input border-primary" type="radio" name="flexRadioDefault"
+                            id="flexRadioDefault2" checked>
+                          <label class="form-check-label" for="flexRadioDefault2">
+                            Absent
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="hstack">
+                      <div class="p-2">
+                        <button class="btn btn-primary">Previous</button>
+                      </div>
+                      <div class="p-2">
+                        <button class="btn btn-primary">Previous</button>
+                      </div>
+                    </div>
+                  </form>
+
+
+                </div>
+
+              </div>
+
+              <div class="multiple_attandance" id="multiple_container">
+                <ul class="list-group list-group-flush list-group-numbered text-start">
+                  <li class="list-group-item hstack">
+                    <div class="p-2">
+                      Name Of Person
+                    </div>
+                    <div class="ms-auto p-2">
+                      <div class="form-check">
+                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="present1"
+                          value="option1" checked>
+                        <label class="form-check-label" for="present1">
+                          Pre.
+                        </label>
+                      </div>
+                    </div>
+                    <div class="p-2">
+                      <div class="form-check">
+                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="absent1"
+                          value="option1" checked>
+                        <label class="form-check-label" for="absent1">
+                          Abs.
+                        </label>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item hstack">
+                    <div class="p-2">
+                      Name Of Person
+                    </div>
+                    <div class="ms-auto p-2">
+                      <div class="form-check">
+                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="present1"
+                          value="option1" checked>
+                        <label class="form-check-label" for="present1">
+                          Pre.
+                        </label>
+                      </div>
+                    </div>
+                    <div class="p-2">
+                      <div class="form-check">
+                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="absent1"
+                          value="option1" checked>
+                        <label class="form-check-label" for="absent1">
+                          Abs.
+                        </label>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item hstack">
+                    <div class="p-2">
+                      Name Of Person
+                    </div>
+                    <div class="ms-auto p-2">
+                      <div class="form-check">
+                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="present1"
+                          value="option1" checked>
+                        <label class="form-check-label" for="present1">
+                          Pre.
+                        </label>
+                      </div>
+                    </div>
+                    <div class="p-2">
+                      <div class="form-check">
+                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="absent1"
+                          value="option1" checked>
+                        <label class="form-check-label" for="absent1">
+                          Abs.
+                        </label>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item hstack">
+                    <div class="p-2">
+                      Name Of Person
+                    </div>
+                    <div class="ms-auto p-2">
+                      <div class="form-check">
+                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="present1"
+                          value="option1" checked>
+                        <label class="form-check-label" for="present1">
+                          Pre.
+                        </label>
+                      </div>
+                    </div>
+                    <div class="p-2">
+                      <div class="form-check">
+                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="absent1"
+                          value="option1" checked>
+                        <label class="form-check-label" for="absent1">
+                          Abs.
+                        </label>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="automatic_attandance d-none" id="automatic_container">
+                <video id="video" width="500" height="350" autoplay></video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+
+  <script src="../script/script.js"></script>
+  <script src="../script/attandance.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="../styles/forgot.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Forgot Password</h2>
+        <form id="forgotPasswordForm" autocomplete="off">
+            <div class="form-group">
+                <label for="user">User name</label>
+                <input type="text" id="User_name" name="username" placeholder="Your Username">
+            </div>
+            <div class="form-group">
+                <label for="email">Enter your email address</label>
+                <input type="email" id="email" name="email" placeholder="Your email" required>
+            </div>
+            <button type="submit" class="btn">Submit</button>
+        </form>
+        <p id="errorMessage" class="error"></p>
+    </div>
+
+    <script src="../script/forgot.js"></script>
+</body>
+</html>

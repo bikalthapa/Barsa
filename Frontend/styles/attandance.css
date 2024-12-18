@@ -1,0 +1,54 @@
+.individual_attandance{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    align-items:center;
+    width:100%;
+}
+.individual_attandance .attandance_status{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+.attandance_tab .attandance_mode{
+  user-select: none;
+  cursor:pointer;
+}
+.oval-image {
+    width: 150px;      
+    height: 150px;     
+    border-radius: 50%;
+}
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #ccc;
+    box-sizing: border-box;
+  }
+  input[type=number], input[type=number] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #cccccc;
+    box-sizing: border-box;
+  }
+  input[type=number], input[type=number] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #cccccc;
+    box-sizing: border-box;
+  }
+  input[type=checkbox], input[type=checkbox] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #cccccc;
+    box-sizing: border-box
+  }

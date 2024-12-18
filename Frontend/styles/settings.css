@@ -1,0 +1,27 @@
+.card-oval {
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.card-oval img {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    margin: 20px auto;
+    display: block;
+}
+@media (max-width: 768px) {
+    .card-oval {
+        border-radius: 20px;
+    }
+    .card-oval img {
+        width: 120px;
+        height: 120px;
+    }
+}
+.user_information{
+    margin-right: 0%;
+    
+}

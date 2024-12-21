@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BARSA Attend | Routine</title>
+    <title>BARSA Attend | Applications</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="../styles/style.css" rel="stylesheet" />
+    <link href="../styles/application.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles/index.css">
 </head>
 
 <body>
@@ -130,20 +132,463 @@
         <!-- This is home dashboard -->
         <div class="dashboard container">
             <div class="tab_description">
-                <h4 class="tab_main_title">Routine</h4>
+                <h4 class="tab_main_title">Routines</h4>
                 <p class="tab_sub_title">Home</p>
             </div>
 
 
-            Put your code Here 
 
+            <div class="card text-center">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <button class="nav-link active" id="daily_routine">Daily</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" id="weekly_routine" aria-current="true">Weekly</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="container" id="weekly_container">
+                        <div class="accordion" id="accordionExample">
+
+                            <!-- Sunday Accordion Item -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSunday">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseSunday" aria-expanded="true"
+                                        aria-controls="collapseSunday">
+                                        Sunday
+                                    </button>
+                                </h2>
+                                <div id="collapseSunday" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingSunday" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Class</th>
+                                                    <th>9:50 - 10:30</th>
+                                                    <th>10:30 - 11:10</th>
+                                                    <th>11:10 - 11:50</th>
+                                                    <th>11:50 - 12:30</th>
+                                                    <th>12:30 - 1:10</th>
+                                                    <th>1:10 - 1:30</th>
+                                                    <th>1:30 - 2:10</th>
+                                                    <th>2:10 - 3:00</th>
+                                                    <th>3:00 - 3:35</th>
+                                                    <th>3:35 - 4:50</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>11 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDM</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>OS</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>12 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDMA</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <!-- Add more rows for Sunday if needed -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Monday Accordion Item -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingMonday">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseMonday" aria-expanded="false"
+                                        aria-controls="collapseMonday">
+                                        Monday
+                                    </button>
+                                </h2>
+                                <div id="collapseMonday" class="accordion-collapse collapse"
+                                    aria-labelledby="headingMonday" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Class</th>
+                                                    <th>9:50 - 10:30</th>
+                                                    <th>10:30 - 11:10</th>
+                                                    <th>11:10 - 11:50</th>
+                                                    <th>11:50 - 12:30</th>
+                                                    <th>12:30 - 1:10</th>
+                                                    <th>1:10 - 1:30</th>
+                                                    <th>1:30 - 2:10</th>
+                                                    <th>2:10 - 3:00</th>
+                                                    <th>3:00 - 3:35</th>
+                                                    <th>3:35 - 4:50</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>11 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDM</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>OS</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>12 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDMA</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <!-- Add more rows for Monday if needed -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tuesday Accordion Item -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTuesday">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseMonday" aria-expanded="false"
+                                        aria-controls="collapseMonday">
+                                        Tuesday
+                                    </button>
+                                </h2>
+                                <div id="collapseTuesday" class="accordion-collapse collapse"
+                                    aria-labelledby="headingMonday" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Class</th>
+                                                    <th>9:50 - 10:30</th>
+                                                    <th>10:30 - 11:10</th>
+                                                    <th>11:10 - 11:50</th>
+                                                    <th>11:50 - 12:30</th>
+                                                    <th>12:30 - 1:10</th>
+                                                    <th>1:10 - 1:30</th>
+                                                    <th>1:30 - 2:10</th>
+                                                    <th>2:10 - 3:00</th>
+                                                    <th>3:00 - 3:35</th>
+                                                    <th>3:35 - 4:50</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>11 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDM</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>OS</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>12 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDMA</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <!-- Add more rows for Monday if needed -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Wednesday Accordion Item -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingWednesday">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseMonday" aria-expanded="false"
+                                        aria-controls="collapseMonday">
+                                        Monday
+                                    </button>
+                                </h2>
+                                <div id="collapseWednesday" class="accordion-collapse collapse"
+                                    aria-labelledby="headingMonday" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Class</th>
+                                                    <th>9:50 - 10:30</th>
+                                                    <th>10:30 - 11:10</th>
+                                                    <th>11:10 - 11:50</th>
+                                                    <th>11:50 - 12:30</th>
+                                                    <th>12:30 - 1:10</th>
+                                                    <th>1:10 - 1:30</th>
+                                                    <th>1:30 - 2:10</th>
+                                                    <th>2:10 - 3:00</th>
+                                                    <th>3:00 - 3:35</th>
+                                                    <th>3:35 - 4:50</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>11 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDM</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>OS</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>12 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDMA</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <!-- Add more rows for Monday if needed -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Thursday Accordion Item -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThursday">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseMonday" aria-expanded="false"
+                                        aria-controls="collapseMonday">
+                                        Thursday
+                                    </button>
+                                </h2>
+                                <div id="collapseThursday" class="accordion-collapse collapse"
+                                    aria-labelledby="headingMonday" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Class</th>
+                                                    <th>9:50 - 10:30</th>
+                                                    <th>10:30 - 11:10</th>
+                                                    <th>11:10 - 11:50</th>
+                                                    <th>11:50 - 12:30</th>
+                                                    <th>12:30 - 1:10</th>
+                                                    <th>1:10 - 1:30</th>
+                                                    <th>1:30 - 2:10</th>
+                                                    <th>2:10 - 3:00</th>
+                                                    <th>3:00 - 3:35</th>
+                                                    <th>3:35 - 4:50</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>11 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDM</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>OS</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>12 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDMA</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <!-- Add more rows for Monday if needed -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Friday Accordion Item -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFriday">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseMonday" aria-expanded="false"
+                                        aria-controls="collapseMonday">
+                                        Friday
+                                    </button>
+                                </h2>
+                                <div id="collapseFriday" class="accordion-collapse collapse"
+                                    aria-labelledby="headingMonday" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Class</th>
+                                                    <th>9:50 - 10:30</th>
+                                                    <th>10:30 - 11:10</th>
+                                                    <th>11:10 - 11:50</th>
+                                                    <th>11:50 - 12:30</th>
+                                                    <th>12:30 - 1:10</th>
+                                                    <th>1:10 - 1:30</th>
+                                                    <th>1:30 - 2:10</th>
+                                                    <th>2:10 - 3:00</th>
+                                                    <th>3:00 - 3:35</th>
+                                                    <th>3:35 - 4:50</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>11 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDM</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>OS</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>12 CE</td>
+                                                    <td>Nepali</td>
+                                                    <td>Chemistry</td>
+                                                    <td>COA</td>
+                                                    <td>English</td>
+                                                    <td>WDMA</td>
+                                                    <td>Break</td>
+                                                    <td>Java</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                    <td>Physics</td>
+                                                </tr>
+                                                <!-- Add more rows for Monday if needed -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container d-none" id="daily_container">
+                        <div class="row w-50">
+                            <div class="col-md-4 g-1 d-flex justify-content-center align-items-center">
+                                <div class="chart_container">
+                                    <div class="outer_circle">
+                                        <div class="inner_circle">
+                                            <div class="circle_descriptor">
+                                                <p><b class="fs-5">5</b> <span class="text-secondary">min</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="value_indicator">
+                                        <defs>
+                                            <linearGradient id="GradientColor">
+                                                <stop offset="0%" stop-color="#e91e63" />
+                                                <stop offset="100%" stop-color="#673ab7" />
+                                            </linearGradient>
+                                        </defs>
+                                        <circle cx="80" cy="80" r="54" stroke-linecap="round" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col-md-8 g-1 px-4">
+                                <div class="routine_present">
+                                    <p class="card-text text-body-secondary my-0">
+                                        Now
+                                    </p>
+                                    <div class="hstack px-2">
+                                        <h3 class="card-title text-bolder">English</h3><br />
+                                        <p class="text-body-secondary ms-auto my-1">
+                                            12:30 - 1:10
+                                        </p>
+                                    </div>
+                                </div><br>
+                                <div class="routine_upnext">
+                                    <p class="card-text text-body-secondary my-0">
+                                        Up Next
+                                    </p>
+                                    <div class="hstack px-2">
+                                        <h5 class="card-title">English</h5><br />
+                                        <p class="text-body-secondary ms-auto my-1">
+                                            12:30 - 1:10
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
+
+
+
+    </div>
     </div>
 
 
     <script src="../script/script.js"></script>
+    <script src="../script/routine.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

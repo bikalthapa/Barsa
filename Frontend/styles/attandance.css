@@ -52,3 +52,44 @@ input[type=text], input[type=password] {
     border: 2px solid #cccccc;
     box-sizing: border-box
   }
+
+
+  /* This code is for calendar */
+  .calender{
+    border:1px solid black;
+    display:flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+}
+.calender .calender_header{
+    background-color:var(--sun1);
+    font-weight:bold;
+    color:white;
+    border-right:1px solid white;
+    text-align:center;
+    margin-bottom:0px;
+    width:45px;
+    padding:2px;
+  }
+.calender .calender_row{
+    display:flex;
+    flex-direction:row;
+    gap:1;
+}
+.calender .calender_date{
+    min-width:45px;
+    text-align:center;
+    border:1px solid lightgrey;
+    margin-top:0px;
+}
+.calender .active_date{
+    font-weight:bold;
+    border:2px solid green;
+}
+.calender .holiday_date{
+    color:black;
+    background-color:rgba(255, 0, 0, 0.616);
+    font-weight:bold;
+}
+

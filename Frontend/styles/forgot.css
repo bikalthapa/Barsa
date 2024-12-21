@@ -1,7 +1,7 @@
 /* Basic Reset */
 * {
     margin: 0;
-    padding: 0;
+    padding: 10px;
     box-sizing: border-box;
 }
 
@@ -23,8 +23,9 @@ body {
     box-shadow: 0 4px 10px 4px #f3b63c;
     width: 350px;
     text-align: center;
-    height:auto;
-    padding: 10px;
+    height: 28rem;
+    padding: 40px;
+
 }
 
 /* Heading */
@@ -39,11 +40,10 @@ h2 {
     margin-bottom: 15px;
     text-align: left;
     padding: 20px;
-    
 }
 
 /* Input Field */
-input{
+input {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -71,9 +71,6 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: #00eb1b;
-
-
-    
 }
 
 /* Error Message */
@@ -82,3 +79,26 @@ button[type="submit"]:hover {
     font-size: 14px;
     margin-top: 10px;
 }
+
+/* Css for barsa container */
+.barsa {
+    margin-top: 10px;
+    font-size: 70px;
+    margin-left:140px;
+    color: var(--sun1);
+
+
+}
+
+.barsa_slogan {
+    color: var(--sky1);
+}
+
+.barsa_logo {
+    border-radius: 100%;
+    margin-right: 12rem;
+    height: 400px;
+    weight: 400px;
+}
+/* Responsive forgot form */
+@media 

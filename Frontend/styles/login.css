@@ -92,8 +92,12 @@ input {
 }
 
 .barsa_container{
-  margin-top:13vh;
+  margin-top:10vh;
 }
 .barsa_container .barsa_slogan{ 
   color: var(--sky1);
+  margin-left:115px;
+}
+.row{
+  margin-top:1vh;
 }

@@ -1,0 +1,22 @@
+.leave_application{
+    padding:10px;
+    border-radius:10px;
+    border:1px solid lightgrey;
+}
+.leave_application .leave_applicant{
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items:center;
+}
+.leave_applicant .applicant_img{
+height:100px;
+    
+}
+.leave_application .leave_control{
+    width:100%;
+    gap:5px;
+}
+.leave_control .accept , .leave_control .reject{
+    width:50%;
+}

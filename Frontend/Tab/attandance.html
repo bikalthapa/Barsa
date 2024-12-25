@@ -139,62 +139,31 @@
         <div class="col-md-4 g-4 d-flex justify-content-center align-items-center">
 
           <!-- This is calender -->
-          <div class="calender shadow2">
-            <div class="calender_row my-0">
-              <div class="p-2 calender_header">Sun</div>
-              <div class="p-2 calender_header">Mon</div>
-              <div class="p-2 calender_header">Tue</div>
-              <div class="p-2 calender_header">Wed</div>
-              <div class="p-2 calender_header">Thu</div>
-              <div class="p-2 calender_header">Fri</div>
-              <div class="p-2 calender_header">Sat</div>
-            </div>
-            <div class="calender_row my-0">
-              <div class="p-2 calender_date">1</div>
-              <div class="p-2 calender_date">2</div>
-              <div class="p-2 calender_date">3</div>
-              <div class="p-2 calender_date">4</div>
-              <div class="p-2 calender_date active_date">5</div>
-              <div class="p-2 calender_date">6</div>
-              <div class="p-2 calender_date holiday_date">7</div>
-            </div>
-            <div class="calender_row my-0">
-              <div class="p-2 calender_date">1</div>
-              <div class="p-2 calender_date">2</div>
-              <div class="p-2 calender_date">3</div>
-              <div class="p-2 calender_date">4</div>
-              <div class="p-2 calender_date active_date">5</div>
-              <div class="p-2 calender_date">6</div>
-              <div class="p-2 calender_date holiday_date">7</div>
-            </div>
-            <div class="calender_row my-0">
-              <div class="p-2 calender_date">1</div>
-              <div class="p-2 calender_date">2</div>
-              <div class="p-2 calender_date">3</div>
-              <div class="p-2 calender_date">4</div>
-              <div class="p-2 calender_date active_date">5</div>
-              <div class="p-2 calender_date">6</div>
-              <div class="p-2 calender_date holiday_date">7</div>
-            </div>
-            <div class="calender_row my-0">
-              <div class="p-2 calender_date">1</div>
-              <div class="p-2 calender_date">2</div>
-              <div class="p-2 calender_date">3</div>
-              <div class="p-2 calender_date">4</div>
-              <div class="p-2 calender_date active_date">5</div>
-              <div class="p-2 calender_date">6</div>
-              <div class="p-2 calender_date holiday_date">7</div>
-            </div>
-            <div class="calender_row my-0">
-              <div class="p-2 calender_date">1</div>
-              <div class="p-2 calender_date">2</div>
-              <div class="p-2 calender_date">3</div>
-              <div class="p-2 calender_date">4</div>
-              <div class="p-2 calender_date active_date">5</div>
-              <div class="p-2 calender_date">6</div>
-              <div class="p-2 calender_date holiday_date">7</div>
-            </div>
+          <div class="calendar_container">
+            <header class="calendar_header">
+              <button id="prev-month">❮</button>
+              <div class="year_and_month">
+                <p id="year">2081</p>
+                <h1 id="calendar_title">Poush</h1>
+              </div>
+              <button id="next-month">❯</button>
+            </header>
+            <table class="calendar">
+              <thead>
+                <tr>
+                  <th>Su</th>
+                  <th>Mo</th>
+                  <th>Tu</th>
+                  <th>We</th>
+                  <th>Th</th>
+                  <th>Fr</th>
+                  <th class="holiday">Sa</th>
+                </tr>
+              </thead>
+              <tbody id="calendar-body"></tbody>
+            </table>
           </div>
+
 
         </div>
         <div class="col-md-8 g-4">
@@ -217,7 +186,7 @@
 
 
               <div class="individual_attandance d-none" id="individual_container">
-                <img src="/Images/user_logo.jpg" alt="Oval Image" class="oval-image">
+                <img src="../Images/user_logo.jpg" alt="Oval Image" class="oval-image">
 
                 <div class="container p-2 attandance_status d-flex justify-content-center align-items-center">
                   <form>

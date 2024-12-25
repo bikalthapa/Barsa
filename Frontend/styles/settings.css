@@ -25,3 +25,42 @@
     margin-right: 0%;
     
 }
+
+
+.cover_photo {
+    background-image: url("https://pngmagic.com/product_images/beautiful-nature-landscape-wallpapers-for-laptop_9c7.jpeg");
+    background-size: cover;
+    min-height: 200px;
+  }
+  .profile{
+    position: relative;
+    display:flex;
+    flex-direction:row;
+    
+  }
+  .profile .profile_description{
+    width:63%;
+  }
+  .profile_description .profile_name{
+    font-size:30px;
+    color:black;
+    font-weight:bolder;
+  }
+  .profile .profile_container{
+    width:37%;
+  }
+  .profile .profile_img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin: 10px auto;
+    border: 5px solid white;
+    border-radius: 50%;
+    position: relative;
+    left: 0px;
+    top: -120px;
+  }
+  
+  .profile_name {
+    color: white;
+  }

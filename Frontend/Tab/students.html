@@ -145,8 +145,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-2"  data-bs-toggle="modal" data-bs-target="#studentModal">
-                            <img src="../Icons/add_student.svg"/>
+                        <div class="p-2" data-bs-toggle="modal" data-bs-target="#studentModal">
+                            <img src="../Icons/add_student.svg" />
                         </div>
                     </div>
                 </div>
@@ -182,13 +182,15 @@
                                     </div>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#updateModal">
                                                 <img src="../Icons/edit.svg" />&nbsp;&nbsp;
                                                 Update
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
                                                 <img src="../Icons/delete.svg" />
                                                 Delete
                                             </a>
@@ -211,13 +213,15 @@
                                     </div>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#updateModal">
                                                 <img src="../Icons/edit.svg" />&nbsp;&nbsp;
                                                 Update
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
                                                 <img src="../Icons/delete.svg" />
                                                 Delete
                                             </a>
@@ -240,13 +244,15 @@
                                     </div>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#updateModal">
                                                 <img src="../Icons/edit.svg" />&nbsp;&nbsp;
                                                 Update
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
                                                 <img src="../Icons/delete.svg" />
                                                 Delete
                                             </a>
@@ -269,13 +275,15 @@
                                     </div>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#updateModal">
                                                 <img src="../Icons/edit.svg" />&nbsp;&nbsp;
                                                 Update
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
                                                 <img src="../Icons/delete.svg" />
                                                 Delete
                                             </a>
@@ -298,13 +306,15 @@
                                     </div>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#updateModal">
                                                 <img src="../Icons/edit.svg" />&nbsp;&nbsp;
                                                 Update
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
                                                 <img src="../Icons/delete.svg" />
                                                 Delete
                                             </a>
@@ -321,7 +331,96 @@
         </div>
     </div>
 
+    <!--Delete Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this item?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmDeleteButton">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+
+
+
+
+    <!-- Update Modal -->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="updateModalLabel">Update Confirmation</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Modal Body (Form) -->
+                    <form id="studentForm">
+                        <div class="modal-body">
+                            <!-- Name Field -->
+                            <div class="mb-3">
+                                <label for="studentName" class="form-label">Name</label>
+                                <input type="text" id="studentName" class="form-control" placeholder="Enter full name"
+                                    required>
+                                <small id="nameError" class="text-danger"></small>
+                            </div>
+
+                            <!-- Contact Field -->
+                            <div class="mb-3">
+                                <label for="studentContact" class="form-label">Contact</label>
+                                <input type="tel" id="studentContact" class="form-control"
+                                    placeholder="Enter 10-digit number" pattern="[0-9]{10}" required>
+                                <small id="contactError" class="text-danger"></small>
+                            </div>
+
+                            <!-- Email Field -->
+                            <div class="mb-3">
+                                <label for="studentEmail" class="form-label">Email</label>
+                                <input type="email" id="studentEmail" class="form-control"
+                                    placeholder="Enter email address" required>
+                            </div>
+
+                            <!-- Date of Birth Field -->
+                            <div class="mb-3">
+                                <label for="studentDOB" class="form-label">Date of Birth</label>
+                                <input type="date" id="studentDOB" class="form-control" required>
+                            </div>
+
+                            <!-- Gender and Verify Fields in a Column -->
+                            <div class="row">
+                                <!-- Gender Field -->
+                                <div class="col-12 mb-3">
+                                    <label for="studentGender" class="form-label">Gender</label>
+                                    <select id="studentGender" class="form-select" required>
+                                        <option value="" disabled selected>Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmUpdateButton">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!--Add Student Form Modal -->
@@ -398,10 +497,35 @@
         </div>
     </div>
 
-    <script src="../script/script.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script>
+        // Handle update confirmation
+        document.getElementById('confirmUpdateButton').addEventListener('click', function () {
+            if (confirm("Do you really want to update this item?")) {
+                // Perform the update operation here (e.g., make an API call)
+                alert("Item updated!");
+                // Close the modal
+                var modalElement = document.getElementById('updateModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalElement);
+                modalInstance.hide();
+            }
+        });
+        // Handle delete confirmation
+        document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+            if (confirm("Do you really want to delete this item?")) {
+                // Perform the delete operation here (e.g., make an API call)
+                alert("Item deleted!");
+                // Close the modal
+                var modalElement = document.getElementById('exampleModal');
+                var modalInstance = bootstrap.Modal.getInstance(modalElement);
+                modalInstance.hide();
+            }
+        });
+    </script>
+    <script src="../script/script.js"></script>
 </body>
 
 </html>

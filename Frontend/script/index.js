@@ -31,4 +31,7 @@ function displayRandomWish() {
 }
 
 // Call the function when the page loads
-window.onload = displayRandomWish;
+window.onload = ()=>{
+    displayRandomWish();
+    checkLogin("./Tab/login.html");
+};

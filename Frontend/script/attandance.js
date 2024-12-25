@@ -130,4 +130,3 @@ next_btn.addEventListener("click", () => {
   sendRequest();
 })
 sendRequest();
-

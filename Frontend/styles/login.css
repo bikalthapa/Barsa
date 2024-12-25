@@ -38,7 +38,7 @@ body {
 }
 
 /* Login and Sign-Up Button Themes */
-#login_btn {
+#login_tab {
   background-color: var(--sun2);
 }
 .barsa_logo{
@@ -48,15 +48,15 @@ body {
   box-shadow:var(--shadow5);
 }
 
-#sign_up_btn {
+#signup_tab {
   background-color: var(--sun3);
 }
 
-#login_btn:hover {
+#login_tab:hover {
   background-color: var(--sun4);
 }
 
-#sign_up_btn:hover {
+#signup_tab:hover {
   background-color: var(--sun5);
 }
 

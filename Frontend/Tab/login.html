@@ -16,11 +16,11 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-md-8 g-5">
+      <div class="col-md-7 g-5">
         <div class="barsa_container">
           <div class="vstack">
             <div class="p-2 d-flex justify-content-center align-items-center">
-              <img src="../Images/logo1.png" class="barsa_logo"/>
+              <img src="../Images/logo.png" class="barsa_logo"/>
             </div>
             <div class="p-2">
               <h1 class="barsa text-center">BARSA</h1>
@@ -29,67 +29,41 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 g-5">
+      <div class="col-md-5 g-5">
         <div class="form">
 
           <!-- Buttons for Login and Sign-Up -->
           <div class="hstack gap-2">
-            <button class="button w-50" id="login_btn">Login</button>
-            <button class="button w-50" id="sign_up_btn">Sign Up</button>
+            <button class="button w-50" id="login_tab">Login</button>
+            <button class="button w-50" id="signup_tab">Sign Up</button>
           </div>
 
           <!-- Forms Container -->
-          <div class="tab-content">
+          <form id="form" class="tab-content">
+              <h2 class="text-center text-black" id="authentication_title">Welcome Back</h2>
 
-
-            <!-- Sign-Up Form -->
-            <div id="signup" class="d-none">
-              <h2 class="text-center text-black">Create an Account</h2>
-
-              <form action="/" method="post">
-                <div class="field-wrap">
-                  <label for="first_name">User Name</label>
-                  <input type="text" id="first_name" name="first_name" required />
+                <div class="field-wrap d-none" id="user_name_container">
+                  <label for="first_name" id="username_descriptor">User Name</label>
+                  <input type="text" id="user_name" descriptor="username_descriptor" name="user_name"/>
                 </div>
 
                 <div class="field-wrap">
-                  <label for="signup_email">Email Address</label>
-                  <input type="email" id="signup_email" name="signup_email" required />
+                  <label for="login_email" id="email_descriptor">Email Address</label>
+                  <input type="email" id="email" name="email" descriptor="email_descriptor"/>
                 </div>
 
                 <div class="field-wrap">
-                  <label for="signup_password">Password</label>
-                  <input type="password" id="signup_password" name="signup_password" required />
+                  <label for="login_password" id="password_descriptor">Password</label>
+                  <input type="password" id="password" descriptor="password_descriptor" name="login_password"/>
                 </div>
 
-                <button type="submit" class="button w-100" style="background-color: var(--sun1);">Sign Up</button>
-              </form>
-            </div>
-
-            <!-- Login Form -->
-            <br>
-            <div id="login">
-              <h2 class="text-center text-black">Welcome Back!</h2>
-
-              <form action="/" method="post">
-                <div class="field-wrap">
-                  <label for="login_email">Email Address</label>
-                  <input type="email" id="login_email" name="login_email" required />
-                </div>
-
-                <div class="field-wrap">
-                  <label for="login_password">Password</label>
-                  <input type="password" id="login_password" name="login_password" required />
-                </div>
-
-                <p class="text-end"><a href="forgot.html" class="text-info text-black">Forgot Password ?<img src=""></a>
+                <p class="text-end" id="forgot_password"><a href="forgot.html" class="text-info text-black">Forgot Password ?<img ></a>
                 </p>
 
-                <button type="submit" class="button w-100" style="background-color: var(--sun2);">Login</button>
-              </form>
+                <button type="submit" id="submit_btn" class="button w-100 bg_sun1">Login</button>
             </div>
+          </form>
 
-          </div>
         </div>
       </div>
     </div>
@@ -97,7 +71,7 @@
 
 
   <!-- JavaScript -->
-
+   <script src="../script/input_validator.js"></script>
   <script src="../script/login.js"></script>
 </body>
 

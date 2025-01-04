@@ -13,6 +13,7 @@ let password = document.getElementById("password");
 let user_name = document.getElementById("user_name");
 
 let currentMode = "login";
+
 function toggleTabs() {
   if (currentMode == "login") {
     auth_title.innerHTML = "Create an Account !";
@@ -28,89 +29,83 @@ function toggleTabs() {
     currentMode = "login";
   }
 }
+
 // Switch between login and signup views
 login_tab.addEventListener("click", () => {
   if (currentMode == "signup") {
-    indicateNotEmpty(email, getDescriptor(email));
-    indicateNotEmpty(password, getDescriptor(password));
-    indicateNotEmpty(user_name, getDescriptor(user_name));
+    emailValidator.indicateNotEmpty();
+    passwordValidator.indicateNotEmpty();
+    usernameValidator.indicateNotEmpty();
     toggleTabs();
   }
 });
 
 signup_tab.addEventListener("click", () => {
   if (currentMode == "login") {
-    indicateNotEmpty(email, getDescriptor(email));
-    indicateNotEmpty(password, getDescriptor(password));
-    indicateNotEmpty(user_name, getDescriptor(user_name));
+    emailValidator.indicateNotEmpty();
+    passwordValidator.indicateNotEmpty();
+    usernameValidator.indicateNotEmpty();
     toggleTabs();
   }
 });
 
 
+
+// Add input event listeners to dynamically validate fields and remove error styles
+email.addEventListener("input", () => {
+  emailValidator.validateField("email"); // Validate email on input and dynamically update the styles
+});
+
+password.addEventListener("input", () => {
+  passwordValidator.validateField("password"); // Validate password on input and dynamically update the styles
+});
+
+user_name.addEventListener("input", () => {
+  usernameValidator.validateField("username"); // Validate username on input and dynamically update the styles
+});
+
+
+
+// Create InputValidator instances
+const emailValidator = new InputValidator(email);
+const passwordValidator = new InputValidator(password);
+const usernameValidator = new InputValidator(user_name);
+
 // Handle form submission
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  let is_email_valid = validateField(email, "email");
-  let is_password_valid = validateField(password, "password");
-  let is_username_valid = validateField(user_name, "text");
+  let is_email_valid = emailValidator.validateField("email");
+  let is_password_valid = passwordValidator.validateField("password");
+  let is_username_valid = usernameValidator.validateField("username");
 
-  const email_val = encodeURIComponent(email.value);
-  const password_val = encodeURIComponent(password.value);
-
+  let email_val = encodeURIComponent(email.value);
+  let password_val = encodeURIComponent(password.value);
+  
   // If all fields are valid, you can proceed with form submission
-  if (is_email_valid && is_password_valid && currentMode=="login") {
-
-    // Example usage:
-    fetchBackend(
-      "auth",
-      "check",
-      { c_email: email_val, c_password: password_val },
-      (data) => {
-        // Success callback
-        alert("Login successful");
-        console.log("Success:", data);
-      },
-      (error) => {
-        // Error callback
-        alert("Invalid credentials");
-        console.error("Error:", error);
-      }
-    );
-
-  }else if(currentMode=="signup" && is_email_valid && is_password_valid && is_username_valid){
+  if (is_email_valid && is_password_valid && currentMode == "login") {
+    backend.login(email_val, password_val, onSuccess, onError);
+  } else if (currentMode == "signup" && is_email_valid && is_password_valid && is_username_valid) {
     const username_val = encodeURIComponent(user_name.value);
-    // Example usage:
-    fetchBackend(
-      "auth",
-      "create",
-      { c_email: email_val, c_password: password_val ,c_name: username_val},
-      (data) => {
-        // Success callback
-        alert("signup successful");
-        console.log("Success:", data);
-      },
-      (error) => {
-        // Error callback
-        alert("signup credentials");
-        console.error("Error:", error);
-      }
-    );
+    backend.signup(username_val, email_val, password_val, onSuccess, onError);
   } else {
     console.log("Form contains errors.");
   }
 });
 
-
-// Add input event listeners to dynamically validate fields and remove error styles
-email.addEventListener("input", () => {
-  validateField(email, "email"); // Validate email on input and dynamically update the styles
-});
-
-password.addEventListener("input", () => {
-  validateField(password, "password"); // Validate password on input and dynamically update the styles
-});
-user_name.addEventListener("input", () => {
-  validateField(user_name, "username")
-})
+const onSuccess = (data)=>{
+  if(data.status == "success"){
+    if(data.data.c_apikey!=null){
+      backend.store_login_credintial(data.data);
+      window.location.href = "../index.html";
+    }
+  }
+}
+const onError = (data)=>{
+  // console.log(data);
+  if(data.status == "error"){
+   if(data.message=="Record Not Found"){
+    alert("Invalid Credintials");
+   };
+  }
+}

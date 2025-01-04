@@ -11,6 +11,15 @@
 </head>
 
 <body>
+    <div class="spinner-overlay d-none" id="loadingSpinner">
+        <div class="spinner">
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <b>Loading...</b>
+        </div>
+    </div>
+
     <!-- This is sidebar offcanvas -->
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
         aria-labelledby="offcanvasWithBothOptionsLabel">
@@ -127,6 +136,7 @@
                 </div>
             </div>
         </div>
+
         <!-- This is home dashboard -->
         <div class="dashboard container">
             <div class="row">
@@ -167,166 +177,11 @@
                             <th scope="col" class="table-warning"></th>
                         </tr>
                     </thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Suman Timsina</td>
-                            <td>9842446137</td>
-                            <td>sumantimsina840@gmail.com</td>
-                            <td>2063-04-25</td>
-                            <td>true</td>
-                            <td class="d-flex justify-content-center gap-4">
-                                <div class="dropstart">
-                                    <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="../Icons/three_dots.svg" />
-                                    </div>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#updateModal">
-                                                <img src="../Icons/edit.svg" />&nbsp;&nbsp;
-                                                Update
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal">
-                                                <img src="../Icons/delete.svg" />
-                                                Delete
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Suman Timsina</td>
-                            <td>9842446137</td>
-                            <td>sumantimsina840@gmail.com</td>
-                            <td>2063-04-25</td>
-                            <td>true</td>
-                            <td class="d-flex justify-content-center gap-4">
-                                <div class="dropstart">
-                                    <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="../Icons/three_dots.svg" />
-                                    </div>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#updateModal">
-                                                <img src="../Icons/edit.svg" />&nbsp;&nbsp;
-                                                Update
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal">
-                                                <img src="../Icons/delete.svg" />
-                                                Delete
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Suman Timsina</td>
-                            <td>9842446137</td>
-                            <td>sumantimsina840@gmail.com</td>
-                            <td>2063-04-25</td>
-                            <td>true</td>
-                            <td class="d-flex justify-content-center gap-4">
-                                <div class="dropstart">
-                                    <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="../Icons/three_dots.svg" />
-                                    </div>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#updateModal">
-                                                <img src="../Icons/edit.svg" />&nbsp;&nbsp;
-                                                Update
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal">
-                                                <img src="../Icons/delete.svg" />
-                                                Delete
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Suman Timsina</td>
-                            <td>9842446137</td>
-                            <td>sumantimsina840@gmail.com</td>
-                            <td>2063-04-25</td>
-                            <td>true</td>
-                            <td class="d-flex justify-content-center gap-4">
-                                <div class="dropstart">
-                                    <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="../Icons/three_dots.svg" />
-                                    </div>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#updateModal">
-                                                <img src="../Icons/edit.svg" />&nbsp;&nbsp;
-                                                Update
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal">
-                                                <img src="../Icons/delete.svg" />
-                                                Delete
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Suman Timsina</td>
-                            <td>9842446137</td>
-                            <td>sumantimsina840@gmail.com</td>
-                            <td>2063-04-25</td>
-                            <td>true</td>
-                            <td class="d-flex justify-content-center gap-4">
-                                <div class="dropstart">
-                                    <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="../Icons/three_dots.svg" />
-                                    </div>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#updateModal">
-                                                <img src="../Icons/edit.svg" />&nbsp;&nbsp;
-                                                Update
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal">
-                                                <img src="../Icons/delete.svg" />
-                                                Delete
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
+                    <tbody class="table-group-divider" id="studentTableBody">
+
                     </tbody>
                 </table>
             </div>
-
 
         </div>
     </div>
@@ -355,69 +210,73 @@
 
 
     <!-- Update Modal -->
-    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="studentModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
+                <!-- Modal Header -->
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="updateModalLabel">Update Confirmation</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Update Student</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <!-- Modal Body (Form) -->
-                    <form id="studentForm">
-                        <div class="modal-body">
-                            <!-- Name Field -->
-                            <div class="mb-3">
-                                <label for="studentName" class="form-label">Name</label>
-                                <input type="text" id="studentName" class="form-control" placeholder="Enter full name"
-                                    required>
-                                <small id="nameError" class="text-danger"></small>
-                            </div>
 
+                <!-- Modal Body (Form) -->
+                <form id="upStdForm">
+                    <div class="modal-body">
+                        <!-- Name Field -->
+                        <div class="mb-3">
+                            <label for="studentName" class="form-label">Name</label>
+                            <input type="text" id="upStdName" class="form-control" placeholder="Enter full name"
+                                required>
+                        </div>
+
+                        <div class="row">
                             <!-- Contact Field -->
-                            <div class="mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <label for="studentContact" class="form-label">Contact</label>
-                                <input type="tel" id="studentContact" class="form-control"
+                                <input type="tel" id="upStdContact" class="form-control"
                                     placeholder="Enter 10-digit number" pattern="[0-9]{10}" required>
-                                <small id="contactError" class="text-danger"></small>
                             </div>
 
                             <!-- Email Field -->
-                            <div class="mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <label for="studentEmail" class="form-label">Email</label>
-                                <input type="email" id="studentEmail" class="form-control"
+                                <input type="email" id="upStdEmail" class="form-control"
                                     placeholder="Enter email address" required>
                             </div>
-
-                            <!-- Date of Birth Field -->
-                            <div class="mb-3">
-                                <label for="studentDOB" class="form-label">Date of Birth</label>
-                                <input type="date" id="studentDOB" class="form-control" required>
-                            </div>
-
-                            <!-- Gender and Verify Fields in a Column -->
-                            <div class="row">
-                                <!-- Gender Field -->
-                                <div class="col-12 mb-3">
-                                    <label for="studentGender" class="form-label">Gender</label>
-                                    <select id="studentGender" class="form-select" required>
-                                        <option value="" disabled selected>Select Gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-                            </div>
-
                         </div>
 
+                        <div class="row">
+                            <!-- Date of Birth Field -->
+                            <div class="col-sm-6 mb-3">
+                                <label for="studentDOB" class="form-label">Date of Birth</label>
+                                <input type="date" id="upStdDOB" class="form-control" required>
+                            </div>
 
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="confirmUpdateButton">Update</button>
-                </div>
+                            <!-- Gender Field -->
+                            <div class="col-sm-6 mb-3">
+                                <label for="studentGender" class="form-label">Gender</label>
+                                <select id="upStdGender" class="form-select" required>
+                                    <option value="" disabled selected>Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Verify Checkbox -->
+                        <div class="col-6 mb-3 d-flex justify-content-start">
+                            <input type="checkbox" class="form-check-input" id="upStdVerify">
+                            <label class="form-check-label" for="exampleCheck1"> Verify</label>
+                        </div>
+
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -444,31 +303,32 @@
                             <small id="nameError" class="text-danger"></small>
                         </div>
 
-                        <!-- Contact Field -->
-                        <div class="mb-3">
-                            <label for="studentContact" class="form-label">Contact</label>
-                            <input type="tel" id="studentContact" class="form-control"
-                                placeholder="Enter 10-digit number" pattern="[0-9]{10}" required>
-                            <small id="contactError" class="text-danger"></small>
-                        </div>
-
-                        <!-- Email Field -->
-                        <div class="mb-3">
-                            <label for="studentEmail" class="form-label">Email</label>
-                            <input type="email" id="studentEmail" class="form-control" placeholder="Enter email address"
-                                required>
-                        </div>
-
-                        <!-- Date of Birth Field -->
-                        <div class="mb-3">
-                            <label for="studentDOB" class="form-label">Date of Birth</label>
-                            <input type="date" id="studentDOB" class="form-control" required>
-                        </div>
-
-                        <!-- Gender and Verify Fields in a Column -->
                         <div class="row">
+                            <!-- Contact Field -->
+                            <div class="col-sm-6 mb-3">
+                                <label for="studentContact" class="form-label">Contact</label>
+                                <input type="tel" id="studentContact" class="form-control"
+                                    placeholder="Enter 10-digit number" pattern="[0-9]{10}" required>
+                                <small id="contactError" class="text-danger"></small>
+                            </div>
+
+                            <!-- Email Field -->
+                            <div class="col-sm-6 mb-3">
+                                <label for="studentEmail" class="form-label">Email</label>
+                                <input type="email" id="studentEmail" class="form-control"
+                                    placeholder="Enter email address" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Date of Birth Field -->
+                            <div class="col-sm-6 mb-3">
+                                <label for="studentDOB" class="form-label">Date of Birth</label>
+                                <input type="date" id="studentDOB" class="form-control" required>
+                            </div>
+
                             <!-- Gender Field -->
-                            <div class="col-12 mb-3">
+                            <div class="col-sm-6 mb-3">
                                 <label for="studentGender" class="form-label">Gender</label>
                                 <select id="studentGender" class="form-select" required>
                                     <option value="" disabled selected>Select Gender</option>
@@ -477,20 +337,19 @@
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
+                        </div>
 
-                            <!-- Verify Checkbox -->
-                            <div class="col-12 mb-3 d-flex justify-content-start">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1"> Verify</label>
-                            </div>
+                        <!-- Verify Checkbox -->
+                        <div class="col-6 mb-3 d-flex justify-content-start">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1"> Verify</label>
                         </div>
 
                     </div>
 
                     <!-- Modal Footer -->
                     <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success w-100">Save</button>
                     </div>
                 </form>
             </div>
@@ -501,31 +360,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script>
-        // Handle update confirmation
-        document.getElementById('confirmUpdateButton').addEventListener('click', function () {
-            if (confirm("Do you really want to update this item?")) {
-                // Perform the update operation here (e.g., make an API call)
-                alert("Item updated!");
-                // Close the modal
-                var modalElement = document.getElementById('updateModal');
-                var modalInstance = bootstrap.Modal.getInstance(modalElement);
-                modalInstance.hide();
-            }
-        });
-        // Handle delete confirmation
-        document.getElementById('confirmDeleteButton').addEventListener('click', function () {
-            if (confirm("Do you really want to delete this item?")) {
-                // Perform the delete operation here (e.g., make an API call)
-                alert("Item deleted!");
-                // Close the modal
-                var modalElement = document.getElementById('exampleModal');
-                var modalInstance = bootstrap.Modal.getInstance(modalElement);
-                modalInstance.hide();
-            }
-        });
-    </script>
+    <script src="../script/utilities/backend_connector.js"></script>
     <script src="../script/script.js"></script>
+    <script src="../script/header_footer.js"></script>
+    <script src="../script/students.js"></script>
 </body>
 
 </html>

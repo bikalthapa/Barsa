@@ -49,12 +49,12 @@
 
                 <div class="field-wrap">
                   <label for="login_email" id="email_descriptor">Email Address</label>
-                  <input type="email" id="email" name="email" descriptor="email_descriptor"/>
+                  <input type="email" id="email" name="c_email" descriptor="email_descriptor"/>
                 </div>
 
                 <div class="field-wrap">
                   <label for="login_password" id="password_descriptor">Password</label>
-                  <input type="password" id="password" descriptor="password_descriptor" name="login_password"/>
+                  <input type="password" id="password" descriptor="password_descriptor" name="c_password"/>
                 </div>
 
                 <p class="text-end" id="forgot_password"><a href="forgot.html" class="text-info text-black">Forgot Password ?<img ></a>
@@ -71,8 +71,11 @@
 
 
   <!-- JavaScript -->
-   <script src="../script/input_validator.js"></script>
+  <script src="../script/utilities/backend_connector.js"></script>
+   <script src="../script/utilities/input_validator.js"></script>
+  <script src="../script/script.js"></script>
   <script src="../script/login.js"></script>
+  
 </body>
 
 </html>

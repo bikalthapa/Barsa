@@ -33,5 +33,5 @@ function displayRandomWish() {
 // Call the function when the page loads
 window.onload = ()=>{
     displayRandomWish();
-    checkLogin("./Tab/login.html");
+    backend.is_logged_in("./Tab/login.html");
 };

@@ -53,15 +53,15 @@ signup_tab.addEventListener("click", () => {
 
 // Add input event listeners to dynamically validate fields and remove error styles
 email.addEventListener("input", () => {
-  emailValidator.validateField("email"); // Validate email on input and dynamically update the styles
+  emailValidator.validateField(); // Validate email on input and dynamically update the styles
 });
 
 password.addEventListener("input", () => {
-  passwordValidator.validateField("password"); // Validate password on input and dynamically update the styles
+  passwordValidator.validateField(); // Validate password on input and dynamically update the styles
 });
 
 user_name.addEventListener("input", () => {
-  usernameValidator.validateField("username"); // Validate username on input and dynamically update the styles
+  usernameValidator.validateField(); // Validate username on input and dynamically update the styles
 });
 
 
@@ -75,9 +75,9 @@ const usernameValidator = new InputValidator(user_name);
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  let is_email_valid = emailValidator.validateField("email");
-  let is_password_valid = passwordValidator.validateField("password");
-  let is_username_valid = usernameValidator.validateField("username");
+  let is_email_valid = emailValidator.validateField();
+  let is_password_valid = passwordValidator.validateField();
+  let is_username_valid = usernameValidator.validateField();
 
   let email_val = encodeURIComponent(email.value);
   let password_val = encodeURIComponent(password.value);

@@ -151,7 +151,7 @@
                         <div class="p-2">
                             <div class="search">
                                 <div>
-                                    <input type="text" placeholder="Search . . ." required>
+                                    <input type="text" placeholder="Search . . ." id="searchBar">
                                 </div>
                             </div>
                         </div>
@@ -187,15 +187,14 @@
     </div>
 
     <!--Delete Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this item?
+                <div class="modal-body" id="deletePerson">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -297,40 +296,38 @@
                     <div class="modal-body">
                         <!-- Name Field -->
                         <div class="mb-3">
-                            <label for="studentName" class="form-label">Name</label>
-                            <input type="text" id="studentName" class="form-control" placeholder="Enter full name"
-                                required>
+                            <label for="studentName" id="nameDesc" class="form-label">Name</label>
+                            <input type="text" id="studentName" class="form-control" descriptor="nameDesc" placeholder="Enter full name">
                             <small id="nameError" class="text-danger"></small>
                         </div>
 
                         <div class="row">
                             <!-- Contact Field -->
                             <div class="col-sm-6 mb-3">
-                                <label for="studentContact" class="form-label">Contact</label>
+                                <label for="studentContact" class="form-label" id="contactDesc">Contact</label>
                                 <input type="tel" id="studentContact" class="form-control"
-                                    placeholder="Enter 10-digit number" pattern="[0-9]{10}" required>
+                                    placeholder="Enter 10-digit number" pattern="[0-9]{10}" descriptor="contactDesc">
                                 <small id="contactError" class="text-danger"></small>
                             </div>
 
                             <!-- Email Field -->
                             <div class="col-sm-6 mb-3">
-                                <label for="studentEmail" class="form-label">Email</label>
-                                <input type="email" id="studentEmail" class="form-control"
-                                    placeholder="Enter email address" required>
+                                <label for="studentEmail" class="form-label" id="emailDesc">Email</label>
+                                <input type="email" id="studentEmail" class="form-control" descriptor="emailDesc" placeholder="Enter email address">
                             </div>
                         </div>
 
                         <div class="row">
                             <!-- Date of Birth Field -->
                             <div class="col-sm-6 mb-3">
-                                <label for="studentDOB" class="form-label">Date of Birth</label>
-                                <input type="date" id="studentDOB" class="form-control" required>
+                                <label for="studentDOB" class="form-label" id="dobDesc">Date of Birth</label>
+                                <input type="date" id="studentDOB" class="form-control" descriptor="dobDesc">
                             </div>
 
                             <!-- Gender Field -->
                             <div class="col-sm-6 mb-3">
-                                <label for="studentGender" class="form-label">Gender</label>
-                                <select id="studentGender" class="form-select" required>
+                                <label for="studentGender" class="form-label" id="genderDesc">Gender</label>
+                                <select id="studentGender" class="form-select" descriptor="genderDesc">
                                     <option value="" disabled selected>Select Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -341,15 +338,15 @@
 
                         <!-- Verify Checkbox -->
                         <div class="col-6 mb-3 d-flex justify-content-start">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1"> Verify</label>
+                            <input type="checkbox" class="form-check-input" descriptor="verificationDesc">
+                            <label class="form-check-label" for="exampleCheck1" id="verificationDesc"> Verify</label>
                         </div>
 
                     </div>
 
                     <!-- Modal Footer -->
                     <div class="modal-footer justify-content-between">
-                        <button type="submit" class="btn btn-success w-100">Save</button>
+                        <button type="submit" class="btn btn-success w-100">Add</button>
                     </div>
                 </form>
             </div>
@@ -361,6 +358,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="../script/utilities/backend_connector.js"></script>
+    <script src="../script/utilities/input_validator.js"></script>
     <script src="../script/script.js"></script>
     <script src="../script/header_footer.js"></script>
     <script src="../script/students.js"></script>

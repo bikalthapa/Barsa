@@ -84,6 +84,7 @@ class InputValidator {
 
     // Validate the field based on the type
     validateField(type) {
+        let typ = this.field.type;
         let isFieldEmpty = this.isEmpty();
 
         if (type === "email") {
@@ -94,7 +95,7 @@ class InputValidator {
             return this.isValidPassword();
         }
 
-        if (type === "username") {
+        if (type === "text") {
             return this.isValidText();
         }
 

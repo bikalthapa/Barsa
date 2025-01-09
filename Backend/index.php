@@ -86,9 +86,10 @@ if($typ=="auth"){
             $email = get_param('s_email');
             $password = get_param('s_password');
             $contact = get_param('s_contact');
-            $isVerified = get_param('s_isverified') ?: false;
+            $fingerId = get_param('s_finger');
+            $gender = get_param('s_gender');
 
-            $students_data = ["s_name" => $name, "c_id" => $class_id, "s_email" => $email, "s_password" => $password, "s_contact" => $contact, "s_dob" => $dob, "s_isverified" => $isVerified];
+            $students_data = ["s_name" => $name, "c_id" => $class_id, "s_email" => $email, "s_password" => $password, "s_contact" => $contact, "s_dob" => $dob, "s_finger" => $fingerId,"s_gender"=>$gender];
             $isUploaded = $student->setStudent($students_data);
             if ($isUploaded) {
                 show_response(true, $students_data);
@@ -96,22 +97,24 @@ if($typ=="auth"){
                 show_response(false, $students_data, $no_change);
             }
         } else if ($act == "delete") {
-            $s_id = get_param("id");
+            $s_id = get_param("s_id");
             if ($student->removeStudent($s_id)) {
                 show_response(true, [$s_id]);
             } else {
                 show_response(false, [$s_id], $no_change);
             }
         } else if ($act == "update") {
-            if ($id = get_param('s_id')) {
+            $id = get_param('s_id');
+            if ($id!=null) {
                 $name = get_param('s_name');
                 $dob = get_param('s_dob');
                 $email = get_param('s_email');
                 $password = get_param('s_password');
                 $contact = get_param('s_contact');
-                $isVerified = get_param('s_isverified');
+                $fingerId = get_param('s_finger');
+                $gender = get_param('s_gender');
 
-                $data = ["s_name" => $name, "c_id" => $class_id, "s_dob" => $dob, "s_email" => $email, "s_password" => $password, "s_contact" => $contact, "s_isverified" => $isVerified];
+                $data = ["s_name" => $name, "c_id" => $class_id, "s_dob" => $dob, "s_email" => $email, "s_password" => $password, "s_contact" => $contact, "s_finger" => $fingerId, "s_gender"=>$gender];
                 if ($student->updateStudent($id, $data)) {
                     show_response(true, $data);
                 } else {

@@ -34,10 +34,15 @@ class Student
     {
         if ($data['s_name'] != null && $data['s_email'] != null) {
             $data['s_password'] = $data['s_password'] != null ? $data['s_password'] : $data['s_name'];
-            $sql = "INSERT INTO " . $this->table . " (s_name,c_id, s_email, s_password, s_contact, s_dob, s_isverified) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $data['s_password'] = password_hash($data["s_password"], PASSWORD_BCRYPT);
+            $sql = "INSERT INTO " . $this->table . " (s_name, c_id, s_email, s_password, s_contact, s_dob, s_finger, s_gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param("ssssssi", $data['s_name'], $data["c_id"], $data['s_email'], $data['s_password'], $data['s_contact'], $data['s_dob'], $data['s_isverified']);
-
+            
+            // Correct the data types in bind_param
+            $stmt->bind_param("ssssssss", $data['s_name'], $data["c_id"], $data['s_email'], $data['s_password'], $data['s_contact'], $data['s_dob'], $data['s_finger'], $data['s_gender']);
+            
+            // Execute the statement
+            $stmt->execute();
             if ($stmt->execute()) {
                 return true;
             } else {

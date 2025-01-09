@@ -31,7 +31,7 @@ class BackendConnector {
             // http://localhost/?typ=std&act=create&api_key=23&c_id=1&std_name=John&std_contact=123456789&std_email=john%40gmail.com&std_dob=2021-09-09
             this.typ = "std";
             this.act = "write";
-            this.param = `${this.baseUrl}?api_key=${this.get_api_key()}&typ=${this.typ}&act=${this.act}&c_id=${this.get_c_id()}&s_name=${this.data.name}&s_contact=${this.data.contact}&s_email=${this.data.email}&s_dob=${this.data.dob}`;
+            this.param = `${this.baseUrl}?api_key=${this.get_api_key()}&typ=${this.typ}&act=${this.act}&c_id=${this.get_c_id()}&s_name=${this.data.name}&s_contact=${this.data.contact}&s_email=${this.data.email}&s_dob=${this.data.dob}&s_finger=${this.data.finger}&s_gender=${this.data.gender}`;
         } else if (typ == "srchStd") {
             // http://localhost/?typ=std&act=search&api_key=23&c_id=1&query=John
             this.typ = "std";
@@ -42,6 +42,11 @@ class BackendConnector {
             this.typ = "std";
             this.act = "delete";
             this.param = `${this.baseUrl}?api_key=${this.get_api_key()}&typ=${this.typ}&act=${this.act}&c_id=${this.get_c_id()}&s_id=${this.data.s_id}`;
+        }else if(typ == "upStd"){
+            // http://localhost/?typ=std&act=update&api_key=23&c_id=1&s_id=1&s_name=John&s_contact=123456789&s_email=john%40gmail.com&s_dob=2021-09-09
+            this.typ = "std";
+            this.act = "update";
+            this.param = `${this.baseUrl}?api_key=${this.get_api_key()}&typ=${this.typ}&act=${this.act}&c_id=${this.get_c_id()}&s_id=${this.data.s_id}&s_name=${this.data.name}&s_contact=${this.data.contact}&s_email=${this.data.email}&s_dob=${this.data.dob}&s_finger=${this.data.finger}&s_gender=${this.data.gender}`;
         }
     }
 
@@ -51,6 +56,7 @@ class BackendConnector {
             .then(response => response.json())
             .then(data => {
                 onSuccess(data);
+                console.log(data);
             })
             .catch(error => {
                 onError(error);
@@ -135,7 +141,12 @@ class BackendConnector {
         this.setParam("delStd");
         this.fetchBackend(onSuccess, onError);
     }
-
+    // This function will update the students
+    updateStudent(data, onSuccess, onError){
+        this.data = data;
+        this.setParam("upStd");
+        this.fetchBackend(onSuccess, onError);
+    }
 }
 
 let api_url = "http://localhost/";

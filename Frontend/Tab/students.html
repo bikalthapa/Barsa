@@ -155,7 +155,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-2" data-bs-toggle="modal" data-bs-target="#studentModal">
+                        <div class="p-2" onclick="setAddData()" data-bs-toggle="modal" data-bs-target="#upModal">
                             <img src="../Icons/add_student.svg" />
                         </div>
                     </div>
@@ -173,7 +173,8 @@
                             <th scope="col" class="table-warning">CONTACT</th>
                             <th scope="col" class="table-warning">EMAIL</th>
                             <th scope="col" class="table-warning">DOB</th>
-                            <th scope="col" class="table-warning">VERIFICATION</th>
+                            <th scope="col" class="table-warning">GENDER</th>
+                            <th scope="col" class="table-warning">FING.ID</th>
                             <th scope="col" class="table-warning"></th>
                         </tr>
                     </thead>
@@ -208,13 +209,13 @@
 
 
 
-    <!-- Update Modal -->
-    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="studentModalLabel" aria-hidden="true">
+    <!-- Update and add model for students Modal -->
+    <div class="modal fade" id="upModal" tabindex="-1" aria-labelledby="upModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h5 class="modal-title">Update Student</h5>
+                    <h5 class="modal-title" id="upTitle">Update Student</h5>
                     <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -222,39 +223,49 @@
                 <form id="upStdForm">
                     <div class="modal-body">
                         <!-- Name Field -->
-                        <div class="mb-3">
-                            <label for="studentName" class="form-label">Name</label>
-                            <input type="text" id="upStdName" class="form-control" placeholder="Enter full name"
-                                required>
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label for="s_name" id="upName" class="form-label">Name</label>
+                                <input type="text" id="s_name" class="form-control" placeholder="Enter full name"
+                                    descriptor="upName">
+                            </div>
+
+                            <!-- Email Field -->
+                            <div class="col-sm-6 mb-3">
+                                <label for="s_email" id="upEmail" class="form-label">Email</label>
+                                <input type="email" id="s_email" class="form-control"
+                                    placeholder="Enter email address" descriptor="upEmail">
+                            </div>
+
                         </div>
 
                         <div class="row">
                             <!-- Contact Field -->
                             <div class="col-sm-6 mb-3">
-                                <label for="studentContact" class="form-label">Contact</label>
-                                <input type="tel" id="upStdContact" class="form-control"
-                                    placeholder="Enter 10-digit number" pattern="[0-9]{10}" required>
+                                <label for="s_contact" id="upContact" class="form-label">Contact</label>
+                                <input type="tel" id="s_contact" class="form-control"
+                                    placeholder="Enter 10-digit number" pattern="[0-9]{10}" descriptor = "upContact">
                             </div>
 
                             <!-- Email Field -->
                             <div class="col-sm-6 mb-3">
-                                <label for="studentEmail" class="form-label">Email</label>
-                                <input type="email" id="upStdEmail" class="form-control"
-                                    placeholder="Enter email address" required>
+                                <label for="s_finger" id="upFingerId" class="form-label">Finger Id</label>
+                                <input type="number" id="s_finger" class="form-control"
+                                    placeholder="Enter email address" descriptor="upFingerId">
                             </div>
                         </div>
 
                         <div class="row">
                             <!-- Date of Birth Field -->
                             <div class="col-sm-6 mb-3">
-                                <label for="studentDOB" class="form-label">Date of Birth</label>
-                                <input type="date" id="upStdDOB" class="form-control" required>
+                                <label for="s_dob" id="upDOB" class="form-label">Date of Birth</label>
+                                <input type="date" id="s_dob" class="form-control" descriptor="upDOB">
                             </div>
 
                             <!-- Gender Field -->
                             <div class="col-sm-6 mb-3">
-                                <label for="studentGender" class="form-label">Gender</label>
-                                <select id="upStdGender" class="form-select" required>
+                                <label for="s_gender" class="form-label" id="upGender">Gender</label>
+                                <select id="s_gender" class="form-select" aria-describedby="upGender">
                                     <option value="" disabled selected>Select Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -262,91 +273,11 @@
                                 </select>
                             </div>
                         </div>
-
-                        <!-- Verify Checkbox -->
-                        <div class="col-6 mb-3 d-flex justify-content-start">
-                            <input type="checkbox" class="form-check-input" id="upStdVerify">
-                            <label class="form-check-label" for="exampleCheck1"> Verify</label>
-                        </div>
-
                     </div>
 
                     <!-- Modal Footer -->
                     <div class="modal-footer justify-content-between">
-                        <button type="submit" class="btn btn-primary w-100">Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-    <!--Add Student Form Modal -->
-    <div class="modal fade" id="studentModal" tabindex="-1" aria-labelledby="studentModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="studentModalLabel">Add Student</h5>
-                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <!-- Modal Body (Form) -->
-                <form id="studentForm">
-                    <div class="modal-body">
-                        <!-- Name Field -->
-                        <div class="mb-3">
-                            <label for="studentName" id="nameDesc" class="form-label">Name</label>
-                            <input type="text" id="studentName" class="form-control" descriptor="nameDesc" placeholder="Enter full name">
-                            <small id="nameError" class="text-danger"></small>
-                        </div>
-
-                        <div class="row">
-                            <!-- Contact Field -->
-                            <div class="col-sm-6 mb-3">
-                                <label for="studentContact" class="form-label" id="contactDesc">Contact</label>
-                                <input type="tel" id="studentContact" class="form-control"
-                                    placeholder="Enter 10-digit number" pattern="[0-9]{10}" descriptor="contactDesc">
-                                <small id="contactError" class="text-danger"></small>
-                            </div>
-
-                            <!-- Email Field -->
-                            <div class="col-sm-6 mb-3">
-                                <label for="studentEmail" class="form-label" id="emailDesc">Email</label>
-                                <input type="email" id="studentEmail" class="form-control" descriptor="emailDesc" placeholder="Enter email address">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <!-- Date of Birth Field -->
-                            <div class="col-sm-6 mb-3">
-                                <label for="studentDOB" class="form-label" id="dobDesc">Date of Birth</label>
-                                <input type="date" id="studentDOB" class="form-control" descriptor="dobDesc">
-                            </div>
-
-                            <!-- Gender Field -->
-                            <div class="col-sm-6 mb-3">
-                                <label for="studentGender" class="form-label" id="genderDesc">Gender</label>
-                                <select id="studentGender" class="form-select" descriptor="genderDesc">
-                                    <option value="" disabled selected>Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Verify Checkbox -->
-                        <div class="col-6 mb-3 d-flex justify-content-start">
-                            <input type="checkbox" class="form-check-input" descriptor="verificationDesc">
-                            <label class="form-check-label" for="exampleCheck1" id="verificationDesc"> Verify</label>
-                        </div>
-
-                    </div>
-
-                    <!-- Modal Footer -->
-                    <div class="modal-footer justify-content-between">
-                        <button type="submit" class="btn btn-success w-100">Add</button>
+                        <button type="submit" class="btn btn-success w-100">Save Changes</button>
                     </div>
                 </form>
             </div>

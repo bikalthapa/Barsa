@@ -1,41 +1,28 @@
-// // Handle update confirmation
-// document.getElementById('confirmUpdateButton').addEventListener('click', function () {
-//     if (confirm("Do you really want to update this item?")) {
-//         // Perform the update operation here (e.g., make an API call)
-//         alert("Item updated!");
-//         // Close the modal
-//         var modalElement = document.getElementById('updateModal');
-//         var modalInstance = bootstrap.Modal.getInstance(modalElement);
-//         modalInstance.hide();
-//     }
-// });
-// // Handle delete confirmation
-// document.getElementById('confirmDeleteButton').addEventListener('click', function () {
-//     if (confirm("Do you really want to delete this item?")) {
-//         // Perform the delete operation here (e.g., make an API call)
-//         alert("Item deleted!");
-//         // Close the modal
-
-//     }
-// });
-var addModal = document.getElementById('studentModal');
+var addModal = document.getElementById('upModal');
 var addModalInstance = bootstrap.Modal.getInstance(addModal);
-
+if (!addModalInstance) {
+    addModalInstance = new bootstrap.Modal(addModal);
+}
+var upTitle = document.getElementById('upTitle');
 var deleteModal = document.getElementById('deleteModal');
 var deleteModalInstance = bootstrap.Modal.getInstance(deleteModal);
+if (!deleteModalInstance) {
+    deleteModalInstance = new bootstrap.Modal(deleteModal);
+}
 var confirmDelete = document.getElementById("confirmDeleteButton");
-var delIndx = 0;
-
-let addStudentForm = document.getElementById('studentForm');
-let fetched_data = [];
+let studentForm = document.getElementById('upStdForm');
 let searchBar = document.getElementById('searchBar');
+
+
+var delIndx = 0;// Index of the student to be deleted 
+var upIndx = 0; // Index of the student to be updated
+var studentMode = true; // True for add and false for update
+let fetched_data = [];// Holds the value of fetched data
 let field = {
-    add: {
-        id: ['studentName', 'studentContact', 'studentEmail', 'studentDOB', 'studentGender'],
-        require: [true, false, true, false, false],
-        element: []
-    }
-};
+    id: ['s_name', 's_contact', 's_email', 's_dob','s_finger','s_gender'],
+    require: [true, false, true, false, false, false],
+    element: []
+}
 
 // Fetching the backend API for students
 const onFetchSuccess = (data) => {
@@ -50,8 +37,9 @@ const onFetchSuccess = (data) => {
                 <td>${student.s_name}</td>
                 <td>${student.s_contact}</td>
                 <td>${student.s_email}</td>
-                <td>${student.s_dob}</td>
-                <td>${student.s_isverified}</td>
+                <td>${student.s_dob!="0000-00-00"?student.s_dob:""}</td>
+                <td>${student.s_gender!=null?student.s_gender:""}</td>
+                <td class="text-center">${student.s_finger}</td>
                 <td class="d-flex justify-content-center gap-4">
                     <div class="dropstart">
                         <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,7 +47,7 @@ const onFetchSuccess = (data) => {
                         </div>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateModal">
+                                <a class="dropdown-item" onclick="setUpdateData(${indx})" data-bs-toggle="modal" data-bs-target="#upModal">
                                     <img src="../Icons/edit.svg" />&nbsp;&nbsp; Update
                                 </a>
                             </li>
@@ -80,11 +68,11 @@ const onFetchSuccess = (data) => {
 
     hideSpinner();
 };
+
 // Handle the error for fetching the backend API for students
 const onFetchError = (error) => {
     console.error(error);
-}
-
+};
 
 // Handle the success for adding a student
 const onAddSuccess = (data) => {
@@ -93,50 +81,61 @@ const onAddSuccess = (data) => {
         hideSpinner();
     }, onFetchError);
     addModalInstance.hide();
-}
+};
+
 // Handle the error for adding a student
 const onAddError = (error) => {
     console.error(error);
-}
-
-
+};
 
 // Handles the delete success operation
-const onDeleteSuccess = (data)=>{
+const onDeleteSuccess = (data) => {
     backend.getStudents(onFetchSuccess, onFetchError);
     deleteModalInstance.hide();
     hideSpinner();
-}
+};
+
 // Handles the delete error operation
-const onDeleteError = (error)=>{
+const onDeleteError = (error) => {
     console.error(error);
-}
-
-
-
+};
 
 showSpinner();
 backend.getStudents(onFetchSuccess, onFetchError);
 
-// This function will set the index of the student to be deleted
-function setDeleteData(indx){
+// This function will set the index of the student to be deleted onclick
+function setDeleteData(indx) {
     delIndx = indx;
     document.getElementById("deletePerson").innerHTML = `Are you sure you want to delete ${fetched_data[indx].s_name} from the record ?`;
 }
-
-
+// This function will set the index of the student to be updated onclick
+function setUpdateData(indx) {
+    upIndx = indx;
+    studentMode = false;
+    upTitle.innerHTML = "Update Student";
+    field.id.forEach((fieldId) => {
+        document.getElementById(fieldId).value = fetched_data[upIndx][fieldId];
+    });
+}
+// This function will set the add student form to default
+function setAddData() {
+    studentMode = true;
+    upTitle.innerHTML = "Add Student";
+    field.id.forEach((fieldId) => {
+        document.getElementById(fieldId).value = "";
+    });
+}
 // Add the student on form submit
-addStudentForm.addEventListener('submit', (e) => {
+studentForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    let addFieldData = field.add;
     let isValid = true;
-    field.add.id.forEach((field, indx) => {
-        addFieldData.element[indx] = new InputValidator(document.getElementById(field));
-        if (addFieldData.require[indx] || !addFieldData.element[indx].field.value.trim() === "") {
-            addFieldData.element[indx].validateField();
-            let validation = addFieldData.element[indx].validateField();
-            document.getElementById(field).addEventListener('input', () => {
-                addFieldData.element[indx].validateField();
+    field.id.forEach((fieldId, indx) => {
+        field.element[indx] = new InputValidator(document.getElementById(fieldId));
+        if (field.require[indx] || !field.element[indx].field.value.trim() === "") {
+            field.element[indx].validateField();
+            let validation = field.element[indx].validateField();
+            document.getElementById(fieldId).addEventListener('input', () => {
+                field.element[indx].validateField();
             });
             if (!validation) {
                 isValid = false;
@@ -144,18 +143,24 @@ addStudentForm.addEventListener('submit', (e) => {
         }
     });
 
-    if (isValid) {// Upload the data if it is valid
+    if (isValid) { // Upload the data if it is valid
         let data = {
-            name: encodeURIComponent(field.add.element[0].field.value),
-            contact: encodeURIComponent(field.add.element[1].field.value),
-            email: encodeURIComponent(field.add.element[2].field.value),
-            dob: encodeURIComponent(field.add.element[3].field.value)
+            s_id: encodeURIComponent(fetched_data[upIndx].s_id),
+            name: encodeURIComponent(field.element[0].field.value),
+            contact: encodeURIComponent(field.element[1].field.value),
+            email: encodeURIComponent(field.element[2].field.value),
+            dob: encodeURIComponent(field.element[3].field.value),
+            finger: encodeURIComponent(field.element[4].field.value),
+            gender: encodeURIComponent(field.element[5].field.value)
         };
         showSpinner();
-        backend.setStudent(data, onAddSuccess, onAddError);
+        if(studentMode){// Add mode
+            backend.setStudent(data, onAddSuccess, onAddError);
+        }else{
+            backend.updateStudent(data, onAddSuccess, onAddError);
+        }
+        studentForm.reset();
     }
-    // showSpinner();
-    addStudentForm.reset();
 });
 
 // Search for a student
@@ -175,6 +180,5 @@ searchBar.addEventListener('keydown', (e) => {
 // Confirm the delete operation
 confirmDelete.addEventListener('click', () => {
     showSpinner();
-    backend.deleteStudent({s_id:fetched_data[delIndx].s_id}, onDeleteSuccess, onDeleteError);
+    backend.deleteStudent({ s_id: fetched_data[delIndx].s_id }, onDeleteSuccess, onDeleteError);
 });
-

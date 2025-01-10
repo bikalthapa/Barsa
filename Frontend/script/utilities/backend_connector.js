@@ -47,6 +47,11 @@ class BackendConnector {
             this.typ = "std";
             this.act = "update";
             this.param = `${this.baseUrl}?api_key=${this.get_api_key()}&typ=${this.typ}&act=${this.act}&c_id=${this.get_c_id()}&s_id=${this.data.s_id}&s_name=${this.data.name}&s_contact=${this.data.contact}&s_email=${this.data.email}&s_dob=${this.data.dob}&s_finger=${this.data.finger}&s_gender=${this.data.gender}`;
+        }else if (typ=="gtAtt"){
+            // http://localhost/?typ=att&act=read&api_key=23&c_id=1
+            this.typ = "attend";
+            this.act = "read";
+            this.param = `${this.baseUrl}?api_key=${this.get_api_key()}&typ=${this.typ}&act=${this.act}&c_id=${this.get_c_id()}`;
         }
     }
 
@@ -145,6 +150,13 @@ class BackendConnector {
     updateStudent(data, onSuccess, onError){
         this.data = data;
         this.setParam("upStd");
+        this.fetchBackend(onSuccess, onError);
+    }
+
+
+    // -------------------------------- This section is for attendance ----------------------------------------
+    getAttendance(onSuccess, onError) {
+        this.setParam("gtAtt");
         this.fetchBackend(onSuccess, onError);
     }
 }

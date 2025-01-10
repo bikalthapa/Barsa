@@ -9,7 +9,6 @@
     http://localhost/?typ=auth&act=create&c_email=<your_email@example.com>&c_password=<your_password>&c_name=<your_name>
     http://localhost/?typ=auth&act=check&c_email=<engineeringssbss@gmail.com>&c_password=<your_password>
 */
-
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 include_once 'database.php';
@@ -58,7 +57,7 @@ if($typ=="auth"){
         $password = get_param("c_password");
         $result = $auth->createCredintial(["c_name"=>$username, "c_email"=>$email, "c_password"=>$password]);
         if($result!=false){
-            show_response(true,["c_apikey"=>$result]);
+            show_response(true,$result);
         }else{
             show_response(false,[],$no_change);
         }

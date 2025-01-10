@@ -42,7 +42,6 @@ class Student
             $stmt->bind_param("ssssssss", $data['s_name'], $data["c_id"], $data['s_email'], $data['s_password'], $data['s_contact'], $data['s_dob'], $data['s_finger'], $data['s_gender']);
             
             // Execute the statement
-            $stmt->execute();
             if ($stmt->execute()) {
                 return true;
             } else {
@@ -135,7 +134,18 @@ class Attendance
     }
     public function getAttendance($class_id)
     {
-        $sql = "SELECT * FROM " . $this->table . " WHERE c_id = $class_id";
+        // SELECT students.s_id, students.s_name, attendance.a_status
+        // FROM students
+        // LEFT JOIN attendance ON students.s_id = attendance.s_id AND attendance.c_id = 3
+        // WHERE attendance.a_status IS NULL;
+        $year = date('Y');
+        $month = date('m');
+        $day = date('d');        
+        // Get the current date and time
+        
+  
+        $sql = "SELECT students.s_id, students.s_name, .$this->table .a_status FROM students LEFT JOIN  
+        $this->table ON students.s_id = attendance.s_id AND attendance.c_id = $class_id";
         $result = $this->conn->query($sql);
         if ($result) {
             if ($result->num_rows > 0) {
@@ -212,7 +222,7 @@ class Authentication
         $sql = "INSERT INTO " . $this->table . " (c_name, c_email, c_password, c_apikey) VALUES ('" . $data["c_name"] . "','" . $data["c_email"] . "', '" . $hashed_password . "', '" . $api_key . "')";
         $result = $this->conn->query($sql);
         if ($result) {
-            return $api_key;
+            return ["c_apikey" => $api_key];
         }
         return false;
     }

@@ -12,6 +12,15 @@
 </head>
 
 <body>
+  <div class="spinner-overlay d-none" id="loadingSpinner">
+    <div class="spinner">
+      <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <b id="loadingText">Loading...</b>
+    </div>
+  </div>
+
   <!-- This is sidebar offcanvas -->
   <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
     aria-labelledby="offcanvasWithBothOptionsLabel">
@@ -166,6 +175,7 @@
 
 
         </div>
+
         <div class="col-md-8 g-4">
           <!-- This is attendance cards  -->
           <div class="card text-center shadow4">
@@ -230,94 +240,62 @@
                 <ul class="list-group list-group-flush list-group-numbered text-start">
                   <li class="list-group-item hstack">
                     <div class="p-2">
-                      Name Of Person
+                      Bikal Thapa
                     </div>
                     <div class="ms-auto p-2">
                       <div class="form-check">
-                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="present1"
-                          value="option1" checked>
-                        <label class="form-check-label" for="present1">
-                          Pre.
-                        </label>
+                        <input type="radio" name="attendStatus" class="btn-check" id="btn-check-p" checked autocomplete="off">
+                        <label class="btn btn-outline-success" for="btn-check-p"><img src="../Icons/present.svg"/></label>
                       </div>
                     </div>
                     <div class="p-2">
-                      <div class="form-check">
-                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="absent1"
-                          value="option1" checked>
-                        <label class="form-check-label" for="absent1">
-                          Abs.
-                        </label>
-                      </div>
+                      <input type="radio" name="attendStatus" class="btn-check" id="btn-check-a" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="btn-check-a"><img src="../Icons/absent.svg"/></label>
                     </div>
                   </li>
                   <li class="list-group-item hstack">
                     <div class="p-2">
-                      Name Of Person
+                      Bikal Thapa
                     </div>
                     <div class="ms-auto p-2">
                       <div class="form-check">
-                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="present1"
-                          value="option1" checked>
-                        <label class="form-check-label" for="present1">
-                          Pre.
-                        </label>
+                        <input type="radio" name="attendStatus" class="btn-check" id="btn-check-p" checked autocomplete="off">
+                        <label class="btn btn-outline-success" for="btn-check-p"><img src="../Icons/present.svg"/></label>
                       </div>
                     </div>
                     <div class="p-2">
-                      <div class="form-check">
-                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="absent1"
-                          value="option1" checked>
-                        <label class="form-check-label" for="absent1">
-                          Abs.
-                        </label>
-                      </div>
+                      <input type="radio" name="attendStatus" class="btn-check" id="btn-check-a" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="btn-check-a"><img src="../Icons/absent.svg"/></label>
                     </div>
                   </li>
                   <li class="list-group-item hstack">
                     <div class="p-2">
-                      Name Of Person
+                      Bikal Thapa
                     </div>
                     <div class="ms-auto p-2">
                       <div class="form-check">
-                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="present1"
-                          value="option1" checked>
-                        <label class="form-check-label" for="present1">
-                          Pre.
-                        </label>
+                        <input type="radio" name="attendStatus" class="btn-check" id="btn-check-p" checked autocomplete="off">
+                        <label class="btn btn-outline-success" for="btn-check-p"><img src="../Icons/present.svg"/></label>
                       </div>
                     </div>
                     <div class="p-2">
-                      <div class="form-check">
-                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="absent1"
-                          value="option1" checked>
-                        <label class="form-check-label" for="absent1">
-                          Abs.
-                        </label>
-                      </div>
+                      <input type="radio" name="attendStatus" class="btn-check" id="btn-check-a" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="btn-check-a"><img src="../Icons/absent.svg"/></label>
                     </div>
                   </li>
                   <li class="list-group-item hstack">
                     <div class="p-2">
-                      Name Of Person
+                      Bikal Thapa
                     </div>
                     <div class="ms-auto p-2">
                       <div class="form-check">
-                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="present1"
-                          value="option1" checked>
-                        <label class="form-check-label" for="present1">
-                          Pre.
-                        </label>
+                        <input type="radio" name="attendStatus" class="btn-check" id="btn-check-p" checked autocomplete="off">
+                        <label class="btn btn-outline-success" for="btn-check-p"><img src="../Icons/present.svg"/></label>
                       </div>
                     </div>
                     <div class="p-2">
-                      <div class="form-check">
-                        <input class="form-check-input border-primary" type="radio" name="attendStatus" id="absent1"
-                          value="option1" checked>
-                        <label class="form-check-label" for="absent1">
-                          Abs.
-                        </label>
-                      </div>
+                      <input type="radio" name="attendStatus" class="btn-check" id="btn-check-a" autocomplete="off">
+                      <label class="btn btn-outline-danger" for="btn-check-a"><img src="../Icons/absent.svg"/></label>
                     </div>
                   </li>
                 </ul>
@@ -333,15 +311,10 @@
 
 
 
-
-
-
-
-
     </div>
   </div>
 
-
+  <script src="../script/utilities/backend_connector.js"></script>
   <script src="../script/script.js"></script>
   <script src="../script/header_footer.js"></script>
   <script src="../script/attandance.js"></script>

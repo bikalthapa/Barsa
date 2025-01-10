@@ -133,3 +133,13 @@ input[type=checkbox] {
   background: #f9f9f9;
   cursor: default;
 }
+.attended {
+  position:relative;
+}
+.attended::before {
+  content: "✓";
+  position: absolute;
+  top:0px;
+  left:0px;
+  color: green;
+}

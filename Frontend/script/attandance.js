@@ -14,48 +14,103 @@ let month = 9;
 
 
 for (let i = 0; i < tabId.length; i++) {
-    let tab = document.getElementById(tabId[i]);
-    tab.addEventListener("click", (e) => {
-        if (e.target.id == tabId[0]) {//individual mode clicked
-            individual_cont.classList.remove("d-none");
-            multiple_cont.classList.add("d-none");
-            automatic_cont.classList.add("d-none");
+  let tab = document.getElementById(tabId[i]);
+  tab.addEventListener("click", (e) => {
+    if (e.target.id == tabId[0]) {//individual mode clicked
+      individual_cont.classList.remove("d-none");
+      multiple_cont.classList.add("d-none");
+      automatic_cont.classList.add("d-none");
 
-            e.target.classList.add("active");
-            document.getElementById(tabId[1]).classList.remove("active");
-            document.getElementById(tabId[2]).classList.remove("active");
-        } else if (e.target.id == tabId[1]) {// Multiple mode is clicked
-            individual_cont.classList.add("d-none");
-            multiple_cont.classList.remove("d-none");
-            automatic_cont.classList.add("d-none");
+      e.target.classList.add("active");
+      document.getElementById(tabId[1]).classList.remove("active");
+      document.getElementById(tabId[2]).classList.remove("active");
+    } else if (e.target.id == tabId[1]) {// Multiple mode is clicked
+      individual_cont.classList.add("d-none");
+      multiple_cont.classList.remove("d-none");
+      automatic_cont.classList.add("d-none");
 
-            e.target.classList.add("active");
-            document.getElementById(tabId[0]).classList.remove("active");
-            document.getElementById(tabId[2]).classList.remove("active");
-        } else if (e.target.id == tabId[2]) {// automatic_mode is clicked
-            individual_cont.classList.add("d-none");
-            multiple_cont.classList.add("d-none");
-            automatic_cont.classList.remove("d-none");
+      e.target.classList.add("active");
+      document.getElementById(tabId[0]).classList.remove("active");
+      document.getElementById(tabId[2]).classList.remove("active");
+    } else if (e.target.id == tabId[2]) {// automatic_mode is clicked
+      individual_cont.classList.add("d-none");
+      multiple_cont.classList.add("d-none");
+      automatic_cont.classList.remove("d-none");
 
-            e.target.classList.add("active");
-            document.getElementById(tabId[1]).classList.remove("active");
-            document.getElementById(tabId[0]).classList.remove("active");
-            startWebCam();
-        };
+      e.target.classList.add("active");
+      document.getElementById(tabId[1]).classList.remove("active");
+      document.getElementById(tabId[0]).classList.remove("active");
+      startWebCam();
+    };
 
-    });
+  });
+}
+
+// This function will get executed when the calender api fetched is success
+const handleData = (api) => {
+  hideSpinner();
+  // Handle the fetched data here
+  body.innerHTML = "";
+
+  let month = api.data[0].mahina.english_name;
+  let year = api.data[0].nepali_year;
+  month_field.innerHTML = month;
+  year_field.innerHTML = year;
+
+  // Loop through data and populate the calendar
+  let dayIndex = 0;
+  for (let i = 0; i < 6; i++) {  // 6 rows for a month
+    let row = document.createElement("tr");
+
+    for (let j = 0; j < 7; j++) {  // 7 columns for days of the week
+      let cell = document.createElement("td");
+      // Check if we still have valid data for this day (dayIndex is less than api.data length)
+      if (dayIndex < api.data.length) {
+        if (api.data[dayIndex].holiday == 1) {
+          cell.classList.add("holiday");
+        }
+
+        let dayData = api.data[dayIndex];
+        if (dayData.gate != null) {
+          if (api.data[dayIndex].holiday != 1) {
+            cell.classList.add("attended");
+          }
+          cell.innerHTML = dayData.gate;  // Display the "gate" (or other data) for this day
+        }
+
+      } else {
+        cell.innerHTML = '';  // If no data for this day, leave the cell empty
+      }
+
+      row.appendChild(cell);
+      dayIndex++;
+    }
+    body.appendChild(row);
+  }
+}
+// This function will get extecuted when the data is fetched successfully from the server
+const handelUser = (data) => {
+  hideSpinner();
+  // Handle the fetched data here
+  console.log(data);
+} 
+
+// Error handeling function
+const handelError = (error) => {
+  hideSpinner();
+  console.error(error);
 }
 
 function startWebCam() {
-    const video = document.getElementById('video');
+  const video = document.getElementById('video');
 
-    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-        .then(stream => {
-            video.srcObject = stream;
-        })
-        .catch(error => {
-            console.error('Error accessing the camera:', error);
-        });
+  navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(error => {
+      console.error('Error accessing the camera:', error);
+    });
 
 }
 
@@ -74,38 +129,7 @@ function sendRequest() {
       throw new Error('Network response was not ok');
     })
     .then(api => {
-      // Handle the fetched data here
-      body.innerHTML = "";
-
-      let month = api.data[0].mahina.english_name;
-      let year = api.data[0].nepali_year;
-      month_field.innerHTML = month;
-      year_field.innerHTML = year;
-
-      // Loop through data and populate the calendar
-      let dayIndex = 0;
-      for (let i = 0; i < 6; i++) {  // 6 rows for a month
-        let row = document.createElement("tr");
-
-        for (let j = 0; j < 7; j++) {  // 7 columns for days of the week
-          let cell = document.createElement("td");
-
-          // Check if we still have valid data for this day (dayIndex is less than api.data length)
-          if (dayIndex < api.data.length) {
-            if (api.data[dayIndex].holiday == 1) {
-              cell.classList.add("holiday");
-            }
-            let dayData = api.data[dayIndex];
-            cell.innerHTML = dayData.gate || '';  // Display the "gate" (or other data) for this day
-          } else {
-            cell.innerHTML = '';  // If no data for this day, leave the cell empty
-          }
-
-          row.appendChild(cell);
-          dayIndex++;
-        }
-        body.appendChild(row);
-      }
+      handleData(api);
     })
     .catch(error => {
       // Handle any errors that occur during the fetch
@@ -128,5 +152,13 @@ next_btn.addEventListener("click", () => {
     year--;
   }
   sendRequest();
-})
+});
+
+showSpinner("Loading Calendar...");
 sendRequest();
+
+
+// Fetching the attendance data for today
+backend.getAttendance(handelUser, handelError);
+
+

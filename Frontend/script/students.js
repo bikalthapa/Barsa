@@ -63,7 +63,7 @@ const onFetchSuccess = (data) => {
             tableBody.appendChild(row);
         });
     } else {
-        tableBody.innerHTML = '<tr><td colspan="7" class="text-center">No data found</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="8" class="text-center">No data found</td></tr>';
     }
 
     hideSpinner();
@@ -76,6 +76,7 @@ const onFetchError = (error) => {
 
 // Handle the success for adding a student
 const onAddSuccess = (data) => {
+    studentForm.reset();
     backend.getStudents((fdata) => {
         onFetchSuccess(fdata);
         hideSpinner();
@@ -126,43 +127,48 @@ function setAddData() {
     });
 }
 // Add the student on form submit
-studentForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    let isValid = true;
-    field.id.forEach((fieldId, indx) => {
-        field.element[indx] = new InputValidator(document.getElementById(fieldId));
-        if (field.require[indx] || !field.element[indx].field.value.trim() === "") {
-            field.element[indx].validateField();
-            let validation = field.element[indx].validateField();
-            document.getElementById(fieldId).addEventListener('input', () => {
+// Ensure the event listener is attached only once
+if (!studentForm.hasAttribute('data-listener-attached')) {
+    studentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let isValid = true;
+        field.id.forEach((fieldId, indx) => {
+            field.element[indx] = new InputValidator(document.getElementById(fieldId));
+            if (field.require[indx] || !field.element[indx].field.value.trim() === "") {
                 field.element[indx].validateField();
-            });
-            if (!validation) {
-                isValid = false;
+                let validation = field.element[indx].validateField();
+                document.getElementById(fieldId).addEventListener('input', () => {
+                    field.element[indx].validateField();
+                });
+                if (!validation) {
+                    isValid = false;
+                }
+            }
+        });
+
+        if (isValid) { // Upload the data if it is valid
+            let data = {
+                s_id: "",
+                name: encodeURIComponent(field.element[0].field.value),
+                contact: encodeURIComponent(field.element[1].field.value),
+                email: encodeURIComponent(field.element[2].field.value),
+                dob: encodeURIComponent(field.element[3].field.value),
+                finger: encodeURIComponent(field.element[4].field.value),
+                gender: encodeURIComponent(field.element[5].field.value)
+            };
+            showSpinner();
+            if (studentMode==true) { // Add mode
+                backend.setStudent(data, onAddSuccess, onAddError);
+            } else {
+                data.s_id = fetched_data[upIndx].s_id;
+                backend.updateStudent(data, onAddSuccess, onAddError);
             }
         }
     });
 
-    if (isValid) { // Upload the data if it is valid
-        let data = {
-            s_id: encodeURIComponent(fetched_data[upIndx].s_id),
-            name: encodeURIComponent(field.element[0].field.value),
-            contact: encodeURIComponent(field.element[1].field.value),
-            email: encodeURIComponent(field.element[2].field.value),
-            dob: encodeURIComponent(field.element[3].field.value),
-            finger: encodeURIComponent(field.element[4].field.value),
-            gender: encodeURIComponent(field.element[5].field.value)
-        };
-        showSpinner();
-        if(studentMode){// Add mode
-            backend.setStudent(data, onAddSuccess, onAddError);
-        }else{
-            backend.updateStudent(data, onAddSuccess, onAddError);
-        }
-        studentForm.reset();
-    }
-});
-
+    // Mark that the event listener has been attached
+    studentForm.setAttribute('data-listener-attached', 'true');
+}
 // Search for a student
 searchBar.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.keyCode === 13) {

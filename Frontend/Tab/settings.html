@@ -150,12 +150,12 @@
                                 <div class="profile">
                                     <div class="profile_container">
                                         <img class="profile_img"
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDY3Mtxc0M55LXd8JmvCiHw1Z6u3B-LE4sRg&s"
+                                            src="../Images/user_logo.jpg"
                                             alt="">
                                     </div>
                                     <div class="profile_description">
-                                        <h2 class="profile_name">Class 11</h2>
-                                        <p>engineeringssbs@gmail.com</p>
+                                        <h2 class="profile_name" id="username">username</h2>
+                                        <p id="email">youremail@gmail.com</p>
                                     </div>
                                 </div>
                             </div>
@@ -167,23 +167,28 @@
                 <!-- Form Section -->
                 <div class="col-md-4">
                     <h2 class="mb-4">User Information</h2>
-                    <form>
+                    <form id="userCredintialForm">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" value="fanstatic197@gmail.com"
-                                placeholder="Enter your email">
+                            <input type="email" class="form-control" id="emailCredintial" disabled placeholder="Enter your email">
                         </div>
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" value="C11 Engineering"
-                                placeholder="Enter your username">
+                            <label for="username" class="form-label" id="userDesc">Username</label>
+                            <input type="text" class="form-control" id="userCredintial" descriptor="userDesc" placeholder="Enter your username">
                         </div>
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" value="123456789"
-                                placeholder="Enter your password">
+                            <label for="oldPassword" class="form-label" id="oldPassDesc">Old Password</label>
+                            <input type="password" class="form-control" id="old_password" descriptor="oldPassDesc" placeholder="Old Password">
                         </div>
-                        <button type="button" class="btn btn-success" onclick="saveFormData()">Save</button>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label" id="newPassDesc">New Password</label>
+                            <input type="password" class="form-control" id="new_password" descriptor="newPassDesc" placeholder="New Password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label" id="confirPassDesc">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password" descriptor="confirPassDesc" placeholder="Confirm Password">
+                        </div>
+                        <input type="submit" class="btn btn-success"/>
                     </form>
                 </div>
             </div>
@@ -199,7 +204,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
+    <script src="../script/utilities/backend_connector.js"></script>
+    <script src="../script/utilities/input_validator.js"></script>
     <script src="../script/script.js"></script>
+    <script src="../script/settings.js"></script>
     <script src="../script/header_footer.js"></script>
 </body>
 

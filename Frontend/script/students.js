@@ -19,7 +19,7 @@ var upIndx = 0; // Index of the student to be updated
 var studentMode = true; // True for add and false for update
 let fetched_data = [];// Holds the value of fetched data
 let field = {
-    id: ['s_name', 's_contact', 's_email', 's_dob','s_finger','s_gender'],
+    id: ['s_name', 's_contact', 's_email', 's_dob','fingerprint_id','s_gender'],
     require: [true, false, true, false, false, false],
     element: []
 }
@@ -39,7 +39,7 @@ const onFetchSuccess = (data) => {
                 <td>${student.s_email}</td>
                 <td>${student.s_dob!="0000-00-00"?student.s_dob:""}</td>
                 <td>${student.s_gender!=null?student.s_gender:""}</td>
-                <td class="text-center">${student.s_finger}</td>
+                <td class="text-center">${student.fingerprint_id}</td>
                 <td class="d-flex justify-content-center gap-4">
                     <div class="dropstart">
                         <div type="button" data-bs-toggle="dropdown" aria-expanded="false">

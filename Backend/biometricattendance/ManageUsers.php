@@ -3,17 +3,16 @@
 <head>
 	<title>Manage Users</title>
 <link rel="stylesheet" type="text/css" href="css/manageusers.css">
-<script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha1256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous">
+</script>
+<script src="js/jquery-2.2.3.min.js"></script><script>
   $(window).on("load resize ", function() {
     var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
     $('.tbl-header').css({'padding-right':scrollWidth});
 }).resize();
 </script>
-<script src="https://code.jquery.com/jquery-3.3.1.js"
-        integrity="sha1256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous">
-</script>
-<script src="js/jquery-2.2.3.min.js"></script>
 <script src="js/manage_users.js"></script>
 <script>
   $(document).ready(function(){
@@ -33,9 +32,7 @@
 </script>
 </head>
 <body>
-<?php include'header.php';?>
 <main>
-	<h1 class="slideInDown animated">Add a new User or update his information <br> or remove him</h1>
 	<div class="form-style-5 slideInDown animated">
 		<div class="alert">
 		<label id="alert"></label>
@@ -92,4 +89,4 @@
 
 </main>
 </body>
-</html>
+</html>`

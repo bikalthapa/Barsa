@@ -35,12 +35,12 @@ class Student
         if ($data['s_name'] != null && $data['s_email'] != null) {
             $data['s_password'] = $data['s_password'] != null ? $data['s_password'] : $data['s_name'];
             $data['s_password'] = password_hash($data["s_password"], PASSWORD_BCRYPT);
-            $sql = "INSERT INTO " . $this->table . " (s_name, c_id, s_email, s_password, s_contact, s_dob, s_finger, s_gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO " . $this->table . " (s_name, c_id, s_email, s_password, s_contact, s_dob, fingerprint_id, s_gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
-            
+
             // Correct the data types in bind_param
-            $stmt->bind_param("ssssssss", $data['s_name'], $data["c_id"], $data['s_email'], $data['s_password'], $data['s_contact'], $data['s_dob'], $data['s_finger'], $data['s_gender']);
-            
+            $stmt->bind_param("ssssssss", $data['s_name'], $data["c_id"], $data['s_email'], $data['s_password'], $data['s_contact'], $data['s_dob'], $data['fingerprint_id'], $data['s_gender']);
+
             // Execute the statement
             if ($stmt->execute()) {
                 return true;
@@ -134,18 +134,12 @@ class Attendance
     }
     public function getAttendance($class_id)
     {
-        // SELECT students.s_id, students.s_name, attendance.a_status
-        // FROM students
-        // LEFT JOIN attendance ON students.s_id = attendance.s_id AND attendance.c_id = 3
-        // WHERE attendance.a_status IS NULL;
-        $year = date('Y');
-        $month = date('m');
-        $day = date('d');        
         // Get the current date and time
-        
-  
-        $sql = "SELECT students.s_id, students.s_name, .$this->table .a_status FROM students LEFT JOIN  
-        $this->table ON students.s_id = attendance.s_id AND attendance.c_id = $class_id";
+
+
+        $sql = "SELECT students.s_id, students.s_name, attendance.a_status, attendance.a_id
+                FROM students LEFT JOIN attendance
+                ON students.s_id = attendance.s_id AND attendance.c_id = $class_id;";
         $result = $this->conn->query($sql);
         if ($result) {
             if ($result->num_rows > 0) {
@@ -159,6 +153,66 @@ class Attendance
             }
         }
     }
+
+    // This function will set the attendance
+    public function setAttendance($data)
+    {
+        $sql = "INSERT INTO " . $this->table . " (s_id, c_id, checkindate, a_status) VALUES (?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+    
+        if ($stmt === false) {
+            error_log('Prepare failed: ' . htmlspecialchars($this->conn->error));
+            return false;
+        }
+    
+        $s_id = $data['s_id'];
+        $c_id = $data['c_id'];
+        $checkindate = date("Y-m-d"); // Use the current date
+        $a_status = $data['a_status'];
+    
+        $stmt->bind_param("iiss", $s_id, $c_id, $checkindate, $a_status);
+    
+        if (!$stmt->execute()) {
+            error_log('Execute failed: ' . htmlspecialchars($stmt->error));
+            $stmt->close();
+            return false;
+        }
+    
+        $stmt->close();
+        return true;
+    }
+    // This function will update the attendance
+    public function updateAttendance($data)
+    {
+        // Check if required parameters are set
+        if (!isset($data['a_id']) || !isset($data['a_status'])) {
+            error_log('Missing required parameters: a_id or a_status');
+            return false;
+        }
+
+        // Prepare the SQL statement
+        $sql = "UPDATE " . $this->table . " SET a_status = ? WHERE a_id = ?";
+        $stmt = $this->conn->prepare($sql);
+
+        if ($stmt === false) {
+            error_log('Prepare failed: ' . $this->conn->error);
+            return false;
+        }
+
+        // Bind the parameters
+        $stmt->bind_param("si", $data['a_status'], $data['a_id']);
+
+        // Execute the statement
+        if ($stmt->execute() === false) {
+            error_log('Execute failed: ' . $stmt->error);
+            $stmt->close();
+            return false;
+        }
+
+        // Close the statement
+        $stmt->close();
+        return true;
+    }
 }
 
 class Authentication
@@ -169,6 +223,7 @@ class Authentication
     {
         $this->conn = $db;
     }
+    // Function to validate login credintial
     public function validateCredintial($email, $password)
     {
         // Query the database for the user with the given email
@@ -196,21 +251,7 @@ class Authentication
         }
     }
 
-    // Set a secure cookie
-   public function set_secure_cookie($name, $value, $days)
-    {
-        $expires = time() + ($days * 24 * 60 * 60);
-        setcookie($name, $value, [
-            'expires' => $expires,
-            'path' => '/',
-            'domain' => 'yourdomain.com',
-            'secure' => true, // Only send over HTTPS
-            'httponly' => true, // Not accessible via JavaScript
-            'samesite' => 'Strict' // Prevents cross-site request forgery
-        ]);
-    }
-
-
+    // Function to create new credintial
     public function createCredintial($data)
     {
         // Generate a random and unique API key
@@ -221,9 +262,66 @@ class Authentication
 
         $sql = "INSERT INTO " . $this->table . " (c_name, c_email, c_password, c_apikey) VALUES ('" . $data["c_name"] . "','" . $data["c_email"] . "', '" . $hashed_password . "', '" . $api_key . "')";
         $result = $this->conn->query($sql);
+
         if ($result) {
-            return ["c_apikey" => $api_key];
+            $sql = "SELECT c_id FROM " . $this->table . " WHERE c_apikey = $api_key";
+            $result = $this->conn->query($sql);
+            return ["c_apikey" => $api_key, "c_id" => $result["c_id"]];
         }
+        return false;
+    }
+
+    // Function to update the credintial
+    public function updateCredintial($data)
+    {
+        // Fetch the current credentials from the database
+        $sql = "SELECT c_password, c_name FROM " . $this->table . " WHERE c_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $data["c_id"]);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        if ($result) {
+            // Verify the old password
+            $updates = [];
+            $params = [];
+            $types = "";
+
+            // Check if the username has changed
+            if ($data["c_name"] !== $result["c_name"]) {
+                $updates[] = "c_name = ?";
+                $params[] = $data["c_name"];
+                $types .= "s";
+            }
+
+            // Check if the new password is different from the old password
+            if (!empty($data["n_password"])) {
+                if (password_verify($data["o_password"], $result["c_password"])) { // Verify the old password
+                    $hashed_password = password_hash($data["n_password"], PASSWORD_BCRYPT);
+                    $updates[] = "c_password = ?";
+                    $params[] = $hashed_password;
+                    $types .= "s";
+                } else {
+                    return false;
+                }
+            }
+
+            // If there are updates, execute the update query
+            if (!empty($updates)) {
+                $sql = "UPDATE " . $this->table . " SET " . implode(", ", $updates) . " WHERE c_id = ?";
+                $params[] = $data["c_id"];
+                $types .= "i";
+
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+                $stmt->close();
+
+                return true;
+            }
+        }
+
         return false;
     }
 

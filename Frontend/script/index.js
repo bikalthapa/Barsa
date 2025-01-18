@@ -30,6 +30,27 @@ function displayRandomWish() {
     document.getElementById('birthdayWish').innerText = randomWish;
 }
 
+
+// Function to animate the counter from a specific starting point
+function animateCounter(id, start, end, duration) {
+    let current = start;
+    const step = (end - start) / (duration / 10); // Calculate increment step
+    const counter = document.getElementById(id);
+
+    const interval = setInterval(() => {
+        current += step;
+        if (current >= end) {
+            clearInterval(interval);
+            counter.innerText = end.toLocaleString(); // Final value
+        } else {
+            counter.innerText = Math.floor(current).toLocaleString(); // Show rounded value
+        }
+    }, 10);
+}
+
+// Call the function to animate the student counter, starting at 4000 and ending at 5000
+animateCounter('studentCounter', 4000, 5000, 1000); // Shorter duration of 1000 ms
+animateCounter('teacherCounter', 4000, 5000, 1000); // Shorter duration of 1000 ms
 // Call the function when the page loads
 window.onload = ()=>{
     displayRandomWish();

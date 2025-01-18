@@ -31,6 +31,23 @@
 
 }
 
+
+/* Utility class for fade-in animation */
+.fade_in {
+    animation: fadeIn 1s ease-in forwards;
+}
+
+/* Keyframes for the fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0; /* Start with the container hidden */
+    }
+    100% {
+        opacity: 1; /* End with the container fully visible */
+    }
+}
+
+
 .button{
     border:none;
     border-radius:10px;
@@ -245,50 +262,70 @@
     height: 3rem;
 }
 
-/* This css is for circular charts  */
-.chart_container{
-    height:120px;
-    width:120px;
-    position:relative;
+/* This CSS is for circular charts */
+.chart_container {
+    height: 120px;
+    width: 120px;
+    position: relative;
 }
-.chart_container .outer_circle{
-    height:120px;
-    width:120px;
-    background-color:white;
-    border-radius:50%;
-    display:flex;
+
+/* Outer circle container with box-shadow */
+.chart_container .outer_circle {
+    height: 120px;
+    width: 120px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
     justify-content: center;
-    align-items:center;
-    box-shadow:5px 5px 15px rgb(184, 182, 178),
+    align-items: center;
+    box-shadow: 5px 5px 15px rgb(184, 182, 178),
                 -5px -5px 10px rgb(250, 249, 249);
 }
-.chart_container .outer_circle .inner_circle{
-    height:80%;
-    width:80%;
-    border-radius:50%;
-    display:flex;
+
+/* Inner circle with inset shadow */
+.chart_container .outer_circle .inner_circle {
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+    display: flex;
     justify-content: center;
-    align-items:center;
-    box-shadow:inset 5px 5px 15px rgb(184, 182, 178),
+    align-items: center;
+    box-shadow: inset 5px 5px 15px rgb(184, 182, 178),
                 inset -5px -5px 10px rgb(250, 249, 249);
 }
-.outer_circle .inner_circle .number{
-    font-size:20px;
-    font-weight:bolder;
-    color:rgba(0, 0, 0, 0.8);
+
+/* Number inside the circle */
+.outer_circle .inner_circle .number {
+    font-size: 20px;
+    font-weight: bolder;
+    color: rgba(0, 0, 0, 0.8);
 }
-.chart_container circle{
-    fill:none;
-    stroke:url("#GradientColor");
-    stroke-width:12px;
-    stroke-dasharray: 200;
-    stroke-dashoffset: 5;
+
+/* Circle element for the chart with animated stroke */
+.chart_container circle {
+    fill: none;
+    stroke: url("#GradientColor");
+    stroke-width: 12px;
+    stroke-dasharray: 472;  /* Length of the full circle */
+    stroke-dashoffset: 472; /* Initially hide the stroke */
+    transform-origin: center; /* Ensure the stroke is animated from the center */
+    animation: drawCircle 2s ease-out forwards;/* Add animation*/
 }
-.chart_container .value_indicator{
-    position:absolute;
-    top:-20px;
-    left:-20px;
+
+/* Animation for drawing the circle */
+@keyframes drawCircle {
+    100% {
+        stroke-dashoffset: 165; /* End at fully visible stroke */
+    }
 }
+
+/* Value indicator outside the chart */
+.chart_container .value_indicator {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+}
+
 
 
 

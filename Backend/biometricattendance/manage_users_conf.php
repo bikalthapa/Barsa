@@ -7,7 +7,7 @@ if (isset($_GET['select'])) {
 
     $Finger_id = $_GET['Finger_id'];
 
-    $sql = "SELECT fingerprint_select FROM users WHERE fingerprint_select=1";
+    $sql = "SELECT fingerprint_select FROM students WHERE fingerprint_select=1";
     $result = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($result, $sql)) {
         echo "SQL_Error_Select";
@@ -18,7 +18,7 @@ if (isset($_GET['select'])) {
         $resultl = mysqli_stmt_get_result($result);
         if ($row = mysqli_fetch_assoc($resultl)) {
 
-            $sql="UPDATE users SET fingerprint_select=0";
+            $sql="UPDATE students SET fingerprint_select=0";
             $result = mysqli_stmt_init($conn);
             if (!mysqli_stmt_prepare($result, $sql)) {
                 echo "SQL_Error_Select";
@@ -27,7 +27,7 @@ if (isset($_GET['select'])) {
             else{
                 mysqli_stmt_execute($result);
 
-                $sql="UPDATE users SET fingerprint_select=1 WHERE fingerprint_id=?";
+                $sql="UPDATE students SET fingerprint_select=1 WHERE fingerprint_id=?";
                 $result = mysqli_stmt_init($conn);
                 if (!mysqli_stmt_prepare($result, $sql)) {
                     echo "SQL_Error_select_Fingerprint";
@@ -43,7 +43,7 @@ if (isset($_GET['select'])) {
             }
         }
         else{
-            $sql="UPDATE users SET fingerprint_select=1 WHERE fingerprint_id=?";
+            $sql="UPDATE students SET fingerprint_select=1 WHERE fingerprint_id=?";
             $result = mysqli_stmt_init($conn);
             if (!mysqli_stmt_prepare($result, $sql)) {
                 echo "SQL_Error_select_Fingerprint";
@@ -70,7 +70,7 @@ if (isset($_POST['Add'])) {
     $Gender= $_POST['gender'];
 
     //check if there any selected user
-    $sql = "SELECT username FROM users WHERE fingerprint_select=1";
+    $sql = "SELECT s_name FROM students WHERE fingerprint_select=1";
     $result = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($result, $sql)) {
       echo "SQL_Error";
@@ -81,11 +81,11 @@ if (isset($_POST['Add'])) {
         $resultl = mysqli_stmt_get_result($result);
         if ($row = mysqli_fetch_assoc($resultl)) {
 
-            if (empty($row['username'])) {
+            if (empty($row['s_name'])) {
 
                 if (!empty($Uname) && !empty($Number) && !empty($Email)) {
                     //check if there any user had already the Serial Number
-                    $sql = "SELECT serialnumber FROM users WHERE serialnumber=?";
+                    $sql = "SELECT serialnumber FROM students WHERE serialnumber=?";
                     $result = mysqli_stmt_init($conn);
                     if (!mysqli_stmt_prepare($result, $sql)) {
                         echo "SQL_Error";
@@ -96,7 +96,7 @@ if (isset($_POST['Add'])) {
                         mysqli_stmt_execute($result);
                         $resultl = mysqli_stmt_get_result($result);
                         if (!$row = mysqli_fetch_assoc($resultl)) {
-                            $sql="UPDATE users SET username=?, serialnumber=?, gender=?, email=?, user_date=CURDATE(), time_in=? WHERE fingerprint_select=1";
+                            $sql="UPDATE students SET s_name=?, serialnumber=?, s_gender=?, s_email=?, user_date=CURDATE(), time_in=? WHERE fingerprint_select=1";
                             $result = mysqli_stmt_init($conn);
                             if (!mysqli_stmt_prepare($result, $sql)) {
                                 echo "SQL_Error_select_Fingerprint";
@@ -143,7 +143,7 @@ if (isset($_POST['Add_fingerID'])) {
     }
     else{
         if ($fingerid > 0 && $fingerid < 128) {
-            $sql = "SELECT fingerprint_id FROM users WHERE fingerprint_id=?";
+            $sql = "SELECT fingerprint_id FROM students WHERE fingerprint_id=?";
             $result = mysqli_stmt_init($conn);
             if (!mysqli_stmt_prepare($result, $sql)) {
               echo "SQL_Error";
@@ -155,7 +155,7 @@ if (isset($_POST['Add_fingerID'])) {
                 $resultl = mysqli_stmt_get_result($result);
                 if (!$row = mysqli_fetch_assoc($resultl)) {
 
-                    $sql = "SELECT add_fingerid FROM users WHERE add_fingerid=1";
+                    $sql = "SELECT add_fingerid FROM students WHERE add_fingerid=1";
                     $result = mysqli_stmt_init($conn);
                     if (!mysqli_stmt_prepare($result, $sql)) {
                       echo "SQL_Error";
@@ -165,7 +165,7 @@ if (isset($_POST['Add_fingerID'])) {
                         mysqli_stmt_execute($result);
                         $resultl = mysqli_stmt_get_result($result);
                         if (!$row = mysqli_fetch_assoc($resultl)) {
-                            $sql = "INSERT INTO users (fingerprint_id, add_fingerid) VALUES (?, 1)";
+                            $sql = "INSERT INTO students (fingerprint_id, add_fingerid) VALUES (?, 1)";
                             $result = mysqli_stmt_init($conn);
                             if (!mysqli_stmt_prepare($result, $sql)) {
                               echo "SQL_Error";
@@ -210,7 +210,7 @@ if (isset($_POST['Update'])) {
         $Number = -1;
     }
     //check if there any selected user
-    $sql = "SELECT * FROM users WHERE fingerprint_select=1";
+    $sql = "SELECT * FROM students WHERE fingerprint_select=1";
     $result = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($result, $sql)) {
       echo "SQL_Error";
@@ -221,7 +221,7 @@ if (isset($_POST['Update'])) {
         $resultl = mysqli_stmt_get_result($result);
         if ($row = mysqli_fetch_assoc($resultl)) {
 
-            if (empty($row['username'])) {
+            if (empty($row['s_name'])) {
                 echo "First, You need to add the User!";
                 exit();
             }
@@ -232,7 +232,7 @@ if (isset($_POST['Update'])) {
                 }
                 else{
                     //check if there any user had already the Serial Number
-                    $sql = "SELECT serialnumber FROM users WHERE serialnumber=?";
+                    $sql = "SELECT serialnumber FROM students WHERE serialnumber=?";
                     $result = mysqli_stmt_init($conn);
                     if (!mysqli_stmt_prepare($result, $sql)) {
                         echo "SQL_Error";
@@ -246,7 +246,7 @@ if (isset($_POST['Update'])) {
 
                             if (!empty($Uname) && !empty($Email) && !empty($Timein)) {
 
-                                $sql="UPDATE users SET username=?, serialnumber=?, gender=?, email=?, time_in=? WHERE fingerprint_select=1";
+                                $sql="UPDATE students SET s_name=?, serialnumber=?, s_gender=?, s_email=?, time_in=? WHERE fingerprint_select=1";
                                 $result = mysqli_stmt_init($conn);
                                 if (!mysqli_stmt_prepare($result, $sql)) {
                                     echo "SQL_Error_select_Fingerprint";
@@ -262,7 +262,7 @@ if (isset($_POST['Update'])) {
                             }
                             else{
                                 if (!empty($Timein)) {
-                                    $sql="UPDATE users SET gender=?, time_in=? WHERE fingerprint_select=1";
+                                    $sql="UPDATE students SET s_gender=?, time_in=? WHERE fingerprint_select=1";
                                     $result = mysqli_stmt_init($conn);
                                     if (!mysqli_stmt_prepare($result, $sql)) {
                                         echo "SQL_Error_select_Fingerprint";
@@ -299,7 +299,7 @@ if (isset($_POST['Update'])) {
 // delete user 
 if (isset($_POST['delete'])) {
 
-    $sql = "SELECT fingerprint_select FROM users WHERE fingerprint_select=1";
+    $sql = "SELECT fingerprint_select FROM students WHERE fingerprint_select=1";
     $result = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($result, $sql)) {
         echo "SQL_Error_Select";
@@ -309,7 +309,7 @@ if (isset($_POST['delete'])) {
         mysqli_stmt_execute($result);
         $resultl = mysqli_stmt_get_result($result);
         if ($row = mysqli_fetch_assoc($resultl)) {
-            $sql="UPDATE users SET username='', serialnumber='', gender='', email='', time_in='', del_fingerid=1 WHERE fingerprint_select=1";
+            $sql="UPDATE students SET s_name='', serialnumber='', s_gender='', s_email='', time_in='', del_fingerid=1 WHERE fingerprint_select=1";
             $result = mysqli_stmt_init($conn);
             if (!mysqli_stmt_prepare($result, $sql)) {
                 echo "SQL_Error_delete";

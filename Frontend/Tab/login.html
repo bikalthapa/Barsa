@@ -14,68 +14,60 @@
 
 <body>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-7 g-5">
-        <div class="barsa_container">
-          <div class="vstack">
-            <div class="p-2 d-flex justify-content-center align-items-center">
-              <img src="../Images/logo.png" class="barsa_logo"/>
-            </div>
-            <div class="p-2">
-              <h1 class="barsa text-center">BARSA</h1>
-              <h2 class="barsa_slogan">Smart Attendance: Track Smarter, Work Better.</h2>
-            </div>
-          </div>
+  <div class="container login_page">
+    <div class="barsa_container">
+      <div class="vstack">
+        <div class="d-flex justify-content-center align-items-center">
+          <img src="../Images/logo.png" class="barsa_logo" />
+        </div>
+        <div>
+          <p class="barsa text-center">BARSA Attend</p>
         </div>
       </div>
-      <div class="col-md-5 g-5">
-        <div class="form">
+    </div>
+    <div class="form">
 
-          <!-- Buttons for Login and Sign-Up -->
-          <div class="hstack gap-2">
-            <button class="button w-50" id="login_tab">Login</button>
-            <button class="button w-50" id="signup_tab">Sign Up</button>
-          </div>
-
-          <!-- Forms Container -->
-          <form id="form" class="tab-content">
-              <h2 class="text-center text-black" id="authentication_title">Welcome Back</h2>
-
-                <div class="field-wrap d-none" id="user_name_container">
-                  <label for="first_name" id="username_descriptor">User Name</label>
-                  <input type="text" id="user_name" descriptor="username_descriptor" name="user_name"/>
-                </div>
-
-                <div class="field-wrap">
-                  <label for="login_email" id="email_descriptor">Email Address</label>
-                  <input type="email" id="email" name="c_email" descriptor="email_descriptor"/>
-                </div>
-
-                <div class="field-wrap">
-                  <label for="login_password" id="password_descriptor">Password</label>
-                  <input type="password" id="password" descriptor="password_descriptor" name="c_password"/>
-                </div>
-
-                <p class="text-end" id="forgot_password"><a href="forgot.html" class="text-info text-black">Forgot Password ?<img ></a>
-                </p>
-
-                <button type="submit" id="submit_btn" class="button w-100 bg_sun1">Login</button>
-            </div>
-          </form>
-
-        </div>
+      <!-- Buttons for Login and Sign-Up -->
+      <div class="hstack gap-2">
+        <button class="button w-50" id="login_tab">Login</button>
+        <button class="button w-50" id="signup_tab">Sign Up</button>
       </div>
+
+      <!-- Forms Container -->
+      <form id="form" class="tab-content">
+        <h2 class="text-center text-black" id="authentication_title">Welcome Back</h2>
+
+        <div class="field-wrap d-none" id="user_name_container">
+          <label for="first_name" id="username_descriptor">User Name</label>
+          <input type="text" id="user_name" descriptor="username_descriptor" name="user_name" />
+        </div>
+
+        <div class="field-wrap">
+          <label for="login_email" id="email_descriptor">Email Address</label>
+          <input type="email" id="email" name="c_email" descriptor="email_descriptor" />
+        </div>
+
+        <div class="field-wrap">
+          <label for="login_password" id="password_descriptor">Password</label>
+          <input type="password" id="password" descriptor="password_descriptor" name="c_password" />
+        </div>
+
+        <p class="text-end" id="forgot_password"><a href="forgot.html" class="text-info text-black">Forgot Password
+            ?<img></a>
+        </p>
+
+        <button type="submit" id="submit_btn" class="button w-100 bg_sun1">Login</button>
+      </form>
     </div>
   </div>
 
 
   <!-- JavaScript -->
   <script src="../script/utilities/backend_connector.js"></script>
-   <script src="../script/utilities/input_validator.js"></script>
+  <script src="../script/utilities/input_validator.js"></script>
   <script src="../script/script.js"></script>
   <script src="../script/login.js"></script>
-  
+
 </body>
 
 </html>

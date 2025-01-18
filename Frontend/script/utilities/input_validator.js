@@ -1,5 +1,5 @@
 class InputValidator {
-    constructor(field) {
+    constructor(field, require = true) {
         this.field = field;
         this.fieldDescriptor = document.getElementById(field.getAttribute("descriptor"));
     }
@@ -108,4 +108,4 @@ class InputValidator {
 
 
 
-  
+

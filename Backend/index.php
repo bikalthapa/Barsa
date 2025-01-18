@@ -11,13 +11,22 @@
 */
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+
+// Handle preflight requests
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    exit(0);
+}
+
 include_once 'database.php';
 
 // Determine the request method (GET or POST)
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Utility function to get parameter from GET or POST
-function get_param($name) {
+function get_param($name)
+{
     global $method;
     if ($method == 'POST') {
         return isset($_POST[$name]) ? $_POST[$name] : null;
@@ -39,121 +48,153 @@ $no_record = "Record Not Found";
 $no_change = "Can't Save Your Changes";
 $invalid_parameter = "Invalid Parameters";
 $nothing_found = "Nothing Found";
-
-if($typ=="auth"){
+if ($typ == "auth") {
     $auth = new Authentication($conn);
-    if($act=="check"){
+    if ($act == "check") {
         $email = get_param('c_email');
         $password = get_param('c_password');
         $user_data = $auth->validateCredintial($email, $password);
-        if(count($user_data)>=1){
-            show_response(true,$user_data);
-        }else{
-            show_response(false,[],$no_record);
+        if (count($user_data) >= 1) {
+            show_response(true, $user_data);
+        } else {
+            show_response(false, [], $no_record);
         }
-    }else if($act=="create"){
+    } else if ($act == "create") {
         $username = get_param("c_name");
         $email = get_param("c_email");
         $password = get_param("c_password");
-        $result = $auth->createCredintial(["c_name"=>$username, "c_email"=>$email, "c_password"=>$password]);
-        if($result!=false){
-            show_response(true,$result);
+        $result = $auth->createCredintial(["c_name" => $username, "c_email" => $email, "c_password" => $password]);
+        if ($result != false) {
+            show_response(true, $result);
+        } else {
+            show_response(false, [], $no_change);
+        }
+    }else if($act == "update"){
+        $c_id = get_param("c_id");
+        $username = get_param("c_name");
+        $new_password = get_param("n_password");
+        $old_password = get_param("o_password");
+        $result = $auth->updateCredintial(["c_id"=> $c_id, "c_name" => $username, "n_password" => $new_password, "o_password"=> $old_password]);
+        if($result){
+            show_response(true, $result);
         }else{
-            show_response(false,[],$no_change);
+            show_response(false, [], $no_change);
         }
     }
-}else if ($api_key != null) {
-    $class_id = get_param('c_id');
-    
-    if ($class_id == null && $act != "update") {
-        show_response(false, [], $invalid_parameter);
-    } else if ($typ == "std") { // Operation Related to Students
-        $student = new Student($conn);
-        
-        // Handle actions (read, write, delete, update, search)
-        if ($act == "read") {
-            $students = $student->getStudents($class_id);
-            if (!empty($students)) {
-                show_response(true, $students);
-            } else {
-                show_response(false, [], $no_record);
-            }
-        } else if ($act == "write") {
-            // Getting the data for adding students
-            $name = get_param('s_name');
-            $dob = get_param('s_dob');
-            $email = get_param('s_email');
-            $password = get_param('s_password');
-            $contact = get_param('s_contact');
-            $fingerId = get_param('s_finger');
-            $gender = get_param('s_gender');
+} else {
+    if ($api_key != null) {
+        $class_id = get_param('c_id');
 
-            $students_data = ["s_name" => $name, "c_id" => $class_id, "s_email" => $email, "s_password" => $password, "s_contact" => $contact, "s_dob" => $dob, "s_finger" => $fingerId,"s_gender"=>$gender];
-            $isUploaded = $student->setStudent($students_data);
-            if ($isUploaded) {
-                show_response(true, $students_data);
-            } else {
-                show_response(false, $students_data, $no_change);
-            }
-        } else if ($act == "delete") {
-            $s_id = get_param("s_id");
-            if ($student->removeStudent($s_id)) {
-                show_response(true, [$s_id]);
-            } else {
-                show_response(false, [$s_id], $no_change);
-            }
-        } else if ($act == "update") {
-            $id = get_param('s_id');
-            if ($id!=null) {
+        if ($class_id == null && $act != "update") {
+            show_response(false, [], $invalid_parameter);
+        } else if ($typ == "std") { // Operation Related to Students
+            $student = new Student($conn);
+
+            // Handle actions (read, write, delete, update, search)
+            if ($act == "read") {
+                $students = $student->getStudents($class_id);
+                if (!empty($students)) {
+                    show_response(true, $students);
+                } else {
+                    show_response(false, [], $no_record);
+                }
+            } else if ($act == "write") {
+                // Getting the data for adding students
                 $name = get_param('s_name');
                 $dob = get_param('s_dob');
                 $email = get_param('s_email');
                 $password = get_param('s_password');
                 $contact = get_param('s_contact');
-                $fingerId = get_param('s_finger');
+                $fingerId = get_param('fingerprint_id');
                 $gender = get_param('s_gender');
 
-                $data = ["s_name" => $name, "c_id" => $class_id, "s_dob" => $dob, "s_email" => $email, "s_password" => $password, "s_contact" => $contact, "s_finger" => $fingerId, "s_gender"=>$gender];
-                if ($student->updateStudent($id, $data)) {
-                    show_response(true, $data);
+                $students_data = ["s_name" => $name, "c_id" => $class_id, "s_email" => $email, "s_password" => $password, "s_contact" => $contact, "s_dob" => $dob, "fingerprint_id" => $fingerId, "s_gender" => $gender];
+                $isUploaded = $student->setStudent($students_data);
+                if ($isUploaded) {
+                    show_response(true, $students_data);
                 } else {
-                    show_response(false, $data, $no_change);
+                    show_response(false, $students_data, $no_change);
                 }
-            } else {
+            } else if ($act == "delete") {
+                $s_id = get_param("s_id");
+                if ($student->removeStudent($s_id)) {
+                    show_response(true, [$s_id]);
+                } else {
+                    show_response(false, [$s_id], $no_change);
+                }
+            } else if ($act == "update") {
+                $id = get_param('s_id');
+                if ($id != null) {
+                    $name = get_param('s_name');
+                    $dob = get_param('s_dob');
+                    $email = get_param('s_email');
+                    $password = get_param('s_password');
+                    $contact = get_param('s_contact');
+                    $fingerId = get_param('fingerprint_id');
+                    $gender = get_param('s_gender');
+
+                    $data = ["s_name" => $name, "c_id" => $class_id, "s_dob" => $dob, "s_email" => $email, "s_password" => $password, "s_contact" => $contact, "fingerprint_id" => $fingerId, "s_gender" => $gender];
+                    if ($student->updateStudent($id, $data)) {
+                        show_response(true, $data);
+                    } else {
+                        show_response(false, $data, $no_change);
+                    }
+                } else {
+                    show_response(false, [], $invalid_parameter);
+                }
+            } else if ($act == "search") {
+                $query = get_param("q");
+                if ($query != null) {
+                    $result = $student->searchStudent($query, $class_id);
+                    if ($result != null) {
+                        show_response(true, $result);
+                    } else {
+                        show_response(false, [], $nothing_found);
+                    }
+                } else {
+                    show_response(false, [], $invalid_parameter);
+                }
+            } else { // Negative Response if parameter is not valid
                 show_response(false, [], $invalid_parameter);
             }
-        } else if ($act == "search") {
-            $query = get_param("q");
-            if ($query != null) {
-                $result = $student->searchStudent($query, $class_id);
-                if ($result != null) {
+        } else if ($typ == "attend") {
+
+            $attendance = new Attendance($conn);
+            if ($act == "read") {
+                $result = $attendance->getAttendance($class_id);
+                if (!empty($result)) {
                     show_response(true, $result);
                 } else {
-                    show_response(false, [], $nothing_found);
+                    show_response(false, [], $no_record);
                 }
-            } else {
+            } else if ($act == "write") {
+                $s_id = get_param('s_id');
+                $a_status = get_param('a_status');
+                $result = $attendance->setAttendance(["s_id"=>$s_id,"c_id"=> $class_id, "a_status"=>$a_status]);
+                if($result){
+                    show_response(true, [$s_id, $a_status]);
+                }else{
+                    show_response(false, [], $no_change);
+                }
+            }else if($act == "update"){
+                $s_id = get_param('s_id');
+                $a_id = get_param('a_id');
+                $a_status = get_param('a_status');
+                $result = $attendance->updateAttendance(["s_id"=>$s_id,"c_id"=> $class_id, "a_id"=>$a_id, "a_status"=>$a_status]);
+                if($result){
+                    show_response(true, [$s_id, $a_status]);
+                }else{
+                    show_response(false, [], "Hi There is no change");
+                }
+            }else{
                 show_response(false, [], $invalid_parameter);
             }
-        } else { // Negative Response if parameter is not valid
+        } else { // Invalid Parameter Sent
             show_response(false, [], $invalid_parameter);
         }
-    } else if ($typ == "attend") {
-        $attendance = new Attendance($conn);
-        if ($act == "read") {
-            $result = $attendance->getAttendance($class_id);
-            if (!empty($result)) {
-                show_response(true, $result);
-            } else {
-                show_response(false, [], $no_record);
-            }
-        } else {
-            show_response(false, [], $invalid_parameter);
-        }
-    } else{ // Invalid Parameter Sent
+    } else {
         show_response(false, [], $invalid_parameter);
     }
-} else {
-    show_response(false, [], $invalid_parameter);
 }
 
 // This function will give response to the API request

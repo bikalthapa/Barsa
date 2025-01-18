@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wi-Fi Connection Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome for Wi-Fi icons (optional, you can use it for text status) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 30px;
+    }
+    .form-container {
+      position: absolute; /* Center the form */
+      top: 50%;           /* Vertically center */
+      left: 50%;          /* Horizontally center */
+      transform: translate(-50%, -50%); /* Adjust to center perfectly */
+      max-width: 400px;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+      z-index: 9999;      /* Make sure it's on top */
+      display: none;      /* Initially hidden */
+    }
+    .status-icon {
+      margin-right: 10px;
+    }
+    .status-message {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Button to toggle form visibility -->
+  <button type="button" class="btn btn-primary" id="wifiButton">
+    <img id="wifi" src="sd-removebg-preview.png" class="status-icon" alt="Wi-Fi Icon" width="20" height="20">
+   <b>Wi Fi</b>
+  </button>
+
+  <!-- Wi-Fi Connection Form -->
+  <div class="container">
+    <div class="form-container" id="wifiFormContainer">
+      <h3 class="text-center mb-4"><b>Wi-Fi Connection</b></h3>
+
+      <!-- Wi-Fi Status with Icon -->
+      <div class="form-group">
+        <label for="wifiStatus"><b>Wi-Fi Status</b></label>
+        <div class="status-message mt-2" id="statusMessage"></div>
+      </div>
+
+      <!-- SSID Input Field -->
+      <div class="form-group">
+        <label for="wifiSsid"><b>Wi-Fi SSID </b></label>
+        <input type="text" class="form-control" id="wifiSsid" placeholder=" ">
+      </div>
+
+      <!-- Website URL Input Field -->
+      <div class="form-group">
+        <label for="websiteUrl"><b>Website URL</b></label>
+        <input type="text" class="form-control" id="websiteUrl" placeholder=" " required>
+      </div>
+
+      <!-- Password Input Field -->
+      <div class="form-group">
+        <label for="wifiPassword"><b>Password</b></label>
+        <input type="password" class="form-control" id="wifiPassword" placeholder="Password">
+      </div>
+
+      <!-- Buttons -->
+      <button type="button" class="btn btn-secondary btn-block" id="backButton"><b>Back</b></button>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    let status = "Disconnected";  // Default status
+
+    // Toggle form visibility when the Wi-Fi button is clicked
+    document.getElementById('wifiButton').onclick = function(event) {
+      event.stopPropagation(); // Prevents triggering the window click handler
+      const formContainer = document.getElementById('wifiFormContainer');
+      formContainer.style.display = 'block'; // Show form when button is clicked
+    };
+
+    // Hide form when clicking anywhere outside the form or Wi-Fi button
+    window.onclick = function(event) {
+      const formContainer = document.getElementById('wifiFormContainer');
+      const button = document.getElementById('wifiButton');
+      // Close the form only if the click is outside both the button and the form
+      if (event.target !== formContainer && event.target !== button && !formContainer.contains(event.target)) {
+        formContainer.style.display = 'none';
+      }
+    };
+
+    // Function to validate the URL
+    function validateUrl(url) {
+      const pattern = new RegExp('^(https?:\\/\\/)?([\\w-]+\\.)+[\\w-]+(\\/[^\\s]*)?$');
+      return pattern.test(url);
+    }
+
+    // Function to handle the Add button click
+    function saveWifiInfo() {
+      const wifiSsid = document.getElementById('wifiSsid').value;
+      const wifiPassword = document.getElementById('wifiPassword').value;
+      const websiteUrl = document.getElementById('websiteUrl').value;
+
+      // Simple validation for Wi-Fi SSID, Password, and URL
+      if (!wifiSsid || !wifiPassword || !websiteUrl) {
+        document.getElementById('statusMessage').innerHTML = '<p class="text-danger">Please fill in all fields.</p>';
+        return;
+      }
+
+      // URL validation
+      if (!validateUrl(websiteUrl)) {
+        document.getElementById('statusMessage').innerHTML = '<p class="text-danger">Please enter a valid URL.</p>';
+        return;
+      }
+
+      // Clear input fields after saving (optional)
+      document.getElementById('wifiSsid').value = '';
+      document.getElementById('wifiPassword').value = '';
+      document.getElementById('websiteUrl').value = '';
+      document.getElementById('statusMessage').innerHTML = '<p class="text-success">Wi-Fi information added successfully!</p>';
+    }
+
+    // Hide the form when the Back button is clicked
+    document.getElementById('backButton').onclick = function() {
+      const formContainer = document.getElementById('wifiFormContainer');
+      formContainer.style.display = 'none'; // Hide form
+    };
+
+    // Function to update Wi-Fi status icon based on selection
+    function updateWifiIcon() {
+      const wifiIcon = document.getElementById('wifiIcon');
+      const statusMessage = document.getElementById('statusMessage');
+
+      if (status === "Connected") {
+        wifiIcon.src = "path_to_your_connected_wifi_image.png";  // Change image to connected state
+        statusMessage.innerHTML = '<span class="text-success">Connected to Wi-Fi</span>';
+      } else {
+        wifiIcon.src = "path_to_your_disconnected_wifi_image.png";  // Change image to disconnected state
+        statusMessage.innerHTML = '<span class="text-danger">Disconnected from Wi-Fi</span>';
+      }
+    }
+
+    // Initialize icon and status based on default setting (Disconnected)
+    window.onload = function() {
+      updateWifiIcon();
+    };
+  </script>
+</body>
+</html>

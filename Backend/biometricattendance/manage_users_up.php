@@ -4,7 +4,7 @@
   //Connect to database
   require'connectDB.php';
 
-    $sql = "SELECT * FROM users WHERE del_fingerid=0 ORDER BY id DESC";
+    $sql = "SELECT * FROM students WHERE del_fingerid=0 ORDER BY s_id DESC";
     $result = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($result, $sql)) {
         echo '<p class="error">SQL Error</p>';
@@ -26,8 +26,8 @@
                 		<button type="button" class="select_btn" id="<?php echo $fingerid;?>" title="select this UID"><?php echo $fingerid;?></button>
                 	</form>
                 </TD>
-              <TD><?php echo $row['username'];?></TD>
-              <TD><?php echo $row['gender'];?></TD>
+              <TD><?php echo $row['s_name'];?></TD>
+              <TD><?php echo $row['s_gender'];?></TD>
               <TD><?php echo $row['serialnumber'];?></TD>
               <TD><?php echo $row['user_date'];?></TD>
               <TD><?php echo $row['time_in'];?></TD>

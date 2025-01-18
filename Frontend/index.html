@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -137,7 +138,7 @@
                 <div class="col-sm-6 h-100">
 
                     <!-- Routine Cards -->
-                    <div class="card shadow5 mb-3">
+                    <div class="card shadow5 mb-3 fade_in">
                         <div class="card-header card_header bg_sun5">
                             <h6 class="card-title fs-6">Daily Routine</h6>
                         </div>
@@ -193,7 +194,7 @@
 
 
                     <!-- Attendance status card  -->
-                    <div class="card text-center shadow5 my-4">
+                    <div class="card text-center shadow5 my-4 fade_in">
                         <div class="card-header card_header bg_sun5">
                             <h6 class="card-title text-start fs-6">Attendance</h6>
                         </div>
@@ -214,7 +215,7 @@
                     <!-- Students and teachers counter -->
                     <div class="row row-cols-1 row-cols-md-2">
                         <div class="col">
-                            <div class="counter_outer">
+                            <div class="counter_outer fade_in">
                                 <div class="counter_container">
                                     <div class="hstack w-100 ">
                                         <div class="counter_img_container">
@@ -225,14 +226,15 @@
                                             <p class="card-text counter_label">
                                                 <small class="text-body-secondary">STUDENTS</small>
                                             </p>
-                                            <h5 class="card-title fs-2 my-0 counter">5,000</h5>
+                                            <h5 class="card-title fs-2 my-0 counter" id="studentCounter">0</h5>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                         <div class="col">
-                            <div class="counter_outer">
+                            <div class="counter_outer fade_in">
                                 <div class="counter_container">
                                     <div class="hstack w-100">
                                         <div class="counter_img_container">
@@ -243,7 +245,7 @@
                                             <p class="card-text counter_label">
                                                 <small class="text-body-secondary">TEACHERS</small>
                                             </p>
-                                            <h5 class="card-title fs-2 my-0 counter">500</h5>
+                                            <h5 class="card-title fs-2 my-0 counter" id="teacherCounter">500</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -254,7 +256,7 @@
 
 
                     <!-- Birthday and events card  -->
-                    <div class="card text-center shadow5 my-0">
+                    <div class="card text-center shadow5 my-0 fade_in">
                         <div class="card-header card_header">
                             <ul class="nav nav-tabs card-header-tabs">
                                 <li class="nav-item">

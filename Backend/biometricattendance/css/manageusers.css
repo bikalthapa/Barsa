@@ -62,7 +62,7 @@
 }
 .form-style-5 .number {
   background: #388994;
-  color: #fff;
+  color: black;
   height: 30px;
   width: 30px;
   display: inline-block;
@@ -159,7 +159,7 @@ td{
   vertical-align:middle;
   font-weight: 300;
   font-size: 13px;
-  color: #fff;
+  color: black;
   border-bottom: solid 1px rgba(255,255,255,0.5);
 }
 
@@ -263,3 +263,4 @@ td{
     transform: translate3d(0, 0, 0);
   }
 }
+

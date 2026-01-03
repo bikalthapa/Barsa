@@ -7,6 +7,8 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPClient.h>
 #include <Adafruit_Fingerprint.h>
+#include <EEPROM.h>
+
 
 #define Finger_Rx D5
 #define Finger_Tx D4
@@ -15,16 +17,129 @@
 #define OLED_RESET     0 
 #define BUZZER_PIN D8
 
+// Definition For EEPROM
+#define EEPROM_SIZE 192   // Enough for SSID + Password + url
+#define SSID_ADDR 0       // Start address for SSID
+#define PASS_ADDR 64      // Start address for Password
+#define URL_ADDR 128      // Start address for Base URL
+#define MAX_LEN 64        // Maximum length for each field
+
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE, /* clock=*/D1, /* data=*/D2);
 SoftwareSerial mySerial(Finger_Rx, Finger_Tx);
-Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);      
-const char *ssid = "subashthapa_fltng_2";
-const char *password = "@subasht40@@";
+Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);  
+ESP8266WebServer server(80);
+
+
+char ssid[MAX_LEN];      // buffer for SSID from EEPROM
+char password[MAX_LEN];  // buffer for password from EEPROM
+char url[MAX_LEN];   // buffer for base URL from EEPROM
+String link;             // can still use String for full GET path
+
 
 String postData; 
-String link = "http://192.168.1.70/biometricattendance/getdata.php"; 
 int FingerID = 0;     
 uint8_t id;
+
+// wifi connection
+unsigned long lastWifiCheck = 0;
+unsigned long lastAddCheck = 0;
+unsigned long lastDeleteCheck = 0;
+const unsigned long WIFI_CHECK_INTERVAL = 10000; // 10 seconds
+const unsigned long ADD_CHECK_INTERVAL = 15000;    // 8 sec
+const unsigned long DELETE_CHECK_INTERVAL = 15000; // 8 sec
+bool lastWifiState = false;
+bool apModeActive = false;
+
+
+// Save SSID, Password, and Base URL to EEPROM
+void saveWiFiAndURL(const char* ssid, const char* password, const char* url) {
+  EEPROM.begin(EEPROM_SIZE);
+
+  for (int i = 0; i < MAX_LEN; i++) {
+    EEPROM.write(SSID_ADDR + i, ssid[i]);
+    EEPROM.write(PASS_ADDR + i, password[i]);
+    EEPROM.write(URL_ADDR + i, url[i]);
+    
+    // Stop early if null character
+    if (ssid[i] == '\0' && password[i] == '\0' && url[i] == '\0') break;
+  }
+
+  EEPROM.commit();
+  EEPROM.end();
+}
+
+// Read SSID, Password, and Base URL from EEPROM
+void readWiFiAndURL() {
+  EEPROM.begin(EEPROM_SIZE);
+
+  for (int i = 0; i < MAX_LEN; i++) {
+    ssid[i]     = EEPROM.read(SSID_ADDR + i);
+    password[i] = EEPROM.read(PASS_ADDR + i);
+    url[i]  = EEPROM.read(URL_ADDR + i);
+  }
+
+  // Safety: ensure null-termination
+  ssid[MAX_LEN - 1]     = '\0';
+  password[MAX_LEN - 1] = '\0';
+  url[MAX_LEN - 1]  = '\0';
+
+  // Build full endpoint
+  link = String(url) + "/biometricattendance/getdata.php";
+
+  EEPROM.end();
+}
+
+
+void startAPMode() {
+  apModeActive = true;
+  WiFi.mode(WIFI_AP);
+  WiFi.softAP("BARSA Attend", "BARSA-setup");
+  IPAddress apIP = WiFi.softAPIP();
+  String apInfo = "SSID: BARSA Attend\nIP: " + apIP.toString();
+
+  // Display on OLED using your helper
+  displayMessageCenter("AP MODE ACTIVE", apInfo.c_str());
+  
+  server.on("/", HTTP_GET, []() {
+    server.send(200, "text/html",
+      "<h2>BARSA Attend Setup</h2>"
+      "<form action='/save' method='POST'>"
+
+      "SSID:<br>"
+      "<input name='s' value='" + String(ssid) + "'><br>"
+
+      "Password:<br>"
+      "<input name='p' type='password' value='" + String(password) + "'><br>"
+
+      "Base URL:<br>"
+      "<input name='u' value='" + String(url) + "'><br><br>"
+
+      "<button>Save</button>"
+      "</form>"
+    );
+  });
+
+
+  server.on("/save", HTTP_POST, []() {
+    String s = server.arg("s");
+    String p = server.arg("p");
+    String u = server.arg("u");
+
+    s.toCharArray(ssid, MAX_LEN);
+    p.toCharArray(password, MAX_LEN);
+    u.toCharArray(url, MAX_LEN);
+
+    saveWiFiAndURL(ssid, password, url);
+
+    server.send(200, "text/html", "Saved! Rebooting...");
+    delay(1000);
+    ESP.restart();
+  });
+
+  server.begin();
+}
+
+
 
 
 void setup() {
@@ -35,9 +150,15 @@ void setup() {
   
   u8g2.clearBuffer();
   u8g2.sendBuffer();
+
   setIntro();
-  delay(2000);  // Pause for 2 seconds
-  connectToWiFi();
+
+
+  readWiFiAndURL();
+  if(!connectToWiFi()){
+    startAPMode();
+  };
+
   finger.begin(57600);
   Serial.println("\n\nAdafruit finger detect test");
 
@@ -121,8 +242,11 @@ void displayMessageCenter(const char* heading, const char* description) {
 
 
 void setIntro() {
-  displayMessageCenter("Tech BARSA", "Team");
+  displayMessageCenter("Tech BARSA", "Presents");
+  delay(1000);
+  displayMessageCenter("BARSA", "Attend");
   playSoundNotes();
+  delay(2000);
 }
 
 
@@ -131,35 +255,72 @@ void setIntro() {
 
 
 void loop() {
-  // Check if there's a connection to WiFi or not
-  if (WiFi.status() != WL_CONNECTED) {
-    playErrorSound();
-    connectToWiFi();
-  } else {
-    playSuccessSound();
+
+  // ---- If AP mode is active, ONLY handle setup ----
+  if (apModeActive) {
+    server.handleClient();   // REQUIRED
+    return;                  // Stop rest of logic
   }
 
+  // ---- WiFi check every 10 seconds ----
+  if (millis() - lastWifiCheck >= WIFI_CHECK_INTERVAL) {
+    lastWifiCheck = millis();
+
+    bool wifiConnected = (WiFi.status() == WL_CONNECTED);
+
+    if (wifiConnected != lastWifiState) {
+      lastWifiState = wifiConnected;
+
+      if (!wifiConnected) {
+        playErrorSound();
+
+        if (!connectToWiFi()) {
+          startAPMode();
+          apModeActive = true;
+          return;
+        }
+      } else {
+        playSuccessSound();
+      }
+    }
+  }
+
+  // ---- Fingerprint scanning ----
   FingerID = getFingerprintID();
-  delay(50);
 
   if (FingerID > 0) {
     displayMessageCenter("FingerPrint Status", "Valid");
     SendFingerprintID(FingerID);
     playSuccessSound();
+    delay(1000);
+
   } else if (FingerID == 0) {
     displayMessageCenter("FingerPrint Status", "Scanning...");
+
   } else if (FingerID == -1) {
     displayMessageCenter("FingerPrint Status", "Invalid");
-    playErrorSound();s
+    playErrorSound();
+    delay(1000);
+
   } else if (FingerID == -2) {
     displayMessageCenter("FingerPrint Status", "Error");
+    delay(1000);
   }
 
-  delay(1000);  // Add a delay to give time to see the message
+  // ---- Add ID check ----
+  if (millis() - lastAddCheck >= ADD_CHECK_INTERVAL) {
+    lastAddCheck = millis();
+    ChecktoAddID();
+  }
 
-  ChecktoAddID();
-  ChecktoDeleteID();
+  // ---- Delete ID check ----
+  if (millis() - lastDeleteCheck >= DELETE_CHECK_INTERVAL) {
+    lastDeleteCheck = millis();
+    ChecktoDeleteID();
+  }
 }
+
+
 
 void DisplayFingerprintID() {
   if (FingerID > 0) {
@@ -423,15 +584,15 @@ void ChecktoDeleteID() {
   http.end();  // Close connection
 }
 
-void connectToWiFi() {
-  WiFi.mode(WIFI_OFF); // Prevent reconnection issue (taking too long to connect)
+bool connectToWiFi() {
+  WiFi.mode(WIFI_OFF);
   delay(1000);
   WiFi.mode(WIFI_STA);
+
   Serial.print("Connecting to ");
   Serial.println(ssid);
-  WiFi.begin(ssid, password);
 
-  // Display the first part of the message
+  WiFi.begin(ssid, password);
   displayMessageCenter("WiFi (Connecting)", ssid);
 
   int attemptCount = 0;
@@ -446,16 +607,18 @@ void connectToWiFi() {
 
   if (WiFi.status() == WL_CONNECTED) {
     playSuccessSound();
-    Serial.println("Connected");
     displayMessageCenter("WiFi (Connected)", ssid);
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP()); // IP address assigned to your ESP
+    Serial.println("\nConnected");
+    Serial.println(WiFi.localIP());
+    return true;
   } else {
-    Serial.println("Failed to connect to WiFi");
-    displayMessageCenter("WiFi (Not Connected)", ssid);
     playErrorSound();
+    displayMessageCenter("WiFi (Not Connected)", ssid);
+    Serial.println("\nFailed to connect");
+    return false;
   }
 }
+
 
 
 
@@ -490,8 +653,9 @@ void playProcessingSound() {
   }
 }
 void playSoundNotes() {
-  int melody[] = {262, 294, 330, 349, 392, 440, 494, 523}; // C4 to C5 notes
-  int noteDuration = 500; // Duration of each note in milliseconds
+    int melody[] = {262, 294, 330, 349, 392, 440, 494, 523}; // C4 to C5 notes
+  
+  int noteDuration = 188; // Duration of each note in milliseconds
 
   for (int i = 0; i < 8; i++) {
     tone(BUZZER_PIN, melody[i], noteDuration);

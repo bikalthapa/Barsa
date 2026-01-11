@@ -24,6 +24,14 @@
 #define URL_ADDR 128      // Start address for Base URL
 #define MAX_LEN 64        // Maximum length for each field
 
+// Definition For push Btn
+#define BTN_PIN D6
+#define AP_HOLD_TIME 3000   // 3 seconds
+unsigned long lastPressTime = 0;
+const unsigned long debounceDelay = 200;
+unsigned long btnPressStart = 0;
+bool apForced = false;
+
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE, /* clock=*/D1, /* data=*/D2);
 SoftwareSerial mySerial(Finger_Rx, Finger_Tx);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);  
@@ -42,10 +50,8 @@ uint8_t id;
 
 // wifi connection
 unsigned long lastWifiCheck = 0;
-unsigned long lastAddCheck = 0;
 unsigned long lastDeleteCheck = 0;
 const unsigned long WIFI_CHECK_INTERVAL = 10000; // 10 seconds
-const unsigned long ADD_CHECK_INTERVAL = 15000;    // 8 sec
 const unsigned long DELETE_CHECK_INTERVAL = 15000; // 8 sec
 bool lastWifiState = false;
 bool apModeActive = false;
@@ -140,25 +146,56 @@ void startAPMode() {
 }
 
 
+bool buttonPressed() {
+  if (digitalRead(BTN) == LOW) {
+    if (millis() - lastPressTime > debounceDelay) {
+      lastPressTime = millis();
+      return true;
+    }
+  }
+  return false;
+}
+bool checkAPButton() {
+  if (digitalRead(BTN_PIN) == LOW) {
+    if (btnPressStart == 0) btnPressStart = millis();
+    if (millis() - btnPressStart >= AP_HOLD_TIME) {
+      return true;
+    }
+  } else {
+    btnPressStart = 0;
+  }
+  return false;
+}
 
 
 void setup() {
   pinMode(BUZZER_PIN, OUTPUT);
+  pinMode(BTN_PIN, INPUT_PULLUP);
   Serial.begin(115200);
   
-  u8g2.begin();  // Initialize the display
-  
+  u8g2.begin();
   u8g2.clearBuffer();
   u8g2.sendBuffer();
 
   setIntro();
 
+  /* ---- Allow button to force AP during intro (5s window) ---- */
+  unsigned long introStart = millis();
+  while (millis() - introStart < 5000) {   // intro time
+    if (checkAPButton()) {
+      apForced = true;
+      break;
+    }
+    delay(10);
+  }
 
   readWiFiAndURL();
-  if(!connectToWiFi()){
-    startAPMode();
-  };
 
+  if (apForced || !connectToWiFi()) {
+    startAPMode();      // Manual or auto AP mode
+  }
+
+  /* ---------- Fingerprint ---------- */
   finger.begin(57600);
   Serial.println("\n\nAdafruit finger detect test");
 
@@ -172,9 +209,12 @@ void setup() {
   }
 
   finger.getTemplateCount();
-  Serial.print("Sensor contains "); Serial.print(finger.templateCount); Serial.println(" templates");
+  Serial.print("Sensor contains ");
+  Serial.print(finger.templateCount);
+  Serial.println(" templates");
   Serial.println("Waiting for valid finger...");
 }
+
 
 void displayMessageCenter(const char* heading, const char* description) {
   const int16_t maxWidth = 128; // Width of the display
@@ -243,7 +283,7 @@ void displayMessageCenter(const char* heading, const char* description) {
 
 void setIntro() {
   displayMessageCenter("Tech BARSA", "Presents");
-  delay(1000);
+  delay(2000);
   displayMessageCenter("BARSA", "Attend");
   playSoundNotes();
   delay(2000);
@@ -307,11 +347,13 @@ void loop() {
     delay(1000);
   }
 
-  // ---- Add ID check ----
-  if (millis() - lastAddCheck >= ADD_CHECK_INTERVAL) {
-    lastAddCheck = millis();
+  // ---- ADD Fingerprint only when button is pressed ----
+  if (buttonPressed()) {
+    displayMessageCenter("Checking For", "Fingerprint Enroll");
+    playSuccessSound();
     ChecktoAddID();
   }
+
 
   // ---- Delete ID check ----
   if (millis() - lastDeleteCheck >= DELETE_CHECK_INTERVAL) {
@@ -450,22 +492,22 @@ uint8_t deleteFingerprint(int id) {
 uint8_t getFingerprintEnroll() {
   int p = -1;
 
-  displayMessageCenter("FingerPrint Status", "Place finger");
+  displayMessageCenter("FingerPrint Enroll", "Place finger");
   while (p != FINGERPRINT_OK) {
     p = finger.getImage();
     if (p == FINGERPRINT_NOFINGER) {
-      displayMessageCenter("FingerPrint Status", "Scanning...");
+      displayMessageCenter("FingerPrint Enroll", "Scanning...");
     }
   }
 
   p = finger.image2Tz(1);
   if (p == FINGERPRINT_OK) {
-    displayMessageCenter("FingerPrint Status", "Image Converted");
+    displayMessageCenter("FingerPrint Enroll", "Image Converted");
   } else {
     return p;
   }
 
-  displayMessageCenter("FingerPrint Status", "Remove finger");
+  displayMessageCenter("FingerPrint Enroll", "Remove finger");
   delay(2000);
 
   p = 0;
@@ -476,25 +518,25 @@ uint8_t getFingerprintEnroll() {
   Serial.print("ID "); Serial.println(id);
   p = -1;
 
-  displayMessageCenter("FingerPrint Status", "Place finger again");
+  displayMessageCenter("FingerPrint Enroll", "Place finger again");
 
   while (p != FINGERPRINT_OK) {
     p = finger.getImage();
     if (p == FINGERPRINT_NOFINGER) {
-      displayMessageCenter("FingerPrint Status", "Scanning...");
+      displayMessageCenter("FingerPrint Enroll", "Scanning...");
     }
   }
 
   p = finger.image2Tz(2);
   if (p == FINGERPRINT_OK) {
-    displayMessageCenter("FingerPrint Status", "Image Converted");
+    displayMessageCenter("FingerPrint Enroll", "Image Converted");
   } else {
     return p;
   }
 
   p = finger.createModel();
   if (p == FINGERPRINT_OK) {
-    displayMessageCenter("FingerPrint Status", "Prints matched!");
+    displayMessageCenter("FingerPrint Enroll", "Prints matched!");
   } else {
     return p;
   }
@@ -503,7 +545,7 @@ uint8_t getFingerprintEnroll() {
   p = finger.storeModel(id);
   if (p == FINGERPRINT_OK) {
     playSuccessSound();
-    displayMessageCenter("FingerPrint Status", "Stored!");
+    displayMessageCenter("FingerPrint Enroll", "Stored!");
     confirmAdding();
   } else {
     return p;
@@ -554,7 +596,8 @@ void ChecktoAddID() {
     String add_id = payload.substring(6);
     Serial.println(add_id);
     id = add_id.toInt();
-    displayMessageCenter("FingerPrint Status", ("Adding new ID: " + add_id).c_str());
+    displayMessageCenter("FingerPrint Enroll", ("Adding new ID: " + add_id).c_str());
+    delay(2000);
     getFingerprintEnroll();
   }
 

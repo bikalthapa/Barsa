@@ -202,7 +202,8 @@ class BackendConnector {
     }
 }
 
-let api_url = "http://localhost";
+let api_url = `${window.location.protocol}//${window.location.host}/Backend/index.php`;
 let backend = new BackendConnector(api_url);
+
 
 

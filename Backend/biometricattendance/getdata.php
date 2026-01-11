@@ -1,5 +1,5 @@
 <?php
-require 'connectDB.php';
+require './../database.php';
 // Database Design for users
 // id	username	serialnumber	gender	email	fingerprint_id	fingerprint_select	user_date	time_in	del_fingerid	add_fingerid	
 

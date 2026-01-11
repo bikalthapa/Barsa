@@ -39,9 +39,6 @@ $act = get_param('act') ?: 'read';  // Default action is 'read'
 $typ = get_param('typ');  // 'std' is for students
 $api_key = get_param('api_key');  // API key
 
-// Initialize database connection
-$database = new Database();
-$conn = $database->getConnection();
 
 // Different Error Messages
 $no_record = "Record Not Found";
@@ -69,15 +66,15 @@ if ($typ == "auth") {
         } else {
             show_response(false, [], $no_change);
         }
-    }else if($act == "update"){
+    } else if ($act == "update") {
         $c_id = get_param("c_id");
         $username = get_param("c_name");
         $new_password = get_param("n_password");
         $old_password = get_param("o_password");
-        $result = $auth->updateCredintial(["c_id"=> $c_id, "c_name" => $username, "n_password" => $new_password, "o_password"=> $old_password]);
-        if($result){
+        $result = $auth->updateCredintial(["c_id" => $c_id, "c_name" => $username, "n_password" => $new_password, "o_password" => $old_password]);
+        if ($result) {
             show_response(true, $result);
-        }else{
+        } else {
             show_response(false, [], $no_change);
         }
     }
@@ -170,23 +167,23 @@ if ($typ == "auth") {
             } else if ($act == "write") {
                 $s_id = get_param('s_id');
                 $a_status = get_param('a_status');
-                $result = $attendance->setAttendance(["s_id"=>$s_id,"c_id"=> $class_id, "a_status"=>$a_status]);
-                if($result){
+                $result = $attendance->setAttendance(["s_id" => $s_id, "c_id" => $class_id, "a_status" => $a_status]);
+                if ($result) {
                     show_response(true, [$s_id, $a_status]);
-                }else{
+                } else {
                     show_response(false, [], $no_change);
                 }
-            }else if($act == "update"){
+            } else if ($act == "update") {
                 $s_id = get_param('s_id');
                 $a_id = get_param('a_id');
                 $a_status = get_param('a_status');
-                $result = $attendance->updateAttendance(["s_id"=>$s_id,"c_id"=> $class_id, "a_id"=>$a_id, "a_status"=>$a_status]);
-                if($result){
+                $result = $attendance->updateAttendance(["s_id" => $s_id, "c_id" => $class_id, "a_id" => $a_id, "a_status" => $a_status]);
+                if ($result) {
                     show_response(true, [$s_id, $a_status]);
-                }else{
+                } else {
                     show_response(false, [], "Hi There is no change");
                 }
-            }else{
+            } else {
                 show_response(false, [], $invalid_parameter);
             }
         } else { // Invalid Parameter Sent

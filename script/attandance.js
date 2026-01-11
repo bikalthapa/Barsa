@@ -11,7 +11,7 @@ let year_field = document.getElementById("year");
 let body = document.getElementById("calendar-body");
 let prev_btn = document.getElementById("prev-month");
 let next_btn = document.getElementById("next-month");
-let year = 2081;
+let year = 2082;
 let month = 9;
 
 

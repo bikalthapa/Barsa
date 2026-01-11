@@ -5,29 +5,39 @@
     padding:0px;
 }
 :root{
-    --sun1:#ff7b00;
-    --sun2:#ff8800;
-    --sun3:#ff9500;
-    --sun4:#ffa200;
-    --sun5:#ffaa00;
+    /* Modern theme palette */
+    --primary:#0ea5a4; /* teals */
+    --primary-600:#0b7f7a;
+    --accent:#7c3aed; /* violet accent */
+    --muted:#6b7280;
+    --bg:#f7fafc;
+    --card-bg:#ffffff;
+    --text:#0f172a;
+    --surface:#f1f5f9;
+    --radius:12px;
 
-    --sky1:#03045e;
-    --sky2:#023e8a;
-    --sky3:#0077b6;
-    --sky4:#0096c7;
-    --sky5:#00b4d8;
+    /* legacy sun/sky/rose names remain but map to modern values for compatibility */
+    --sun1:var(--primary);
+    --sun2:#34d399;
+    --sun3:#60a5fa;
+    --sun4:#7dd3fc;
+    --sun5:var(--accent);
+
+    --sky1:#0f172a;
+    --sky2:#0b2436;
+    --sky3:#1e3a8a;
+    --sky4:#2563eb;
+    --sky5:#60a5fa;
 
     --rose1:#ff0a54;
     --rose2:#ff477e;
-    --rose3:#ff5c8a;
-    --rose4:#ff7096;
-    --rose5:#ff85a1;
 
-    --shadow1:rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    --shadow2:rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-    --shadow3:rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
-    --shadow4:rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;;
-    --shadow5:rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    /* more subtle, modern shadows */
+    --shadow1:0 10px 30px rgba(2,6,23,0.08);
+    --shadow2:0 6px 18px rgba(2,6,23,0.06);
+    --shadow3:0 8px 24px rgba(2,6,23,0.08);
+    --shadow4:0 4px 12px rgba(2,6,23,0.04);
+    --shadow5:0 2px 6px rgba(2,6,23,0.04);
 
 }
 
@@ -50,16 +60,20 @@
 
 .button{
     border:none;
-    border-radius:10px;
-    font-weight:bold;
-    color:white;
-    text-decoration: none;
-    box-shadow:var(--shadow3);
-    padding:8px;
-    font-family: "Roboto Mono", monospace;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
+    border-radius:var(--radius);
+    color:var(--card-text, #fff);
+    background: linear-gradient(90deg,var(--primary),var(--accent));
+    padding:10px 12px;
+    font-family: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-weight:600;
+    box-shadow: var(--shadow2);
+    cursor:pointer;
+    transition: transform .08s ease, box-shadow .12s ease, opacity .08s;
+}
+.button:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--shadow3);
+    opacity:0.98;
 }
 #logout_btn{
     user-select:none;
@@ -85,6 +99,7 @@
 }
 .barsa_nav_desc .barsa_nav_logo{
     width:45%;
+    max-width:80px;
     border-radius:100%;
     height:auto;
     margin-top:-20px;
@@ -93,7 +108,7 @@
 .barsa_nav_desc .barsa_nav_title{
     font-size:1.5rem;
     font-weight:bolder;
-    color:black;
+    color:var(--text);
     margin-top:10px;
 }
 .barsa_nav{
@@ -107,16 +122,24 @@
     margin-right:10%;
 }
 .barsa_nav .nav_item{
-    font-size:20px;
-    font-weight:bold;
+    font-size:16px;
+    font-weight:600;
     text-align:left;
-    background:linear-gradient(45deg,var(--sun5),var(--sun4),var(--sun5));
-    border-radius:10px;
-    transition:color 0.1s ease-in 0.1s;
+    background:transparent;
+    border-radius:8px;
+    padding:10px 12px;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition: background .12s ease, color .12s ease, border-left-color .12s ease;
+    border-left:4px solid transparent;
 }
 .barsa_nav .nav_item:hover{
-    color:white;
-    background:linear-gradient(45deg,var(--sun4),var(--sun5),var(--sun4));
+    color:var(--primary);
+    background: rgba(14,165,164,0.04);
+    border-left-color:var(--primary);
+    box-shadow:none;
 }
 .nav_close_btn{
     position:relative;
@@ -130,13 +153,14 @@
 }
 .barsa_container .top_nav{
     min-width:102%;
-    padding-top:2px;
-    padding-bottom:2px;
+    padding:10px 8px;
     box-shadow:var(--shadow5);
     position:fixed;
     top:0px;
     z-index:1;
-    background-color:white;
+    background-color: rgba(255,255,255,0.9);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid rgba(15,23,42,0.04);
 }
 .top_nav_controls{
     display:flex;
@@ -172,7 +196,7 @@
     height:5px;
     width:5%;
     min-width:40px;
-    background-color:var(--sun1);
+    background-color:var(--primary);
     position:absolute;
     bottom:-5px;
     border-radius: 5px;
@@ -187,47 +211,38 @@
 .search > div {
   display: inline-block;
   position: relative;
-  border:2px solid black;
-  border-radius:100px;
-  box-shadow:var(--shadow5);
+  border:1px solid rgba(15,23,42,0.06);
+  border-radius:999px;
+  background:var(--surface);
+  box-shadow:0 6px 18px rgba(2,6,23,0.04);
+  padding:6px;
 }
 
 .search > div:after {
-  content: "";
-  background: black;
-  width: 4px;
-  height: 18px;
-  position: absolute;
-  bottom: -13px;
-  right: -3px;
-  transform: rotate(135deg);
+  content: none;
 }
 
 .search > div > input {
   font-size: 16px;
   background: transparent;
-  width: 25px;
-  height: 25px;
-  padding: 10px;
-  border: solid 3px white;
+  width: 180px;
+  height: 36px;
+  padding: 8px 12px;
+  border: none;
   outline: none;
-  border-radius: 35px;
-  transition: width 0.5s;
+  border-radius: 999px;
+  transition: width 0.25s ease;
+  color:var(--text);
 }
 
 .search > div > input::placeholder {
-  color: #efefef;
-  opacity: 0;
-  transition: opacity 150ms ease-out;
-}
-
-.search > div > input:focus::placeholder {
+  color: var(--muted);
   opacity: 1;
 }
 
 .search > div > input:focus,
 .search > div > input:not(:placeholder-shown) {
-  width: 250px;
+  width: 260px;
 }
 
 /* This is for the spinners */
@@ -245,16 +260,20 @@
 }
 
 .spinner {
-    width: 200px;
-    height: 200px;
-    background-color: rgba(0, 0, 0, 0.168);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    color:white;
-    gap:20px;
-    border-radius: 10px;
+    width: 220px;
+    height: 140px;
+    background-color: var(--card-bg);
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:14px;
+    border-radius:12px;
+    box-shadow: var(--shadow2);
+}
+
+.spinner .spinner-border {
+    color: var(--primary);
 }
 
 .spinner .spinner-border {
@@ -348,7 +367,7 @@
 
 /* Change the scrollbar thumb */
 .sidebar::-webkit-scrollbar-thumb {
-    background: var(--sun4); /* Color of the scrollbar thumb */
+    background: var(--accent); /* Color of the scrollbar thumb */
     border-radius: 6px; /* Rounded corners */
 }
 

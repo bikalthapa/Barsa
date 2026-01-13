@@ -78,6 +78,8 @@ if ($typ == "auth") {
             show_response(false, [], $no_change);
         }
     }
+} else if($typ = "finger_enroll"){
+
 } else {
     if ($api_key != null) {
         $class_id = get_param('c_id');

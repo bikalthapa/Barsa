@@ -86,7 +86,8 @@
     overflow:hidden;
 }
 .card_header{
-    background-image: linear-gradient(135deg, #EC9F05 10%, #FF4E00 100%);
+    color:white;
+    /* background-image: linear-gradient(135deg, #EC9F05 10%, #FF4E00 100%); */
 }
 /* Navigation Bar Design */
 .barsa_nav_desc{

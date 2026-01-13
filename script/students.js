@@ -43,17 +43,27 @@ const onFetchSuccess = (data) => {
                 <td class="d-flex justify-content-center gap-4">
                     <div class="dropstart">
                         <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="../Icons/three_dots.svg" />
+                            <i class="bi bi-three-dots-vertical"></i>
                         </div>
                         <ul class="dropdown-menu">
                             <li>
+                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#fingerPrintEnroll">
+                                    <i class="bi bi-fingerprint"></i> Enroll Fingerprint
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#attandanceHistoryModal">
+                                    <i class="bi bi-person-lines-fill"></i> Attandance Histroy
+                                </a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item" onclick="setUpdateData(${indx})" data-bs-toggle="modal" data-bs-target="#upModal">
-                                    <img src="../Icons/edit.svg" />&nbsp;&nbsp; Update
+                                    <i class="bi bi-pencil-square"></i>&nbsp;&nbsp; Update
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" onclick="setDeleteData(${indx})" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                    <img src="../Icons/delete.svg" /> Delete
+                                    <i class="bi bi-trash"></i> Delete
                                 </a>
                             </li>
                         </ul>

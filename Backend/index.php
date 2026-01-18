@@ -78,8 +78,19 @@ if ($typ == "auth") {
             show_response(false, [], $no_change);
         }
     }
-} else if($typ = "finger_enroll"){
-
+} else if($typ == "fingerprint"){
+    $student = new Student($conn);
+    if($act == "enroll"){
+        $s_id = get_param("s_id");
+        $result = $student->enrollFingerprint($s_id);
+        if($result){
+            show_response(true, []);
+        } else {
+            show_response(false, [], $no_change);
+        }
+    } else {
+        show_response(false, [], $invalid_parameter);
+    }
 } else {
     if ($api_key != null) {
         $class_id = get_param('c_id');
@@ -189,7 +200,7 @@ if ($typ == "auth") {
                 show_response(false, [], $invalid_parameter);
             }
         } else { // Invalid Parameter Sent
-            show_response(false, [], $invalid_parameter);
+            show_response(true, [], $invalid_parameter);
         }
     } else {
         show_response(false, [], $invalid_parameter);

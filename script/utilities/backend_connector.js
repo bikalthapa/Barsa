@@ -64,17 +64,37 @@ class BackendConnector {
             this.typ = "attend";
             this.act = "update";
             this.param = `${this.baseUrl}?api_key=${this.get_api_key()}&typ=${this.typ}&act=${this.act}&c_id=${this.get_c_id()}&s_id=${this.data.s_id}&a_id=${this.data.a_id}&a_status=${this.data.a_status}`;
+        }else if(typ == "enrollFP"){
+            this.typ = "fingerprint";
+            this.act = "enroll";
+            this.param = `${this.baseUrl}?api_key=${this.get_api_key()}&typ=${this.typ}&act=${this.act}&c_id=${this.get_c_id()}&s_id=${this.data.s_id}`;
         }
     }
 
     // This function will fetch the data
     fetchBackend(onSuccess, onError) {
+        console.log("Fetching from:", this.param);
         fetch(this.param)  // Use this.param instead of this.baseUrl
-            .then(response => response.json())
-            .then(data => {
-                onSuccess(data);
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(text => {
+                console.log("Raw response:", text);
+                if (!text) {
+                    throw new Error("Empty response from server");
+                }
+                try {
+                    const data = JSON.parse(text);
+                    onSuccess(data);
+                } catch (e) {
+                    throw new Error(`Invalid JSON response: ${text}`);
+                }
             })
             .catch(error => {
+                console.error("Fetch error:", error);
                 onError(error);
             });
     }
@@ -173,6 +193,12 @@ class BackendConnector {
     deleteStudent(data, onSuccess, onError) {
         this.data.s_id = data.s_id;
         this.setParam("delStd");
+        this.fetchBackend(onSuccess, onError);
+    }
+    // Function to enroll students for fingerprint
+    enrollFingerPrint(data, onSuccess, onError){
+        this.data.s_id = data.s_id;
+        this.setParam("enrollFP");
         this.fetchBackend(onSuccess, onError);
     }
     // This function will update the students

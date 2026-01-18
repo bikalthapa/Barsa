@@ -30,7 +30,8 @@
     --sky5:#60a5fa;
 
     --rose1:#ff0a54;
-    --rose2:#ff477e;
+    --rose2:#ff0a53ad;
+    --rose3:#ff477e88;
 
     /* more subtle, modern shadows */
     --shadow1:0 10px 30px rgba(2,6,23,0.08);
@@ -179,6 +180,7 @@
     width:35px;
     display:flex;
     justify-content: center;
+    color:var(--primary);
     box-shadow:2px 2px 5px rgba(75, 72, 72, 0.438);
     align-items:center;
     border-radius:50%;
@@ -212,7 +214,8 @@
 .search > div {
   display: inline-block;
   position: relative;
-  border:1px solid rgba(15,23,42,0.06);
+  /* border:1px solid rgba(15,23,42,0.06); */
+  border:1px solid var(--primary);
   border-radius:999px;
   background:var(--surface);
   box-shadow:0 6px 18px rgba(2,6,23,0.04);
@@ -227,7 +230,7 @@
   font-size: 16px;
   background: transparent;
   width: 180px;
-  height: 36px;
+  height: 20px;
   padding: 8px 12px;
   border: none;
   outline: none;
@@ -245,6 +248,37 @@
 .search > div > input:not(:placeholder-shown) {
   width: 260px;
 }
+.filter-pill , .add_btn{
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(15,23,42,0.06);
+  background: var(--primary);
+  color: var(--surface);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.filter-pill:hover , .add_btn:hover{
+  background: var(--primary-600);
+  color: #fff;
+}
+
+.filter-dropdown {
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: 0 12px 30px rgba(2,6,23,0.15);
+}
+
+.filter-dropdown .dropdown-item {
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
 
 /* This is for the spinners */
 .spinner-overlay {
@@ -446,3 +480,110 @@
     background-color: var(--rose4);
 }
 
+
+
+/* Delete Modal Styles */
+.delete-modal-header {
+    background: linear-gradient(90deg, #0ea5a4, #7c3aed);
+    color: white;
+}
+
+.delete-modal-body {
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-weight:500;
+    align-items: center;
+    gap: 20px;
+}
+
+.delete-icon-circle {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 10, 84, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-icon {
+    font-size: 48px;
+    color: #ff0a54;
+}
+
+.delete-modal-footer {
+    border-top: 1px solid #e5e7eb;
+}
+
+.delete-modal-cancel-btn {
+    border: 2px solid #0ea5a4;
+    color: #0ea5a4;
+    font-weight: 600;
+}
+
+.delete-modal-confirm-btn {
+    background-color: var(--rose1);
+    border: none;
+    font-weight: 600;
+    color:var(--surface);
+}
+.delete-modal-confirm-btn:hover{
+    background-color: var(--rose3);
+}
+
+
+.delete-modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    z-index: 10;
+}
+
+.delete-modal-close-btn:hover {
+    color: #0ea5a4;
+}
+
+.delete-modal-close-btn:active {
+    transform: scale(0.95);
+}
+
+.delete-modal-content {
+    position: relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.delete-modal-content .delete_icon{
+    height:80px;
+    width:80px;
+    font-size:40px;
+    border:none;
+    color:var(--rose1);
+    background-color:var(--rose3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    text-align:center;
+    justify-content: center;
+}
+
+
+
+/*Data table design*/
+.data_table thead th{
+    background-color:var(--sun1);
+}

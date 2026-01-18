@@ -14,7 +14,7 @@ class Student
     // This function will retrive all the students from the database
     public function getStudents($class_id)
     {
-        $sql = "SELECT * FROM " . $this->table . " WHERE c_id = $class_id";
+        $sql = "SELECT * FROM " . $this->table . " WHERE c_id = $class_id AND del_fingerid = 0";
         $result = $this->conn->query($sql);
         if ($result) {
             if ($result->num_rows > 0) {
@@ -56,7 +56,7 @@ class Student
     public function removeStudent($s_id)
     {
         if ($s_id != null) {
-            $sql = "DELETE FROM " . $this->table . " WHERE s_id = $s_id";
+            $sql = "UPDATE " . $this->table . " SET del_fingerid = 1 WHERE s_id = $s_id";
             $result = $this->conn->query($sql);
             if ($result) {
                 return true;
@@ -116,6 +116,23 @@ class Student
                 return false;
             }
         } else {
+            return false;
+        }
+    }
+
+    // Method to enroll fingerprint for the students
+    public function enrollFingerprint($id){
+        $sql = "UPDATE " . $this->table . " SET add_fingerid = 1 WHERE s_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt === false) {
+            error_log('Prepare failed: ' . htmlspecialchars($this->conn->error));
+            return false;
+        }
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            error_log('Execute failed: ' . htmlspecialchars($stmt->error));
             return false;
         }
     }

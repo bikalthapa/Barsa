@@ -39,7 +39,6 @@ const onFetchSuccess = (data) => {
                 <td>${student.s_email}</td>
                 <td>${student.s_dob!="0000-00-00"?student.s_dob:""}</td>
                 <td>${student.s_gender!=null?student.s_gender:""}</td>
-                <td class="text-center">${student.fingerprint_id}</td>
                 <td class="d-flex justify-content-center gap-4">
                     <div class="dropstart">
                         <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -47,7 +46,7 @@ const onFetchSuccess = (data) => {
                         </div>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#fingerPrintEnroll">
+                                <a class="dropdown-item" onclick="enrollFingerPrint(${indx})">
                                     <i class="bi bi-fingerprint"></i> Enroll Fingerprint
                                 </a>
                             </li>
@@ -62,7 +61,7 @@ const onFetchSuccess = (data) => {
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" onclick="setDeleteData(${indx})" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <a class="dropdown-item text-danger" onclick="setDeleteData(${indx})" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     <i class="bi bi-trash"></i> Delete
                                 </a>
                             </li>
@@ -82,6 +81,9 @@ const onFetchSuccess = (data) => {
 // Handle the error for fetching the backend API for students
 const onFetchError = (error) => {
     console.error(error);
+    const tableBody = document.getElementById('studentTableBody');
+    tableBody.innerHTML = '<tr><td colspan="8" class="text-center text-danger">Error loading students: ' + error.message + '</td></tr>';
+    hideSpinner();
 };
 
 // Handle the success for adding a student
@@ -117,7 +119,7 @@ backend.getStudents(onFetchSuccess, onFetchError);
 // This function will set the index of the student to be deleted onclick
 function setDeleteData(indx) {
     delIndx = indx;
-    document.getElementById("deletePerson").innerHTML = `Are you sure you want to delete ${fetched_data[indx].s_name} from the record ?`;
+    document.getElementById("deletePerson").innerHTML = `<span>Are you sure you want to delete <b>${fetched_data[indx].s_name}</b> from the record ?</span>`;
 }
 // This function will set the index of the student to be updated onclick
 function setUpdateData(indx) {
@@ -127,6 +129,18 @@ function setUpdateData(indx) {
     field.id.forEach((fieldId) => {
         document.getElementById(fieldId).value = fetched_data[upIndx][fieldId];
     });
+}
+// Function to enroll fingerprint
+function enrollFingerPrint(indx){
+    // console.log("Enrolling fingerprint for student:", fetched_data[indx]);
+    backend.enrollFingerPrint({ s_id: fetched_data[indx].s_id }, (data) => {
+        console.log("Fingerprint enrollment started:", data);
+        hideSpinner();
+    }, (error) => {
+        console.error("Error enrolling fingerprint:", error);
+        hideSpinner();
+    });
+
 }
 // This function will set the add student form to default
 function setAddData() {

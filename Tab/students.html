@@ -77,19 +77,10 @@
                 <div class="top_nav_controls">
                     <div class="notify gap-4 px-4">
                         <div class="control">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#ff8800"
-                                class="mx-2 bi bi-envelope" viewBox="0 0 16 16">
-                                <path
-                                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
-                            </svg>
+                            <i class="mx-2 bi bi-envelope"></i>
                         </div>
                         <div class="control dropdown-start" id="notification_btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#ff8800"
-                                class="mx-2 bi bi-bell dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6" />
-                            </svg>
+                            <i class="mx-2 bi bi-bell" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu my-3 border-warning shadow1">
                                 <ol class="list-group gap-2" id="notification_container">
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -156,8 +147,45 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-2" onclick="setAddData()" data-bs-toggle="modal" data-bs-target="#upModal">
-                        <i class="bi bi-person-add fs-4"></i>
+                        <!-- Filter Button -->
+                        <div class="dropdown-start p-2">
+                            <button class="filter-pill" data-bs-toggle="dropdown">
+                                <i class="bi bi-funnel"></i>
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end filter-dropdown">
+                                <li class="dropdown-header">Filter</li>
+
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="filterStudents('no_fp')">
+                                        <i class="bi bi-fingerprint text-danger me-2"></i>
+                                        Fingerprint Not Enrolled
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="#" onclick="filterStudents('fp')">
+                                        <i class="bi bi-fingerprint text-success me-2"></i>
+                                        Fingerprint Enrolled
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li class="dropdown-header">Sort</li>
+
+                                <li><a class="dropdown-item" href="#" onclick="sortStudents('az')">A – Z</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="sortStudents('za')">Z – A</a></li>
+                                <li><a class="dropdown-item" href="#" onclick="sortStudents('newest')">Newest First</a>
+                                </li>
+                                <li><a class="dropdown-item" href="#" onclick="sortStudents('oldest')">Oldest First</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="p-2 add_btn" onclick="setAddData()" data-bs-toggle="modal" data-bs-target="#upModal">
+                            <i class="bi bi-person-add fs-4"></i>
                         </div>
                     </div>
                 </div>
@@ -166,20 +194,19 @@
 
             <!-- All Students Tables -->
             <div class="table-responsive-md">
-                <table class="table table-striped shadow5">
+                <table class="table table-striped shadow5 data_table">
                     <thead>
                         <tr>
-                            <th scope="col" class="table-warning">Id</th>
-                            <th scope="col" class="table-warning">NAME</th>
-                            <th scope="col" class="table-warning">CONTACT</th>
-                            <th scope="col" class="table-warning">EMAIL</th>
-                            <th scope="col" class="table-warning">DOB</th>
-                            <th scope="col" class="table-warning">GENDER</th>
-                            <th scope="col" class="table-warning">FING.ID</th>
-                            <th scope="col" class="table-warning"></th>
+                            <th scope="col">Id</th>
+                            <th scope="col">NAME</th>
+                            <th scope="col">CONTACT</th>
+                            <th scope="col">EMAIL</th>
+                            <th scope="col">DOB</th>
+                            <th scope="col">GENDER</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
-                    <tbody class="table-group-divider" id="studentTableBody">
+                    <tbody class="table-group-divide" id="studentTableBody">
 
                     </tbody>
                 </table>
@@ -191,16 +218,25 @@
     <!--Delete Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Confirmation</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content delete-modal-content">
+                <button type="button" class="delete-modal-close-btn" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="bi bi-x"></i>
+                </button><br>
+                <button class="delete_icon">
+                    <i class="bi bi-trash"></i>
+                </button>
+                <div class="modal-body delete-modal-body" id="deletePerson">
+                    <div class="delete-icon-circle">
+                        <i class="bi bi-trash-fill delete-icon"></i>
+                    </div>
                 </div>
-                <div class="modal-body" id="deletePerson">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="confirmDeleteButton">Delete</button>
+                <div class="modal-footer delete-modal-footer">
+                    <button type="button" class="btn btn-light delete-modal-cancel-btn" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </button>
+                    <button type="button" class="btn delete-modal-confirm-btn" id="confirmDeleteButton">
+                        <i class="bi bi-trash-fill me-2"></i>Delete
+                    </button>
                 </div>
             </div>
         </div>
@@ -234,8 +270,8 @@
                             <!-- Email Field -->
                             <div class="col-sm-6 mb-3">
                                 <label for="s_email" id="upEmail" class="form-label">Email</label>
-                                <input type="email" id="s_email" class="form-control"
-                                    placeholder="Enter email address" descriptor="upEmail">
+                                <input type="email" id="s_email" class="form-control" placeholder="Enter email address"
+                                    descriptor="upEmail">
                             </div>
 
                         </div>
@@ -245,7 +281,7 @@
                             <div class="col-sm-6 mb-3">
                                 <label for="s_contact" id="upContact" class="form-label">Contact</label>
                                 <input type="tel" id="s_contact" class="form-control"
-                                    placeholder="Enter 10-digit number" pattern="[0-9]{10}" descriptor = "upContact">
+                                    placeholder="Enter 10-digit number" pattern="[0-9]{10}" descriptor="upContact">
                             </div>
 
                             <!-- Email Field -->
@@ -289,11 +325,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="../script/utilities/backend_connector.js"></script>
-    <script src="../script/utilities/input_validator.js"></script>
-    <script src="../script/script.js"></script>
-    <script src="../script/header_footer.js"></script>
-    <script src="../script/students.js"></script>
+    <script src="./../script/utilities/backend_connector.js"></script>
+    <script src="./../script/utilities/input_validator.js"></script>
+    <script src="./../script/script.js"></script>
+    <script src="./../script/header_footer.js"></script>
+    <script src="./../script/students.js"></script>
 </body>
 
 </html>

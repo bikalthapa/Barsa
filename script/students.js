@@ -47,7 +47,7 @@ const onFetchSuccess = (data) => {
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item" onclick="enrollFingerPrint(${indx})">
-                                    <i class="bi bi-fingerprint"></i> Enroll Fingerprint
+                                    <i class="bi bi-fingerprint"></i> Enroll Fingerprint ${student.fingerprint_id}
                                 </a>
                             </li>
                             <li>

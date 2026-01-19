@@ -27,39 +27,62 @@ let field = {
 // Fetching the backend API for students
 const onFetchSuccess = (data) => {
     const tableBody = document.getElementById('studentTableBody');
+
     if (data.status == "success") {
         fetched_data = data.data;
         tableBody.innerHTML = '';  // Clear existing rows
+
         data.data.forEach((student, indx) => {
+
+            // 🔹 Fingerprint menu item (Enroll vs Delete)
+            let fingerprintAction = '';
+
+            if (student.fingerprint_id == 0 || student.fingerprint_id == null) {
+                fingerprintAction = `
+                    <li>
+                        <a class="dropdown-item" onclick="enrollFingerPrint(${indx})">
+                            <i class="bi bi-fingerprint"></i> Enroll Fingerprint
+                        </a>
+                    </li>
+                `;
+            } else {
+                fingerprintAction = `
+                    <li>
+                        <a class="dropdown-item text-danger" onclick="deleteFingerPrint(${indx})">
+                            <i class="bi bi-fingerprint"></i> Delete Fingerprint (${student.fingerprint_id})
+                        </a>
+                    </li>
+                `;
+            }
+
             const row = document.createElement('tr');
             row.innerHTML = `
                 <th scope="row">${student.s_id}</th>
                 <td>${student.s_name}</td>
                 <td>${student.s_contact}</td>
                 <td>${student.s_email}</td>
-                <td>${student.s_dob!="0000-00-00"?student.s_dob:""}</td>
-                <td>${student.s_gender!=null?student.s_gender:""}</td>
+                <td>${student.s_dob != "0000-00-00" ? student.s_dob : ""}</td>
+                <td>${student.s_gender != null ? student.s_gender : ""}</td>
                 <td class="d-flex justify-content-center gap-4">
                     <div class="dropstart">
                         <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-three-dots-vertical"></i>
                         </div>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item" onclick="enrollFingerPrint(${indx})">
-                                    <i class="bi bi-fingerprint"></i> Enroll Fingerprint ${student.fingerprint_id}
-                                </a>
-                            </li>
+                            ${fingerprintAction}
+
                             <li>
                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#attandanceHistoryModal">
-                                    <i class="bi bi-person-lines-fill"></i> Attandance Histroy
+                                    <i class="bi bi-person-lines-fill"></i> Attendance History
                                 </a>
                             </li>
+
                             <li>
                                 <a class="dropdown-item" onclick="setUpdateData(${indx})" data-bs-toggle="modal" data-bs-target="#upModal">
                                     <i class="bi bi-pencil-square"></i>&nbsp;&nbsp; Update
                                 </a>
                             </li>
+
                             <li>
                                 <a class="dropdown-item text-danger" onclick="setDeleteData(${indx})" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     <i class="bi bi-trash"></i> Delete
@@ -69,14 +92,17 @@ const onFetchSuccess = (data) => {
                     </div>
                 </td>
             `;
+
             tableBody.appendChild(row);
         });
+
     } else {
         tableBody.innerHTML = '<tr><td colspan="8" class="text-center">No data found</td></tr>';
     }
 
     hideSpinner();
 };
+
 
 // Handle the error for fetching the backend API for students
 const onFetchError = (error) => {
@@ -140,7 +166,18 @@ function enrollFingerPrint(indx){
         console.error("Error enrolling fingerprint:", error);
         hideSpinner();
     });
+}
 
+// function to delete fingerprint
+function deleteFingerPrint(indx){
+    backend.deleteFingerPrint({s_id: fetched_data[indx].s_id}, (data)=>{
+        console.log("Fingerprint deleted successfully:", data);
+        backend.getStudents(onFetchSuccess, onFetchError);
+        hideSpinner();
+    }, (error)=>{
+        console.error("Error deleting fingerprint:", error);
+        hideSpinner();
+    });
 }
 // This function will set the add student form to default
 function setAddData() {

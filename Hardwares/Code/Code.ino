@@ -476,6 +476,7 @@ uint8_t deleteFingerprint(int id) {
 
   if (p == FINGERPRINT_OK) {
     displayMessageCenter("FingerPrint Status", "Deleted!");
+    confirmDeletion(id);
   } else if (p == FINGERPRINT_PACKETRECIEVEERR) {
     displayMessageCenter("FingerPrint Status", "Communication error!");
   } else if (p == FINGERPRINT_BADLOCATION) {
@@ -488,6 +489,25 @@ uint8_t deleteFingerprint(int id) {
 
   return p;
 }
+void confirmDeletion(int id) {
+  WiFiClient client;
+  HTTPClient http;
+
+  String postData = "confirm_delete_id=" + String(id);
+
+  http.begin(client, link);
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  int httpCode = http.POST(postData);
+  String payload = http.getString();
+
+  Serial.println("Delete confirm response: " + payload);
+  displayMessageCenter("Server", payload.c_str());
+  delay(1000);
+
+  http.end();
+}
+
 
 uint8_t getFingerprintEnroll() {
   int p = -1;

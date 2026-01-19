@@ -68,6 +68,10 @@ class BackendConnector {
             this.typ = "fingerprint";
             this.act = "enroll";
             this.param = `${this.baseUrl}?api_key=${this.get_api_key()}&typ=${this.typ}&act=${this.act}&c_id=${this.get_c_id()}&s_id=${this.data.s_id}`;
+        }else if(typ == "delFP"){
+            this.typ = "fingerprint";
+            this.act = "delete";
+            this.param = `${this.baseUrl}?api_key=${this.get_api_key()}&typ=${this.typ}&act=${this.act}&c_id=${this.get_c_id()}&s_id=${this.data.s_id}`;
         }
     }
 
@@ -199,6 +203,12 @@ class BackendConnector {
     enrollFingerPrint(data, onSuccess, onError){
         this.data.s_id = data.s_id;
         this.setParam("enrollFP");
+        this.fetchBackend(onSuccess, onError);
+    }
+    // function to delete the fingerprint
+    deleteFingerPrint(data, onSuccess, onError){
+        this.data.s_id = data.s_id;
+        this.setParam("delFP");
         this.fetchBackend(onSuccess, onError);
     }
     // This function will update the students

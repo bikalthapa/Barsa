@@ -88,6 +88,14 @@ if ($typ == "auth") {
         } else {
             show_response(false, [], $no_change);
         }
+    } else if($act == "delete"){
+        $s_id = get_param("s_id");
+        $result = $student->deleteFingerprint($s_id);
+        if($result){
+            show_response(true, []);
+        } else {
+            show_response(false, [], $no_change);
+        }
     } else {
         show_response(false, [], $invalid_parameter);
     }

@@ -191,7 +191,7 @@ if (isset($_POST['FingerID'])) {
 if (isset($_POST['Get_Fingerid'])) {
 
     if ($_POST['Get_Fingerid'] == "get_id") {
-        $sql = "SELECT fingerprint_id FROM students WHERE add_fingerid=1 AND username=''";
+        $sql = "SELECT fingerprint_id FROM students WHERE add_fingerid=1";
         $result = mysqli_stmt_init($conn);
         if (!mysqli_stmt_prepare($result, $sql)) {
             echo "SQL_Error_Select";

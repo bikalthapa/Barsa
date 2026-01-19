@@ -43,6 +43,7 @@ class Student
 
             // Execute the statement
             if ($stmt->execute()) {
+                $this->copyId();
                 return true;
             } else {
                 return false;
@@ -50,7 +51,36 @@ class Student
         }
         return false;
     }
+    public function copyId()
+    {
+        $sql = "UPDATE students SET fingerprint_id = s_id WHERE fingerprint_id = 0";
+        $result = $this->conn->query($sql);
+        return $result;
+    }
 
+    public function attachFingerprintToLastStudent($fingerprint_id)
+    {
+        // Get last inserted student
+        $result = $this->conn->query(
+            "SELECT s_id FROM {$this->table} ORDER BY s_id DESC LIMIT 1"
+        );
+
+        if ($row = $result->fetch_assoc()) {
+            $s_id = $row['s_id'];
+
+            $stmt = $this->conn->prepare(
+                "UPDATE {$this->table}
+             SET fingerprint_id = ?
+             WHERE s_id = ?"
+            );
+
+            $stmt->bind_param("ii", $fingerprint_id, $s_id);
+
+            return $stmt->execute();
+        }
+
+        return false;
+    }
 
     // This will delete the students from the database
     public function removeStudent($s_id)
@@ -121,7 +151,8 @@ class Student
     }
 
     // Method to enroll fingerprint for the student
-    public function enrollFingerprint($id){
+    public function enrollFingerprint($id)
+    {
         $sql = "UPDATE " . $this->table . " SET add_fingerid = 1 WHERE s_id = ?";
         $stmt = $this->conn->prepare($sql);
         if ($stmt === false) {
@@ -138,7 +169,8 @@ class Student
     }
 
     // method to delete fingerprint for the students
-    public function deleteFingerprint($id){
+    public function deleteFingerprint($id)
+    {
         $sql = "UPDATE " . $this->table . " SET del_fingerid = 1 WHERE s_id = ?";
         $stmt = $this->conn->prepare($sql);
         if ($stmt === false) {
@@ -148,6 +180,33 @@ class Student
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
             return true;
+        } else {
+            error_log('Execute failed: ' . htmlspecialchars($stmt->error));
+            return false;
+        }
+    }
+
+    // Method to get the attendance of the student
+    public function getAttendence($id)
+    {
+        $sql = "SELECT * FROM attendance WHERE s_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt === false) {
+            error_log('Prepare failed: ' . htmlspecialchars($this->conn->error));
+            return false;
+        }
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $attendance = array();
+                while ($row = $result->fetch_assoc()) {
+                    $attendance[] = $row;
+                }
+                return $attendance;
+            } else {
+                return array();
+            }
         } else {
             error_log('Execute failed: ' . htmlspecialchars($stmt->error));
             return false;
@@ -193,25 +252,25 @@ class Attendance
     {
         $sql = "INSERT INTO " . $this->table . " (s_id, c_id, checkindate, a_status) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-    
+
         if ($stmt === false) {
             error_log('Prepare failed: ' . htmlspecialchars($this->conn->error));
             return false;
         }
-    
+
         $s_id = $data['s_id'];
         $c_id = $data['c_id'];
         $checkindate = date("Y-m-d"); // Use the current date
         $a_status = $data['a_status'];
-    
+
         $stmt->bind_param("iiss", $s_id, $c_id, $checkindate, $a_status);
-    
+
         if (!$stmt->execute()) {
             error_log('Execute failed: ' . htmlspecialchars($stmt->error));
             $stmt->close();
             return false;
         }
-    
+
         $stmt->close();
         return true;
     }

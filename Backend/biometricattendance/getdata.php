@@ -200,7 +200,7 @@ if (isset($_POST['Get_Fingerid'])) {
             mysqli_stmt_execute($result);
             $resultl = mysqli_stmt_get_result($result);
             if ($row = mysqli_fetch_assoc($resultl)) {
-                echo "add-id" . $row['fingerprint_id'];
+                echo "add-id" . $row['fingerprint_id'];//update garda set garne
                 exit();
             } else {
                 echo "Nothing";
@@ -215,31 +215,32 @@ if (!empty($_POST['confirm_id'])) {
 
     $fingerid = $_POST['confirm_id'];
 
-    $sql = "UPDATE students SET add_fingerid=0 WHERE =1";
+    $sql = "UPDATE students SET add_fingerid=0, is_enrolled=1 WHERE fingerprint_id=?";
     $result = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($result, $sql)) {
         echo "SQL_Error_Select";
         exit();
     } else {
+        mysqli_stmt_bind_param($result, "s", $fingerid);
         mysqli_stmt_execute($result);
 
-        $sql = "UPDATE students SET add_fingerid=0, fingerprint_select=1 WHERE fingerprint_id=?";
-        $result = mysqli_stmt_init($conn);
-        if (!mysqli_stmt_prepare($result, $sql)) {
-            echo "SQL_Error_Select";
-            exit();
-        } else {
-            mysqli_stmt_bind_param($result, "s", $fingerid);
-            mysqli_stmt_execute($result);
+        // $sql = "UPDATE students SET add_fingerid=0, fingerprint_select=1 WHERE fingerprint_id=?";
+        // $result = mysqli_stmt_init($conn);
+        // if (!mysqli_stmt_prepare($result, $sql)) {
+        //     echo "SQL_Error_Select";
+        //     exit();
+        // } else {
+        //     mysqli_stmt_bind_param($result, "s", $fingerid);
+        //     mysqli_stmt_execute($result);
             echo "Fingerprint has been added!";
             exit();
-        }
+        // }
     }
 }
 if(!empty($_POST['confim_delete_id'])){
     $fingerid = $_POST['confim_delete_id'];
 
-    $sql = "UPDATE students SET del_fingerid=0 WHERE del_fingerid=1";
+    $sql = "UPDATE students SET del_fingerid=0, is_enrolled=0 WHERE del_fingerid=1";
     $result = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($result, $sql)) {
         echo "SQL_Error_Select";

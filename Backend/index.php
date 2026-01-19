@@ -99,7 +99,20 @@ if ($typ == "auth") {
     } else {
         show_response(false, [], $invalid_parameter);
     }
-} else {
+} else if($typ == "attendence"){
+    $student = new Student($conn);
+    if($act == "readAttendence"){
+        $s_id = get_param("s_id");
+        $result = $student->getAttendence($s_id);
+        if($result != null){
+            show_response(true, $result);
+        } else {
+            show_response(false, [], $no_record);
+        }
+    } else {
+        show_response(false, [], $invalid_parameter);
+    }
+}else {
     if ($api_key != null) {
         $class_id = get_param('c_id');
 

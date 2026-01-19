@@ -19,8 +19,8 @@ var upIndx = 0; // Index of the student to be updated
 var studentMode = true; // True for add and false for update
 let fetched_data = [];// Holds the value of fetched data
 let field = {
-    id: ['s_name', 's_contact', 's_email', 's_dob','fingerprint_id','s_gender'],
-    require: [true, false, true, false, false, false],
+    id: ['s_name', 's_contact', 's_email', 's_dob', 's_gender'],
+    require: [true, false, true, false, false],
     element: []
 }
 
@@ -37,7 +37,7 @@ const onFetchSuccess = (data) => {
             // 🔹 Fingerprint menu item (Enroll vs Delete)
             let fingerprintAction = '';
 
-            if (student.fingerprint_id == 0 || student.fingerprint_id == null) {
+            if (student.is_enrolled == 0 || student.is_enrolled == null) {
                 fingerprintAction = `
                     <li>
                         <a class="dropdown-item" onclick="enrollFingerPrint(${indx})">
@@ -72,7 +72,7 @@ const onFetchSuccess = (data) => {
                             ${fingerprintAction}
 
                             <li>
-                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#attandanceHistoryModal">
+                                <a class="dropdown-item" onclick="getAttendanceHistory(${student.s_id})" data-bs-toggle="modal" data-bs-target="#attandanceHistoryModal">
                                     <i class="bi bi-person-lines-fill"></i> Attendance History
                                 </a>
                             </li>
@@ -179,6 +179,33 @@ function deleteFingerPrint(indx){
         hideSpinner();
     });
 }
+// function to get attendance history
+function getAttendanceHistory(s_id){
+    showSpinner();
+    backend.getIndividualAttendence({s_id: s_id}, (data)=>{
+        const attendanceBody = document.getElementById('attendanceBody');
+        attendanceBody.innerHTML = '';
+
+        if(data.status == "success"){
+            data.data.forEach((record) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.checkindate}</td>
+                    <td>${record.status}</td>
+                    <td>${record.timein}</td>
+                    <td>${record.timeout}</td>
+                `;
+                attendanceBody.appendChild(row);
+            });
+        } else {
+            attendanceBody.innerHTML = '<tr><td colspan="2" class="text-center">No attendance records found</td></tr>';
+        }
+        hideSpinner();
+    }, (error)=>{       
+        console.error("Error fetching attendance history:", error);
+        hideSpinner();
+    });
+}
 // This function will set the add student form to default
 function setAddData() {
     studentMode = true;
@@ -214,8 +241,8 @@ if (!studentForm.hasAttribute('data-listener-attached')) {
                 contact: encodeURIComponent(field.element[1].field.value),
                 email: encodeURIComponent(field.element[2].field.value),
                 dob: encodeURIComponent(field.element[3].field.value),
-                finger: encodeURIComponent(field.element[4].field.value),
-                gender: encodeURIComponent(field.element[5].field.value)
+                // finger: encodeURIComponent(field.element[4].field.value),
+                gender: encodeURIComponent(field.element[4].field.value)
             };
             showSpinner();
             if (studentMode==true) { // Add mode
